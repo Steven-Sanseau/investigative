@@ -1,31 +1,24 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react'
-import { Platform } from 'react-native'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+
 import { Home } from 'src/screens/Home'
-import TabBarIcon from 'src/components/TabBarIcon'
 import { More } from '../screens/More'
+import TabBarIcon from 'src/components/TabBarIcon'
 
-const Tab = createBottomTabNavigator({
-  home: {
-    screen: Home,
-    path: '',
-    navigationOptions: {
-      tabBarLabel: 'Home',
-      tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-          focused={focused}
-          name={Platform.OS === 'ios' ? `ios-home` : 'md-home'}
-        />
-      ),
-    },
-  },
-  more: {
-    screen: More,
-    path: 'more',
-  },
-})
+const Tab = createBottomTabNavigator()
 
-export function TabBar() {
-  return <Tab />
+export default function TabBar() {
+  return (
+    <Tab.Navigator
+    // screenOptions={({ route }) => ({
+    //   tabBarIcon: ({ focused }) => (
+    //     <TabBarIcon focused={focused} name="ios-information-circle" />
+    //   ),
+    // })}
+    >
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="More" component={More} />
+    </Tab.Navigator>
+  )
 }
