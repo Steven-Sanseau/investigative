@@ -52,7 +52,13 @@ export function Home({ initialData = null }) {
               params={{ slug: postss.slug }}
               web={{ path: `post/${postss.slug}`, as: `post/${postss.slug}` }}
             >
-              <Text fontFamily="heading">{postss.title}</Text>
+              <Text
+                fontFamily="heading"
+                fontSize={{ xs: 3, lg: 4, xl: 5 }}
+                color="secondary"
+              >
+                {postss.title.toUpperCase()}
+              </Text>
             </Link>
           ))}
       </ScrollView>

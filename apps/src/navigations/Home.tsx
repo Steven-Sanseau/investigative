@@ -12,7 +12,7 @@ const Stack = createStackNavigator()
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
+      <Stack.Navigator headerMode="float">
         <Stack.Screen component={TabBar} name="home" />
         <Stack.Screen component={Post} name="post" />
         <Stack.Screen component={WebWiewScreen} name="Webview" />
