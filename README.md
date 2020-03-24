@@ -1,2 +1,0 @@
-# investigative
-Investigative Journalism Tanzania

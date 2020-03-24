@@ -1,0 +1,10 @@
+node_modules/
+package.json
+lib/
+dist/
+storybook-static/
+.expo/
+.expo-shared/
+.next/
+.now/
+web-build

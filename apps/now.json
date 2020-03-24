@@ -1,0 +1,22 @@
+{
+  "env": {
+    "GHOST_API_URL": "@ghost_api_url",
+    "GHOST_CLIENT_KEY": "@ghost_client_key"
+  },
+  "build": {
+    "env": {
+      "GHOST_API_URL": "@ghost_api_url",
+      "GHOST_CLIENT_KEY": "@ghost_client_key"
+    }
+  },
+  "route": [
+    {
+      "src": "/workbox-service-worker.js",
+      "dest": "/public/workbox-service-worker.js",
+      "headers": {
+        "cache-control": "public, max-age=43200, immutable",
+        "Service-Worker-Allowed": "/"
+      }
+    }
+  ]
+}
