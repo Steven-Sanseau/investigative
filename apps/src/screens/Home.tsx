@@ -55,7 +55,7 @@ export function Home({ initialData = null }) {
               <Text
                 fontFamily="heading"
                 fontSize={{ xs: 3, lg: 4, xl: 5 }}
-                color="secondary"
+                color="grayDark"
               >
                 {postss.title.toUpperCase()}
               </Text>

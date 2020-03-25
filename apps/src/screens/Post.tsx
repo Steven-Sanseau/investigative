@@ -33,6 +33,11 @@ export function Post({ initialData }) {
         {children}
       </Text>
     ),
+    p: (htmlAttribs, children) => (
+      <Text fontFamily="serif" fontSize="1">
+        {children}
+      </Text>
+    ),
   }
   return (
     <>
