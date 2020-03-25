@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
 import { color, space, position } from 'styled-system'
 

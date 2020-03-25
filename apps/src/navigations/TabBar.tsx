@@ -1,18 +1,16 @@
-/* eslint-disable react/no-multi-comp */
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { Home } from 'src/screens/Home'
-import { More } from '../screens/More'
+import { More } from 'src/screens/More'
 import TabBarIcon from 'src/components/TabBarIcon'
-import { color } from 'styled-system'
-import { Text } from '../components/Text'
-import { Space } from '../components/Space'
+import { Text } from 'src/components/Text'
+import { Space } from 'src/components/Space'
 
 const Tab = createBottomTabNavigator()
 
 const TabLabel = (name) => ({ focused }) => (
-  <Space ml={{ xs: 0, md: 0, lg: 3 }}>
+  <Space ml={{ xs: 0, sm: 3 }}>
     <Text fontFamily="heading" color={focused ? 'primary' : 'grayDark'}>
       {name}
     </Text>

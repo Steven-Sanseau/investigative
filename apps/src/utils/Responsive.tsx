@@ -1,21 +1,71 @@
 import React from 'react'
 import { Dimensions } from 'react-native'
+import {
+  color,
+  flexbox,
+  fontSize,
+  layout,
+  position,
+  space,
+  typography,
+} from 'styled-system'
+
+import styled, { css } from 'styled-components/native'
+
+const ResponsiveCss = css`
+  ${fontSize}
+  ${flexbox};
+  ${layout};
+  ${position};
+  ${space};
+  ${color};
+  ${typography};
+`
 
 const responsiveProps = [
-  'fontSize',
+  'alignContent',
+  'alignItems',
+  'alignSelf',
   'color',
+  'color',
+  'display',
+  'flex',
+  'flexBasis',
   'flexbox',
+  'flexDirection',
+  'flexWrap',
+  'fontSize',
+  'fontWeight',
+  'gridRow',
+  'height',
+  'justifyContent',
   'layout',
+  'letterSpacing',
+  'lineHeight',
+  'm',
+  'maxWidth',
+  'maxWidth',
+  'mb',
+  'ml',
+  'mr',
+  'mt',
+  'p',
+  'pb',
+  'pl',
   'position',
+  'pr',
+  'pt',
   'space',
-  'color',
+  'textAlign',
   'typography',
+  'width',
+  'height',
 ]
 
 export function useViewportWidth() {
   const [width, setWidth] = React.useState(null)
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     setWidth(Dimensions.get('window').width)
 
     function handleResize() {
@@ -32,11 +82,12 @@ export function useViewportWidth() {
 export function useBreakpoint() {
   const DEFAULT_BREAKPOINTS = {
     xs: 0,
-    sm: 576,
+    sm: 640,
     md: 768,
-    lg: 992,
-    xl: 1200,
+    lg: 1024,
+    xl: 1280,
   }
+
   const width = useViewportWidth()
   return React.useMemo(() => {
     return (
@@ -49,6 +100,9 @@ export function useBreakpoint() {
 
 export function useResponsiveProps(props) {
   const current = useBreakpoint()
+  if (props.debug) {
+    console.log({ current, props })
+  }
   const responsivedProps = Object.entries(props).reduce(
     (acc, [propName, value]) => {
       if (!responsiveProps.includes(propName)) {
@@ -57,13 +111,25 @@ export function useResponsiveProps(props) {
       if (typeof value !== 'object') {
         return { ...acc, [propName]: value }
       }
-      if (!value[current]) {
-        return { ...acc, [propName]: value[Object.keys(value)[0]] }
+      if (value[current] === undefined) {
+        return {
+          ...acc,
+          [propName]: value[Object.keys(value)[Object.keys(value).length - 1]],
+        }
       }
+
       return { ...acc, [propName]: value[current] }
     },
     [],
   )
 
   return responsivedProps
+}
+
+export function Responsive({ component, ...props }) {
+  const responsivedProps = useResponsiveProps(props)
+  const Component = styled(component)`
+    ${ResponsiveCss}
+  `
+  return <Component {...responsivedProps} />
 }

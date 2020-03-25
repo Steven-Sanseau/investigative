@@ -15,7 +15,7 @@ export default function Navigation() {
       <Stack.Navigator headerMode="float">
         <Stack.Screen component={TabBar} name="home" />
         <Stack.Screen component={Post} name="post" />
-        <Stack.Screen component={WebWiewScreen} name="Webview" />
+        <Stack.Screen component={WebWiewScreen} name="webview" />
       </Stack.Navigator>
     </NavigationContainer>
   )

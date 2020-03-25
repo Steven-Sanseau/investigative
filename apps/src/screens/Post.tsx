@@ -3,17 +3,12 @@ import HTML from 'react-native-render-html'
 import { Text } from 'src/components/Text'
 import { getPostBySlug } from 'src/api/ghost'
 import useSWR from 'swr'
-import {
-  ScrollView,
-  Dimensions,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native'
-import { useRouting } from 'expo-next-react-navigation'
+
+import { ScrollView, View, Platform, Linking } from 'react-native'
+import { useRouting, Link } from 'expo-next-react-navigation'
 
 export function Post({ initialData }) {
-  const { getParam } = useRouting()
+  const { getParam, navigate } = useRouting()
   const slug = getParam('slug')
 
   const { data: post } = useSWR(`${slug}`, getPostBySlug, {
@@ -23,17 +18,8 @@ export function Post({ initialData }) {
     hr: () => (
       <View style={{ width: '100%', height: 1, backgroundColor: 'blue' }} />
     ),
-    a: (htmlAttribs, children) => (
-      <Text
-        key={children.count}
-        // onPress={() =>
-        //   navigation.navigate('Webview', { href: htmlAttribs.href })
-        // }
-      >
-        {children}
-      </Text>
-    ),
-    p: (htmlAttribs, children) => (
+
+    p: (_, children) => (
       <Text fontFamily="serif" fontSize="1">
         {children}
       </Text>
@@ -44,7 +30,18 @@ export function Post({ initialData }) {
       <Text>Post page {slug} </Text>
       {post && (
         <ScrollView style={{ flex: 1 }}>
-          <HTML renderers={renderers} html={post.html}></HTML>
+          <HTML
+            onLinkPress={(evt, href) => {
+              Platform.OS === 'web'
+                ? Linking.openURL(href)
+                : navigate({
+                    routeName: 'webview',
+                    params: { href },
+                  })
+            }}
+            renderers={renderers}
+            html={post.html}
+          ></HTML>
         </ScrollView>
       )}
     </>

@@ -1,12 +1,13 @@
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import useSWR, { mutate } from 'swr'
 import { getPosts } from 'src/api/ghost'
-import { Text } from 'src/components/Text'
-// import Link from 'src/components/Link'
-import { Link } from 'expo-next-react-navigation'
+import { H2, H3, P } from 'src/components/Typography'
+import { Layout } from 'src/components/Layout'
+import { CardPost } from 'src/components/Post/List'
+import UniversalLink from 'src/components/UniversalLink'
+import { Image } from 'src/components/Image'
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -20,7 +21,7 @@ export function Home({ initialData = null }) {
     new Date().toDateString(),
   )
 
-  const { data: post } = useSWR(`posts`, getPosts, { initialData })
+  const { data: posts } = useSWR(`posts`, getPosts, { initialData })
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
@@ -31,10 +32,9 @@ export function Home({ initialData = null }) {
       }),
     )
   }, [refreshing])
-  // const { navigate } = useRouting()
 
   return (
-    <>
+    <Layout>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -44,24 +44,34 @@ export function Home({ initialData = null }) {
           />
         }
       >
-        {post &&
-          post.map((postss, i) => (
-            <Link
+        {posts &&
+          posts.map((post, i) => (
+            <UniversalLink
               key={i}
               routeName="post"
-              params={{ slug: postss.slug }}
-              web={{ path: `post/${postss.slug}`, as: `post/${postss.slug}` }}
+              params={{ slug: post.slug }}
+              web={{
+                path: `post/${post.slug}`,
+                as: `post/${post.slug}`,
+              }}
+              as={CardPost}
             >
-              <Text
-                fontFamily="heading"
-                fontSize={{ xs: 3, lg: 4, xl: 5 }}
-                color="grayDark"
-              >
-                {postss.title.toUpperCase()}
-              </Text>
-            </Link>
+              {post.feature_image && (
+                <Image
+                  height={{ xs: '100px', lg: '200px', xl: '220px' }}
+                  width={{ xs: '100px', lg: '200px', xl: '220px' }}
+                  loading="lazy"
+                  resizeMode="contain"
+                  source={{ uri: post.feature_image }}
+                />
+              )}
+              <H2>{post.title.toUpperCase()}</H2>
+              <H3>{post.primary_author?.name}</H3>
+              <H3>{post.primary_tag?.name}</H3>
+              <P>{post.excerpt}</P>
+            </UniversalLink>
           ))}
       </ScrollView>
-    </>
+    </Layout>
   )
 }
