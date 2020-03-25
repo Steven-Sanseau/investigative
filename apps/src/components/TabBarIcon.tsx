@@ -1,14 +1,16 @@
 import React from 'react'
-import { Ionicons } from '@expo/vector-icons'
-import { color } from 'styled-system'
 import styled, { css } from 'styled-components'
+import { Ionicons } from '@expo/vector-icons'
+import { color, space, position } from 'styled-system'
 
-const Icon = styled(Ionicons)(css`
-  ${color}
-`)
+const Icon = styled(Ionicons)(() => {
+  return css`
+    ${color};
+    ${space}
+    ${position};
+  `
+})
 
-export default function TabBarIcon({ name, focused }) {
-  return (
-    <Icon name={name} size={26} color={focused ? 'indigo.1' : 'indigo.5'} />
-  )
+export default function TabBarIcon({ name, ...props }) {
+  return <Icon name={name} size={26} {...props} />
 }

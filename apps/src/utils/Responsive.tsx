@@ -64,5 +64,6 @@ export function useResponsiveProps(props) {
     },
     [],
   )
+
   return responsivedProps
 }

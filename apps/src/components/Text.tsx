@@ -11,8 +11,8 @@ import {
 } from 'styled-system'
 import { useResponsiveProps } from 'src/utils/Responsive'
 
-const TextStyled = styled.Text(({ theme }) => {
-  return css`
+const TextStyled = styled.Text(
+  () => css`
     ${fontSize}
     ${flexbox};
     ${layout};
@@ -20,8 +20,8 @@ const TextStyled = styled.Text(({ theme }) => {
     ${space};
     ${color};
     ${typography};
-  `
-})
+  `,
+)
 
 export function Text(props) {
   const responsivedProps = useResponsiveProps(props)
