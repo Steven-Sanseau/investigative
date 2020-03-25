@@ -19,11 +19,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.yourappname",
+      "bundleIdentifier": "com.investigative.tanzania",
       "buildNumber": "0.1.0"
     },
     "android": {
-      "package": "com.yourcompany.yourappname",
+      "package": "com.investigative.tanzania",
       "versionCode": 1
     }
   }

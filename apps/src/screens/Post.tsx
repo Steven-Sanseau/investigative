@@ -4,8 +4,9 @@ import { Text } from 'src/components/Text'
 import { getPostBySlug } from 'src/api/ghost'
 import useSWR from 'swr'
 
-import { ScrollView, View, Platform, Linking } from 'react-native'
-import { useRouting, Link } from 'expo-next-react-navigation'
+import { Platform, Linking, View } from 'react-native'
+import { useRouting } from 'expo-next-react-navigation'
+import { ScrollView } from 'react-native-gesture-handler'
 
 export function Post({ initialData }) {
   const { getParam, navigate } = useRouting()

@@ -4,6 +4,6 @@ import { useRouting } from 'expo-next-react-navigation'
 
 export function WebWiewScreen() {
   const { getParam } = useRouting()
-  const uri = getParam('href')
+  const uri: string = getParam('href')
   return <WebView source={{ uri }} />
 }
