@@ -25,7 +25,6 @@ export async function getFeaturedPosts() {
 
 export async function getPostBySlug(slug) {
   return await api.posts
-
     .read({
       slug,
     })
@@ -42,6 +41,24 @@ export async function getPageBySlug(slug) {
   return await api.pages
     .read({
       slug,
+    })
+    .catch((err) => {
+      // console.error('Error getting post by slug: ', slug)
+    })
+}
+
+export async function getTags() {
+  return await api.tags.browse()
+}
+
+export async function getTag(slug) {
+  return await api.tags.read({ slug })
+}
+
+export async function getPostsByTag(tag) {
+  return await api.posts
+    .browse({
+      filter: `tag:${tag}`,
     })
     .catch((err) => {
       // console.error('Error getting post by slug: ', slug)
