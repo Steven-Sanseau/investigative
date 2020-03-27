@@ -64,8 +64,9 @@ const responsiveProps = [
 
 export function useViewportWidth() {
   const [width, setWidth] = React.useState(null)
-
-  React.useLayoutEffect(() => {
+  const layoutEffect =
+    typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect
+  layoutEffect(() => {
     setWidth(Dimensions.get('window').width)
 
     function handleResize() {
@@ -126,7 +127,7 @@ export function useResponsiveProps(props) {
   return responsivedProps
 }
 
-export function Responsive({ component, ...props }) {
+export function Responsive({ component, ...props }): any {
   const responsivedProps = useResponsiveProps(props)
   const Component = styled(component)`
     ${ResponsiveCss}

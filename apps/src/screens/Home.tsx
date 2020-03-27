@@ -2,12 +2,13 @@ import React from 'react'
 import { RefreshControl } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import useSWR, { mutate } from 'swr'
-import { getPosts } from 'src/api/ghost'
+import { getPosts, getPages } from 'src/api/ghost'
 import { H2, H3, P } from 'src/components/Typography'
 import { Layout } from 'src/components/Layout'
 import { CardPost } from 'src/components/Post/List'
-import UniversalLink from 'src/components/UniversalLink'
+import { UniversalLink } from 'src/components/UniversalLink'
 import { Image } from 'src/components/Image'
+import { Header } from 'src/components/Header'
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -15,13 +16,18 @@ function wait(timeout) {
   })
 }
 
-export function Home({ initialData = null }) {
+export function Home({ posts: initialPosts, pages: initialPages }) {
   const [refreshing, setRefreshing] = React.useState(false)
   const [lastRefreshingDate, setLastRefreshingDate] = React.useState(
     new Date().toDateString(),
   )
 
-  const { data: posts } = useSWR(`posts`, getPosts, { initialData })
+  const { data: posts } = useSWR(`posts`, getPosts, {
+    initialData: initialPosts,
+  })
+  const { data: pages } = useSWR('pages', getPages, {
+    initialData: initialPages,
+  })
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
@@ -31,10 +37,11 @@ export function Home({ initialData = null }) {
         setLastRefreshingDate(new Date().toDateString())
       }),
     )
-  }, [refreshing])
+  }, [])
 
   return (
     <Layout>
+      <Header pages={pages} />
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -44,33 +51,32 @@ export function Home({ initialData = null }) {
           />
         }
       >
-        {posts &&
-          posts.map((post, i) => (
-            <UniversalLink
-              key={i}
-              routeName="post"
-              params={{ slug: post.slug }}
-              web={{
-                path: `post/${post.slug}`,
-                as: `post/${post.slug}`,
-              }}
-              as={CardPost}
-            >
-              {post.feature_image && (
-                <Image
-                  height={{ xs: '100px', lg: '200px', xl: '220px' }}
-                  width={{ xs: '100px', lg: '200px', xl: '220px' }}
-                  loading="lazy"
-                  resizeMode="contain"
-                  source={{ uri: post.feature_image }}
-                />
-              )}
-              <H2>{post.title.toUpperCase()}</H2>
-              <H3>{post.primary_author?.name}</H3>
-              <H3>{post.primary_tag?.name}</H3>
-              <P>{post.excerpt}</P>
-            </UniversalLink>
-          ))}
+        {posts?.map((post, i) => (
+          <UniversalLink
+            key={i}
+            routeName="post"
+            params={{ slug: post.slug }}
+            web={{
+              path: `post/${post.slug}`,
+              as: `post/${post.slug}`,
+            }}
+            as={CardPost}
+          >
+            {post.feature_image && (
+              <Image
+                height={{ xs: '100px', lg: '200px', xl: '220px' }}
+                width={{ xs: '100px', lg: '200px', xl: '220px' }}
+                loading="lazy"
+                resizeMode="contain"
+                source={{ uri: post.feature_image }}
+              />
+            )}
+            <H2>{post.title.toUpperCase()}</H2>
+            <H3>{post.primary_author?.name}</H3>
+            <H3>{post.primary_tag?.name}</H3>
+            <P>{post.excerpt}</P>
+          </UniversalLink>
+        ))}
       </ScrollView>
     </Layout>
   )

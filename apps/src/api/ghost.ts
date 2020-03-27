@@ -33,3 +33,17 @@ export async function getPostBySlug(slug) {
       // console.error('Error getting post by slug: ', slug)
     })
 }
+
+export async function getPages() {
+  return await api.pages.browse({ filter: 'featured:true' })
+}
+
+export async function getPageBySlug(slug) {
+  return await api.pages
+    .read({
+      slug,
+    })
+    .catch((err) => {
+      // console.error('Error getting post by slug: ', slug)
+    })
+}

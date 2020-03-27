@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "env": {
     "GHOST_API_URL": "@ghost_api_url",
     "GHOST_CLIENT_KEY": "@ghost_client_key"
@@ -7,6 +8,8 @@
     "env": {
       "GHOST_API_URL": "@ghost_api_url",
       "GHOST_CLIENT_KEY": "@ghost_client_key"
-    }
+    },
+    "src": "next.config.js",
+    "use": "@now/next"
   }
 }

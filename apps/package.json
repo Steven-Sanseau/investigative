@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@expo/html-elements": "^0.0.0-alpha.5",
+    "@expo/react-native-action-sheet": "^3.5.0",
     "@expo/vector-icons": "^10.0.6",
     "@react-native-community/masked-view": "0.1.7",
     "@react-navigation/bottom-tabs": "^5.2.4",
@@ -59,9 +60,12 @@
     "@typescript-eslint/parser": "^2.25.0",
     "babel-preset-expo": "^8.0.0",
     "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
     "husky": "^4.2.3",
     "native-testing-library": "^4.0.0",
     "prettier": "^2.0.1",
@@ -72,7 +76,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
-
     }
   }
 }

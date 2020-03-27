@@ -4,27 +4,36 @@ import { Text } from 'src/components/Text'
 import { Linking, Platform } from 'react-native'
 // import { useFocus, useHover } from 'react-native-web-hooks'
 
-export default function UniversalLink({ routeName, ...props }: any) {
+export function UniversalLink({
+  routeName,
+  ...props
+}: {
+  routeName: string
+  children: any
+  params?: Object
+  web?: { as?: string; path?: string }
+  as?: any
+  onPress?: Function
+}) {
   const ref = React.useRef(null)
 
-  // Handle External links
+  const isText = Platform.OS === 'web' || typeof props.children === 'string'
+  const onPress = React.useCallback(() => {
+    Linking.openURL(routeName)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [routeName, isText])
+
   if (routeName.startsWith('http://') || routeName.startsWith('https://')) {
-    const isText = Platform.OS === 'web' || typeof props.children === 'string'
-
-    const onPress = React.useCallback(() => {
-      Linking.openURL(routeName)
-    }, [routeName, isText])
-
     const WrapperView = props.as ? props.as : Text
 
     if (Platform.OS !== 'web') props.onPress = onPress
 
     return (
       <WrapperView
-        {...props}
         ref={ref}
         href={routeName}
         accessibilityRole="link"
+        {...props}
       />
     )
   }
