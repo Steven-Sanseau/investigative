@@ -11,6 +11,7 @@ export function UniversalLink({
   routeName: string
   children: any
   params?: Object
+  prefetch?: boolean
   web?: { as?: string; path?: string }
   as?: any
   onPress?: Function

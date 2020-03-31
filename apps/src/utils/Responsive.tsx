@@ -60,6 +60,9 @@ const responsiveProps = [
   'typography',
   'width',
   'height',
+  'borderBottom',
+  'borderColor',
+  'textTransform',
 ]
 
 export function useViewportWidth() {
@@ -127,10 +130,21 @@ export function useResponsiveProps(props) {
   return responsivedProps
 }
 
-export function Responsive({ component, ...props }): any {
+export function Responsive({
+  component,
+  ...props
+}: {
+  component: any
+  displayName?: string
+}): any {
   const responsivedProps = useResponsiveProps(props)
-  const Component = styled(component)`
+  const Component = styled(component).withConfig({
+    shouldForwardProp: (prop) => !['filterThis'].includes(prop),
+  })`
     ${ResponsiveCss}
   `
+  if (props.displayName) {
+    Component.displayName = props.displayName
+  }
   return <Component {...responsivedProps} />
 }

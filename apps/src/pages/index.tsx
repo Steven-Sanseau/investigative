@@ -1,18 +1,48 @@
 import React from 'react'
-import { Home } from 'src/screens/Home'
-import { Index } from 'src/Index'
-import { getPosts, getPages } from 'src/api/ghost'
+import { Query } from '@apollo/react-components'
+import { Home } from 'src/components/Home'
+import { gql } from '@apollo/client'
+import { withApollo } from 'src/apollo/client'
+import { Layout } from 'src/components/Layout'
 
-export async function getStaticProps() {
-  const posts = await getPosts()
-  const pages = await getPages()
-  return { props: { posts, pages } }
-}
+const SETTINGS = gql`
+  {
+    posts: posts {
+      edges {
+        node {
+          slug
+          title
+        }
+      }
+    }
 
-export default ({ posts, pages }) => {
+    tags: tags {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`
+// export async function getStaticProps() {
+//   // const posts = await getPosts()
+//   // const pages = await getPages()
+
+//   return { props: {} }
+// }
+
+const Index = () => {
   return (
-    <Index>
-      <Home posts={posts} pages={pages} />
-    </Index>
+    <Query query={SETTINGS}>
+      {({ data }) => (
+        <Layout bg="white">
+          <Home />
+        </Layout>
+      )}
+    </Query>
   )
 }
+
+export default withApollo(Index)

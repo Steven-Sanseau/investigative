@@ -1,11 +1,9 @@
-import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import Head from 'next/head'
 import React from 'react'
-import { AppearanceProvider } from 'react-native-appearance'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import Favicon from '../components/Favicon'
+import { Index } from 'src/Index'
 
 EStyleSheet.build({}) // always call EStyleSheet.build() even if you don't use global variables!
 
@@ -40,16 +38,12 @@ export default function App({ Component, router = {}, pageProps }: any) {
           return <meta key={`meta-${index}`} {...value} />
         })}
       </Head>
-      <SafeAreaProvider>
-        <AppearanceProvider>
-          <ActionSheetProvider>
-            <>
-              <Favicon />
-              <Component {...pageProps} />
-            </>
-          </ActionSheetProvider>
-        </AppearanceProvider>
-      </SafeAreaProvider>
+      <Index>
+        <>
+          <Favicon />
+          <Component {...pageProps} />
+        </>
+      </Index>
     </>
   )
 }

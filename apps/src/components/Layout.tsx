@@ -1,6 +1,4 @@
-import styled, { css } from 'styled-components/native'
+import styled from 'styled-components/native'
+import { Box } from 'src/components/Box'
 
-export const Layout = styled.View`
-  flex: 1;
-  display: flex;
-`
+export const Layout = styled(Box)``
