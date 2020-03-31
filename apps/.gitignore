@@ -36,5 +36,6 @@ web-report/
 # @end @expo/next-adapter
 .next/
 .expo-shared/
-.now
+.now/
+.vscode/
 .env
