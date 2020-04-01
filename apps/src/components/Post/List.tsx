@@ -1,10 +1,10 @@
-import styled from 'styled-components/native'
-import React from 'react'
 import { Query } from '@apollo/react-components'
 import gql from 'graphql-tag'
+import React from 'react'
 import { Image } from 'src/components/Image'
-import { UniversalLink } from 'src/components/UniversalLink'
 import { H3 } from 'src/components/Typography'
+import { UniversalLink } from 'src/components/UniversalLink'
+import styled from 'styled-components/native'
 
 export const CardPost = styled.View`
   flex: 1;

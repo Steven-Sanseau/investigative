@@ -1,5 +1,3 @@
-import React from 'react'
-import styled from 'styled-components/native'
 import {
   H1 as EH1,
   H2 as EH2,
@@ -7,7 +5,9 @@ import {
   H4 as EH4,
   P as EP,
 } from '@expo/html-elements'
+import React from 'react'
 import { Responsive } from 'src/utils/Responsive'
+import styled from 'styled-components/native'
 
 export function H1(props) {
   return (

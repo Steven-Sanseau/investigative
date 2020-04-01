@@ -1,6 +1,6 @@
 import React from 'react'
 import { Animated } from 'react-native'
-import { useCollapsibleStack } from 'steste-react-navigation-collapsible'
+import { useCollapsibleStack } from 'react-navigation-collapsible'
 
 export function CollapsibleHeader(props): JSX.Element {
   const {

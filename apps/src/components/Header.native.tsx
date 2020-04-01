@@ -1,11 +1,9 @@
-import React from 'react'
-import { H1, H4, Caps } from 'src/components/Typography'
-import { Box } from 'src/components/Box'
-import { UniversalLink } from 'src/components/UniversalLink'
-import { Layout } from 'src/components/Layout'
-import { HR } from 'src/components/Elements'
-import gql from 'graphql-tag'
 import { Query } from '@apollo/react-components'
+import gql from 'graphql-tag'
+import React from 'react'
+import { Box } from 'src/components/Box'
+import { H1 } from 'src/components/Typography'
+import { UniversalLink } from 'src/components/UniversalLink'
 
 const SETTINGS = gql`
   query POSTS {

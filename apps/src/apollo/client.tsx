@@ -1,11 +1,11 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { persistCache } from 'apollo-cache-persist'
+import { createPersistedQueryLink } from 'apollo-link-persisted-queries'
 import Head from 'next/head'
 import React from 'react'
 import { API_URL } from 'src/config/config'
-import { persistCache } from 'apollo-cache-persist'
 import { Storage } from 'src/utils/storage'
 
 let globalApolloClient = null
@@ -29,9 +29,11 @@ function createIsomorphLink() {
     return new SchemaLink({ schema })
   } else {
     const { HttpLink } = require('@apollo/client')
-    return new HttpLink({
-      uri: API_URL,
-    })
+    return createPersistedQueryLink().concat(
+      new HttpLink({
+        uri: API_URL,
+      }),
+    )
   }
 }
 

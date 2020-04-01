@@ -1,6 +1,6 @@
 import React from 'react'
-import { PostList } from 'src/components/Post/List'
 import { Header } from 'src/components/Header'
+import { PostList } from 'src/components/Post/List'
 
 export function Home() {
   return (

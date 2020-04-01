@@ -1,5 +1,4 @@
 import React from 'react'
-import { Responsive } from 'src/utils/Responsive'
 import { Box } from 'src/components/Box'
 
 export function Grid({ ...props }) {

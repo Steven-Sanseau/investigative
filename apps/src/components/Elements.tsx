@@ -1,6 +1,6 @@
 import React from 'react'
-import { Responsive } from 'src/utils/Responsive'
 import { Box } from 'src/components/Box'
+import { Responsive } from 'src/utils/Responsive'
 
 export function HR(props) {
   return (

@@ -1,6 +1,5 @@
-import React from 'react'
-import styled, { css } from 'styled-components/native'
 import { Box } from 'src/components/Box'
+import styled from 'styled-components/native'
 
 export const Stack = styled(Box)`
   display: grid;

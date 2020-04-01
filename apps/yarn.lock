@@ -2933,6 +2933,14 @@ apollo-cache-persist@^0.1.1:
   resolved "https://registry.yarnpkg.com/apollo-cache-persist/-/apollo-cache-persist-0.1.1.tgz#e6cfe1983b998982a679aaf05241d3ed395edb1e"
   integrity sha512-/7GAyblPR169ryW3ugbtHqiU0UGkhIt10NeaO2gn2ClxjLHF/nIkJD5mx/0OCF2vLNbbnzLZVDeIO1pf72TrEA==
 
+apollo-link-persisted-queries@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/apollo-link-persisted-queries/-/apollo-link-persisted-queries-0.2.2.tgz#156597cb259b7bb56cf4e967a7be0312954f4591"
+  integrity sha512-YL7XBu/5QsSbbYaWUXgm87T2Hn/2AQZk5Wr8CLXGDr3Wl3E/TRhBhKgQQTly9xhaTi7jgBO+AeIyTH5wCBHA9w==
+  dependencies:
+    apollo-link "^1.2.1"
+    hash.js "^1.1.3"
+
 apollo-link-schema@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/apollo-link-schema/-/apollo-link-schema-1.2.4.tgz#b7d7453edb604065e394f83117f122bbad332886"
@@ -2941,7 +2949,7 @@ apollo-link-schema@^1.2.4:
     apollo-link "^1.2.13"
     tslib "^1.9.3"
 
-apollo-link@^1.2.13, apollo-link@^1.2.3:
+apollo-link@^1.2.1, apollo-link@^1.2.13, apollo-link@^1.2.3:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.13.tgz#dff00fbf19dfcd90fddbc14b6a3f9a771acac6c4"
   integrity sha512-+iBMcYeevMm1JpYgwDEIDt/y0BB7VWyvlm/7x+TIPNLHCTCMgcEgDuW5kH86iQZWo0I7mNwQiTOz+/3ShPFmBw==
@@ -6681,7 +6689,7 @@ hash-base@^3.0.0:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-hash.js@^1.0.0, hash.js@^1.0.3:
+hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
   integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
@@ -10474,6 +10482,11 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
+prettier-plugin-organize-imports@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-1.0.3.tgz#dfa3aa19fadee354b9f6f922d007ae25634abc56"
+  integrity sha512-o+8RlNMquau/Aq1mT/0FhVkdXj182sqs5u2ff+xjiJUkILpNwwu7PU5dOFb9EFuw2RamOVVXl26J78R45feiPQ==
+
 prettier@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.2.tgz#1ba8f3eb92231e769b7fcd7cb73ae1b6b74ade08"
@@ -10963,6 +10976,13 @@ react-native-webview@8.1.1:
     scheduler "0.15.0"
     stacktrace-parser "^0.1.3"
     whatwg-fetch "^3.0.0"
+
+react-navigation-collapsible@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-collapsible/-/react-navigation-collapsible-5.0.1.tgz#6dbcb47023cf4776261b26aa579fb859c5fe2bbe"
+  integrity sha512-6RtmbO2kYgN6+Gsb24dEomd0AaKwe85J8KZUGt76MniExpcKxecP3H5o1pHcaRc+4Ar0qj3fEqrkmONqepLqDA==
+  dependencies:
+    react-native-iphone-x-helper "^1.2.1"
 
 react-refresh@^0.4.0:
   version "0.4.2"
@@ -11936,13 +11956,6 @@ std-env@^2.2.1:
   integrity sha512-IjYQUinA3lg5re/YMlwlfhqNRTzMZMqE+pezevdcTaHceqx8ngEi1alX9nNCk9Sc81fy1fLDeQoaCzeiW1yBOQ==
   dependencies:
     ci-info "^1.6.0"
-
-steste-react-navigation-collapsible@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/steste-react-navigation-collapsible/-/steste-react-navigation-collapsible-5.0.1.tgz#1a784376c792d8207faceb905596e9b180ae1d62"
-  integrity sha512-pdIOEAzmnbuNFHrVRHfRbgmhuui4/NpCqdm42rB11gtlHo9yjFvo8RddIXTmHr3BNbKIOpS/aYz6yHmf7Zf8GQ==
-  dependencies:
-    react-native-iphone-x-helper "^1.2.1"
 
 stream-browserify@^2.0.1:
   version "2.0.2"

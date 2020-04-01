@@ -1,21 +1,16 @@
-import React from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-
-import Post from 'src/pages/post/[uri]'
-import { WebWiewScreen } from 'src/components/Webview'
-
-import Page from 'src/pages/page/[uri]'
-
-import { createCollapsibleStack } from 'steste-react-navigation-collapsible'
-import Tag from 'src/pages/tag/[uri]'
-
-import { Text } from 'src/components/Text'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import TabBarIcon from 'src/components/TabBarIcon'
+import React from 'react'
+import { createCollapsibleStack } from 'react-navigation-collapsible'
 import { Box } from 'src/components/Box'
-import Tags from 'src/pages/tags'
+import TabBarIcon from 'src/components/TabBarIcon'
+import { Text } from 'src/components/Text'
+import { WebWiewScreen } from 'src/components/Webview'
 import Index from 'src/pages/index'
+import Post from 'src/pages/post/[uri]'
+import Tag from 'src/pages/tag/[uri]'
+import Tags from 'src/pages/tags'
 
 const Stack = createStackNavigator()
 

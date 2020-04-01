@@ -1,7 +1,7 @@
-import React from 'react'
 import { Link } from 'expo-next-react-navigation'
-import { Text } from 'src/components/Text'
+import React from 'react'
 import { Linking, Platform } from 'react-native'
+import { Text } from 'src/components/Text'
 // import { useFocus, useHover } from 'react-native-web-hooks'
 
 export function UniversalLink({

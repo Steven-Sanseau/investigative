@@ -1,15 +1,14 @@
-import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
-import Home from 'src/pages/index'
+import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react'
+import { createCollapsibleStack } from 'react-navigation-collapsible'
+import { Header } from 'src/components/Header'
+import { Space } from 'src/components/Space'
 import TabBarIcon from 'src/components/TabBarIcon'
 import { Text } from 'src/components/Text'
-import { Space } from 'src/components/Space'
-import { createStackNavigator } from '@react-navigation/stack'
-import Tags from 'src/pages/tags'
+import Home from 'src/pages/index'
 import Tag from 'src/pages/tag/[uri]'
-import { createCollapsibleStack } from 'steste-react-navigation-collapsible'
-import { Header } from 'src/components/Header'
+import Tags from 'src/pages/tags'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
