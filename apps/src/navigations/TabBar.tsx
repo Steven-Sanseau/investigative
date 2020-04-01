@@ -7,7 +7,9 @@ import { Text } from 'src/components/Text'
 import { Space } from 'src/components/Space'
 import { createStackNavigator } from '@react-navigation/stack'
 import Tags from 'src/pages/tags'
-import Tag from 'src/pages/tag/[slug]'
+import Tag from 'src/pages/tag/[uri]'
+import { createCollapsibleStack } from 'steste-react-navigation-collapsible'
+import { Header } from 'src/components/Header'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -35,14 +37,19 @@ export function More() {
 export default function TabBar() {
   return (
     <Tab.Navigator>
-      <Tab.Screen
-        options={{
-          tabBarIcon: TabIcon('ios-today'),
-          tabBarLabel: TabLabel('Home'),
-        }}
-        name="home"
-        component={Home}
-      />
+      {createCollapsibleStack(
+        <Tab.Screen
+          name="home"
+          component={Home}
+          options={{
+            tabBarIcon: TabIcon('ios-today'),
+            tabBarLabel: TabLabel('Home'),
+            headerStyle: { backgroundColor: 'green' },
+            headerTitle: () => <Header />,
+            title: 'Home',
+          }}
+        />,
+      )}
       <Tab.Screen
         options={{
           tabBarIcon: TabIcon('ios-settings'),

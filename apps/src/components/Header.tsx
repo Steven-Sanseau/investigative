@@ -2,16 +2,13 @@ import React from 'react'
 import { H1, H4, Caps } from 'src/components/Typography'
 import { Box } from 'src/components/Box'
 import { UniversalLink } from 'src/components/UniversalLink'
-import { Text } from 'src/components/Text'
 import { Layout } from 'src/components/Layout'
 import { HR } from 'src/components/Elements'
 import gql from 'graphql-tag'
 import { Query } from '@apollo/react-components'
-import DayNightSwitch from 'src/components/DayNigthSwitch'
-import { useTheme } from 'src/contexts/theme'
 
 const SETTINGS = gql`
-  {
+  query POSTS {
     settings: generalSettings {
       title
     }
@@ -27,16 +24,10 @@ const SETTINGS = gql`
 `
 
 export function Header() {
-  const theme = useTheme()
-  const switchTheme = React.useCallback(
-    () => theme.setThemeName(theme.name === 'dark' ? 'light' : 'dark'),
-    [theme.name],
-  )
-  console.log('theme ', theme)
   return (
-    <Query query={SETTINGS} fetchPolicy="cache-and-network">
-      {({ data }) => (
-        <Box width="full">
+    <Query query={SETTINGS}>
+      {({ data, loading }) => (
+        <Box width="full" heigth={1}>
           <Box display="flex" flexDirection="row" justifyContent="flex-start">
             <Layout mx="auto" width="960">
               <Box mx="auto">
@@ -55,10 +46,10 @@ export function Header() {
                   <UniversalLink
                     key={i}
                     routeName="page"
-                    params={{ slug: page.slug }}
+                    params={{ uri: page.uri }}
                     web={{
-                      path: `/page/[slug]`,
-                      as: `/page/${page.slug}`,
+                      path: `/page/[uri]`,
+                      as: `/page/${page.uri}`,
                     }}
                   >
                     <H4>
@@ -66,7 +57,6 @@ export function Header() {
                     </H4>
                   </UniversalLink>
                 ))}
-                <DayNightSwitch value={theme.name} onChange={switchTheme} />
               </Box>
             </Layout>
           </Box>

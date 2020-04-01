@@ -5,12 +5,20 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import Head from 'next/head'
 import React from 'react'
 import { API_URL } from 'src/config/config'
+import { persistCache } from 'apollo-cache-persist'
+import { Storage } from 'src/utils/storage'
 
 let globalApolloClient = null
 
 const initCache = (initialState?: any) => {
   const cache = new InMemoryCache().restore(initialState || {})
 
+  if (typeof window !== 'undefined') {
+    persistCache({
+      cache,
+      storage: Storage,
+    })
+  }
   return cache
 }
 

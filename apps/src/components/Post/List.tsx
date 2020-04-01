@@ -45,7 +45,7 @@ const POSTS = gql`
 
 export function PostList(): JSX.Element {
   return (
-    <Query query={POSTS}>
+    <Query query={POSTS} fetchPolicy="cache-and-network">
       {({ data }) => (
         <>
           {data?.posts.edges.map(({ node: post }, i) => (
@@ -64,7 +64,7 @@ export function PostList(): JSX.Element {
                 routeName={`post`}
                 params={{ uri: post.uri }}
                 web={{
-                  path: `post/[slug]`,
+                  path: `post/[uri]`,
                   as: `post/${post.uri}`,
                 }}
               >

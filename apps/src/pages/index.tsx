@@ -1,6 +1,6 @@
 import React from 'react'
 import { Query } from '@apollo/react-components'
-import { Home } from 'src/components/Home'
+import { Home } from 'src/containers/Home'
 import { gql } from '@apollo/client'
 import { withApollo } from 'src/apollo/client'
 import { Layout } from 'src/components/Layout'
@@ -26,12 +26,6 @@ const SETTINGS = gql`
     }
   }
 `
-// export async function getStaticProps() {
-//   // const posts = await getPosts()
-//   // const pages = await getPages()
-
-//   return { props: {} }
-// }
 
 const Index = () => {
   return (
