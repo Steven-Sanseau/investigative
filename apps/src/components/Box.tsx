@@ -1,7 +1,7 @@
 import React from 'react'
-import { Responsive } from '../utils/Responsive'
 import { View } from 'react-native'
+import { Responsive } from '../utils/Responsive'
 
-export function Box(props: any) {
+export const Box = function Box({ ...props }) {
   return <Responsive component={View} {...props} />
 }

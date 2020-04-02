@@ -1,5 +1,4 @@
 import merge from 'deepmerge'
-
 import { coreTheme } from './core'
 import { darkTheme } from './dark'
 

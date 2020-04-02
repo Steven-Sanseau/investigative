@@ -1,6 +1,6 @@
+import { useRouting } from 'expo-next-react-navigation'
 import React from 'react'
 import { WebView } from 'react-native-webview'
-import { useRouting } from 'expo-next-react-navigation'
 
 export function WebWiewScreen() {
   const { getParam } = useRouting()

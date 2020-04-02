@@ -1,12 +1,16 @@
-import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
-import { Home } from 'src/screens/Home'
-import { More } from 'src/screens/More'
+import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react'
+import { createCollapsibleStack } from 'react-navigation-collapsible'
+import { Header } from 'src/components/Header'
+import { Space } from 'src/components/Space'
 import TabBarIcon from 'src/components/TabBarIcon'
 import { Text } from 'src/components/Text'
-import { Space } from 'src/components/Space'
+import Home from 'src/pages/index'
+import Tag from 'src/pages/tag/[uri]'
+import Tags from 'src/pages/tags'
 
+const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const TabLabel = (name) => ({ focused }) => (
@@ -20,23 +24,37 @@ const TabIcon = (name) => ({ focused }) => (
   <TabBarIcon color={focused ? 'primary' : 'grayDark'} name={name} />
 )
 
+export function More() {
+  return (
+    <Stack.Navigator headerMode="screen">
+      <Stack.Screen component={Tags} name="tags" />
+      <Stack.Screen component={Tag} name="tag" />
+    </Stack.Navigator>
+  )
+}
+
 export default function TabBar() {
   return (
     <Tab.Navigator>
-      <Tab.Screen
-        options={{
-          tabBarIcon: TabIcon('ios-today'),
-          tabBarLabel: TabLabel('Home'),
-        }}
-        name="Home"
-        component={Home}
-      />
+      {createCollapsibleStack(
+        <Tab.Screen
+          name="home"
+          component={Home}
+          options={{
+            tabBarIcon: TabIcon('ios-today'),
+            tabBarLabel: TabLabel('Home'),
+            headerStyle: { backgroundColor: 'green' },
+            headerTitle: () => <Header />,
+            title: 'Home',
+          }}
+        />,
+      )}
       <Tab.Screen
         options={{
           tabBarIcon: TabIcon('ios-settings'),
           tabBarLabel: TabLabel('More'),
         }}
-        name="More"
+        name="more"
         component={More}
       />
     </Tab.Navigator>
