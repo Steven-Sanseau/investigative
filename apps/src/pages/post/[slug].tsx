@@ -1,14 +1,11 @@
-import React from 'react'
-
-import { useRouting } from 'expo-next-react-navigation'
-import { Text } from 'src/components/Text'
 import { gql } from '@apollo/client'
 import { Query } from '@apollo/react-components'
-import { Header } from 'src/components/Header'
-import { withApollo } from 'src/apollo/client'
+import { useRouting } from 'expo-next-react-navigation'
 import { ArticleJsonLd } from 'next-seo'
-import HTML from 'react-native-render-html'
-import { ScrollView, RefreshControl, Dimensions } from 'react-native'
+import React from 'react'
+import { RefreshControl, ScrollView } from 'react-native'
+import { withApollo } from 'src/apollo/client'
+import { Header } from 'src/components/Header'
 
 const POST = gql`
   query GET_POST($uri: String) {
@@ -80,10 +77,7 @@ function Post() {
               description="This is a mighty good description of this article."
             />
 
-            <HTML
-              html={data?.postBy?.content}
-              imagesMaxWidth={Dimensions.get('window').width}
-            />
+            {data?.postBy?.content}
           </ScrollView>
         )}
       </Query>

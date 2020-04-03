@@ -1,14 +1,18 @@
 import React from 'react'
 import { Box } from 'src/components/Box'
 
-export function Grid({ ...props }) {
+export function Flex({ ...props }): JSX.Element {
   return <Box flexWrap="wrap" display="flex" {...props} />
 }
 
-export function Column({ ...props }) {
+export function Grid({ ...props }): JSX.Element {
+  return <Box display="grid" {...props} />
+}
+
+export function Column({ ...props }): JSX.Element {
   return <Box flexDirection="column" {...props} />
 }
 
-export function Row({ ...props }) {
-  return <Column flexDirection="row" width={12} {...props}></Column>
+export function Row({ ...props }): JSX.Element {
+  return <Column flexDirection="row" {...props}></Column>
 }

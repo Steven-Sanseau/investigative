@@ -1,7 +1,7 @@
+import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import styled, { css } from 'styled-components/native'
-import { Ionicons } from '@expo/vector-icons'
-import { color, space, position } from 'styled-system'
+import { color, position, space } from 'styled-system'
 
 const Icon = styled(Ionicons)(() => {
   return css`

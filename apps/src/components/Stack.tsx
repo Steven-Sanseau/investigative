@@ -1,5 +1,5 @@
 import { Box } from 'src/components/Box'
-import styled from 'styled-components/native'
+import { styled } from 'src/utils/Styled'
 
 export const Stack = styled(Box)`
   display: grid;

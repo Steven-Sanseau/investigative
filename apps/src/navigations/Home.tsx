@@ -8,7 +8,7 @@ import TabBarIcon from 'src/components/TabBarIcon'
 import { Text } from 'src/components/Text'
 import { WebWiewScreen } from 'src/components/Webview'
 import Index from 'src/pages/index'
-import Post from 'src/pages/post/[uri]'
+import Post from 'src/pages/post/[slug].native'
 import Tag from 'src/pages/tag/[uri]'
 import Tags from 'src/pages/tags'
 

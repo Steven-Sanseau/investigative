@@ -10,7 +10,7 @@ export function UniversalLink({
 }: {
   routeName: string
   children: any
-  params?: Object
+  params?: Record<string, any>
   prefetch?: boolean
   web?: { as?: string; path?: string }
   as?: any

@@ -1,10 +1,10 @@
-import React from 'react'
-import { Box } from 'src/components/Box'
-import { Text } from 'src/components/Text'
 import { useRouting } from 'expo-next-react-navigation'
-import { UniversalLink } from 'src/components/UniversalLink'
-import { Header } from 'src/components/Header'
+import React from 'react'
 import { withApollo } from 'src/apollo/client'
+import { Box } from 'src/components/Box'
+import { Header } from 'src/components/Header'
+import { Text } from 'src/components/Text'
+import { UniversalLink } from 'src/components/UniversalLink'
 
 function Page() {
   const { getParam } = useRouting()

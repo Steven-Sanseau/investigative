@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import * as Font from 'expo-font'
-import { Platform, StatusBar } from 'react-native'
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
-import { ThemeProvider } from 'styled-components/native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import ErrorBoundary from 'react-error-boundary'
-
+import { Platform, StatusBar } from 'react-native'
+import { ThemeProvider } from 'src/utils/Styled'
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { Text } from 'src/components/Text'
 import { ThemeProvider as ThemeProviderContext } from 'src/contexts/theme'
 import { createTheme } from 'src/themes/theme'
-import { Text } from 'src/components/Text'
 import { useAsyncStorage } from 'src/utils/AsyncStorage'
 
 export function Index({ children }: { children: any }): JSX.Element {
   const colorScheme = useColorScheme()
   const [themeName, setThemeName] = useAsyncStorage('theme', 'dark')
-  const [appLoaded, setAppLoaded] = useState(false)
+  const [appLoaded, setAppLoaded] = React.useState(false)
   const theme = createTheme(themeName === 'native' ? colorScheme : themeName)
 
-  useEffect(() => {
+  React.useEffect(() => {
     async function loadApp(): Promise<void> {
       await Font.loadAsync({
         LibreFranklin: require('../assets/fonts/Libre_Franklin/LibreFranklin-Bold.ttf'),
+        LibreFranklinMedium: require('../assets/fonts/Libre_Franklin/LibreFranklin-Medium.ttf'),
         SourceSerifPro: require('../assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf'),
       })
 

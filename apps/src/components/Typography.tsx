@@ -13,9 +13,9 @@ export function H1(props) {
   return (
     <Responsive
       component={EH1}
-      fontSize={{ xs: 3, lg: 5, xl: 6 }}
+      fontSize={6}
       fontFamily="heading"
-      color="primary"
+      color="gray"
       {...props}
     />
   )
@@ -25,7 +25,7 @@ export function H2(props) {
   return (
     <Responsive
       component={EH2}
-      fontSize={{ xs: 3, lg: 4, xl: 2 }}
+      fontSize={{ xs: 4, lg: 4, xl: 2 }}
       fontFamily="heading"
       color="grayDark"
       {...props}

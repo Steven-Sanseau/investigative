@@ -1,8 +1,8 @@
 import React from 'react'
 import { withApollo } from 'src/apollo/client'
 import { Box } from 'src/components/Box'
-import { useTheme } from 'src/contexts/theme'
 import DayNightSwitch from 'src/components/DayNigthSwitch'
+import { useTheme } from 'src/contexts/theme'
 
 function Settings() {
   const theme = useTheme()

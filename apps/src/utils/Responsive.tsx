@@ -1,22 +1,29 @@
 import React from 'react'
 import { Dimensions } from 'react-native'
+import { styled, css, Primitive } from './Styled'
 import {
   color,
   flexbox,
   fontSize,
+  grid,
   layout,
   position,
   space,
+  background,
+  shadow,
+  border,
   typography,
 } from 'styled-system'
-
-import styled, { css } from 'styled-components/native'
 
 const ResponsiveCss = css`
   ${fontSize}
   ${flexbox};
   ${layout};
   ${position};
+  ${border};
+  ${background};
+  ${shadow};
+  ${grid};
   ${space};
   ${color};
   ${typography};
@@ -26,6 +33,14 @@ const responsiveProps = [
   'alignContent',
   'alignItems',
   'alignSelf',
+  'border',
+  'borderBottom',
+  'borderColor',
+  'borderLeft',
+  'borderRight',
+  'borderStyle',
+  'borderTop',
+  'boxShadow',
   'color',
   'color',
   'display',
@@ -36,7 +51,20 @@ const responsiveProps = [
   'flexWrap',
   'fontSize',
   'fontWeight',
+  'gridArea',
+  'gridAutoColumns',
+  'gridAutoFlow',
+  'gridAutoRows',
+  'gridColumn',
+  'gridColumnGap',
+  'gridGap',
   'gridRow',
+  'gridRow',
+  'gridRowGap',
+  'gridTemplateAreas',
+  'gridTemplateColumns',
+  'gridTemplateRows',
+  'height',
   'height',
   'justifyContent',
   'layout',
@@ -49,7 +77,11 @@ const responsiveProps = [
   'ml',
   'mr',
   'mt',
+  'mx',
+  'my',
   'p',
+  'px',
+  'py',
   'pb',
   'pl',
   'position',
@@ -57,12 +89,10 @@ const responsiveProps = [
   'pt',
   'space',
   'textAlign',
+  'textShadow',
+  'textTransform',
   'typography',
   'width',
-  'height',
-  'borderBottom',
-  'borderColor',
-  'textTransform',
 ]
 
 export function useViewportWidth() {
@@ -130,6 +160,10 @@ export function useResponsiveProps(props) {
   return responsivedProps
 }
 
+const StyledComponent = styled(Primitive)`
+  ${ResponsiveCss}
+`
+
 export function Responsive({
   component,
   ...props
@@ -138,13 +172,16 @@ export function Responsive({
   displayName?: string
 }): any {
   const responsivedProps = useResponsiveProps(props)
-  const Component = styled(component).withConfig({
-    shouldForwardProp: (prop) => !['filterThis'].includes(prop),
-  })`
-    ${ResponsiveCss}
-  `
+  // console.log('StyledComponent', StyledComponent)
+
   if (props.displayName) {
-    Component.displayName = props.displayName
+    StyledComponent.displayName = props.displayName
   }
-  return <Component {...responsivedProps} />
+  return (
+    <StyledComponent
+      css={{ ResponsiveCss }}
+      as={component}
+      {...responsivedProps}
+    />
+  )
 }

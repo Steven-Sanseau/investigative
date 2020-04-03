@@ -1,8 +1,8 @@
+import { useRouting } from 'expo-next-react-navigation'
 import React from 'react'
 import { Box } from 'src/components/Box'
-import { useRouting } from 'expo-next-react-navigation'
-import { UniversalLink } from 'src/components/UniversalLink'
 import { H2 } from 'src/components/Typography'
+import { UniversalLink } from 'src/components/UniversalLink'
 
 export default function Tags({ tags }) {
   const { getParam } = useRouting()

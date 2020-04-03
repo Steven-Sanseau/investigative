@@ -19,12 +19,15 @@ export const coreTheme = {
     white: '#ffffff',
     primary: '#212121',
     grayDark: '#212121',
+    gray: ['#e8e8e8'],
   },
   fonts: {
     serif: 'SourceSerifPro',
     heading: 'LibreFranklin',
+    headingMedium: 'LibreFranklinMedium',
   },
   fontSizes: [
+    '12px',
     '14px',
     '16px',
     '20px',

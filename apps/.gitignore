@@ -39,3 +39,4 @@ web-report/
 .now/
 .vscode/
 .env
+.now

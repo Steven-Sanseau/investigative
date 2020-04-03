@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import React from 'react'
 import EStyleSheet from 'react-native-extended-stylesheet'
-
-import Favicon from '../components/Favicon'
 import { Index } from 'src/Index'
+import Favicon from '../components/Favicon'
 
 EStyleSheet.build({}) // always call EStyleSheet.build() even if you don't use global variables!
 

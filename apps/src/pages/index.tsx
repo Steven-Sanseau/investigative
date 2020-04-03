@@ -1,9 +1,9 @@
-import React from 'react'
-import { Query } from '@apollo/react-components'
-import { Home } from 'src/containers/Home'
 import { gql } from '@apollo/client'
+import { Query } from '@apollo/react-components'
+import React from 'react'
 import { withApollo } from 'src/apollo/client'
 import { Layout } from 'src/components/Layout'
+import { Home } from 'src/containers/Home'
 
 const SETTINGS = gql`
   {
@@ -28,15 +28,7 @@ const SETTINGS = gql`
 `
 
 const Index = () => {
-  return (
-    <Query query={SETTINGS}>
-      {({ data }) => (
-        <Layout bg="white">
-          <Home />
-        </Layout>
-      )}
-    </Query>
-  )
+  return <Query query={SETTINGS}>{({ data }) => <Home />}</Query>
 }
 
 export default withApollo(Index)

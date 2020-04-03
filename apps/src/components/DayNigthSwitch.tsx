@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch } from 'react-native-gesture-handler'
 import { Box } from 'src/components/Box'
-import styled from 'styled-components/native'
+import { styled } from 'src/utils/Styled'
 
 const Wrapper = styled(Box)`
   /* transition-duration: 200ms; */

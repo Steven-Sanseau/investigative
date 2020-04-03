@@ -2,52 +2,53 @@ import { Query } from '@apollo/react-components'
 import gql from 'graphql-tag'
 import React from 'react'
 import { Image } from 'src/components/Image'
-import { H3 } from 'src/components/Typography'
+import { H3, Caps } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import styled from 'styled-components/native'
+import { Text } from 'src/components/Text'
+import { formatRelative, parseISO } from 'date-fns'
+import { Box } from 'src/components/Box'
+import { Flex, Row, Column } from 'src/components/Grid'
 
 export const CardPost = styled.View`
   flex: 1;
 `
 
 const POSTS = gql`
-  {
+  query Posts {
     posts: posts {
       edges {
         node {
           id
           title(format: RENDERED)
-          date
+          slug
           author {
-            avatar {
-              url
-            }
-            uri
             name
           }
-          content(format: RENDERED)
-          modified
-          uri
-          status
-          tags {
-            nodes {
-              name
-              uri
-            }
-          }
-          excerpt(format: RENDERED)
-          commentStatus
+          date
         }
       }
     }
   }
 `
 
+const Title = styled(H3).attrs({ fontFamily: 'heading', fontSize: '4' })`
+  text-transform: capitalize;
+`
+const Author = styled(Text).attrs({
+  fontFamily: 'headingMedium',
+  fontSize: '0',
+})``
+
+const DatePost = styled(Text)``
+
 export function PostList(): JSX.Element {
+  const now = new Date()
+
   return (
-    <Query query={POSTS} fetchPolicy="cache-and-network">
+    <Query query={POSTS}>
       {({ data }) => (
-        <>
+        <Box>
           {data?.posts.edges.map(({ node: post }, i) => (
             <>
               {post.feature_image && (
@@ -62,21 +63,23 @@ export function PostList(): JSX.Element {
               <UniversalLink
                 key={i}
                 routeName={`post`}
-                params={{ uri: post.uri }}
+                params={{ slug: post.slug }}
                 web={{
-                  path: `post/[uri]`,
-                  as: `post/${post.uri}`,
+                  path: `post/[slug]`,
+                  as: `post/${post.slug}`,
                 }}
               >
-                <H3>{post.title.toUpperCase()}</H3>
+                <Title>{post.title}</Title>
               </UniversalLink>
-              <H3>{post.author.name}</H3>
-              {post?.tags.nodes.map((tag, i) => (
-                <H3 key={i}>{tag.name}</H3>
-              ))}
+
+              <Author>by {post?.author?.name}</Author>
+
+              {post?.date && (
+                <DatePost>{formatRelative(parseISO(post.date), now)}</DatePost>
+              )}
             </>
           ))}
-        </>
+        </Box>
       )}
     </Query>
   )
