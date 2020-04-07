@@ -22,9 +22,8 @@ export const coreTheme = {
     gray: ['#e8e8e8'],
   },
   fonts: {
-    serif: 'SourceSerifPro',
-    heading: 'LibreFranklin',
-    headingMedium: 'LibreFranklinMedium',
+    serif: 'Source Serif Pro',
+    heading: 'Libre Franklin',
   },
   fontSizes: [
     '12px',

@@ -1,11 +1,11 @@
 import React from 'react'
-import { Grid, Column, Row } from 'src/components/Grid'
+import { Grid } from 'src/components/Grid'
 import { Text } from 'src/components/Text'
 import { Box } from 'src/components/Box'
 import { format } from 'date-fns'
 import { Layout } from 'src/components/Layout'
 
-export function TopBar() {
+export const TopBar: React.FC = () => {
   const now = format(new Date(), 'EEEE, LLLL M, y')
   return (
     <Box bg="black" alignItems="center">
@@ -31,7 +31,8 @@ export function TopBar() {
             <Text
               m="auto"
               color="white"
-              fontFamily="headingMedium"
+              fontFamily="heading"
+              fontWeight="heading"
               fontSize="0"
               align="center"
             >

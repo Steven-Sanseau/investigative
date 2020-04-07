@@ -1,16 +1,23 @@
 import { getInitialProps } from '@expo/next-adapter/document'
-import Document, { Head, Main, NextScript } from 'next/document'
+import Document, {
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from 'next/document'
 import React from 'react'
 
 class CustomDocument extends Document {
-  static getInitialProps = async (props) => {
-    const result = await getInitialProps(props)
-    return { ...result }
+  static async getInitialProps(ctx: DocumentContext) {
+    const result = await getInitialProps(ctx)
+    return {
+      ...result,
+    }
   }
 
   render() {
     return (
-      <html>
+      <html lang="en">
         <Head>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <link
@@ -19,6 +26,10 @@ class CustomDocument extends Document {
             href="/apple-touch-icon.png"
           />
           <link rel="manifest" href="/static/manifest.json" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,400;1,700&family=Source+Serif+Pro&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

@@ -30,60 +30,26 @@ export function Footer() {
           borderStyle="solid"
           borderColor="dark"
         >
-          <Text to="/" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Home
-          </Text>
-          <Text to="/work" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Work
-          </Text>
-          <Text to="/blog" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Blog
-          </Text>
-          <Text to="/about" sx={{ variant: 'styles.navlink', p: 2 }}>
-            About
-          </Text>
-          <Text to="/products" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Products
-          </Text>
-          <Text to="/community" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Community
-          </Text>
-          <Text to="/support" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Support
-          </Text>
-          <Text to="/contact" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Contact
-          </Text>
-          <Text to="/support" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Support
-          </Text>
-          <Text to="/products" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Products
-          </Text>
-          <Text to="/contact" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Contact
-          </Text>
-          <Text to="/community" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Community
-          </Text>
-          <Text to="/products" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Products
-          </Text>
-          <Text to="/community" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Community
-          </Text>
-          <Text to="/support" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Support
-          </Text>
-          <Text to="/contact" sx={{ variant: 'styles.navlink', p: 2 }}>
-            Contact
-          </Text>
+          <Text>Home</Text>
+          <Text>Work</Text>
+          <Text>Blog</Text>
+          <Text>About</Text>
+          <Text>Products</Text>
+          <Text>Community</Text>
+          <Text>Support</Text>
+          <Text>Contact</Text>
+          <Text>Support</Text>
+          <Text>Products</Text>
+          <Text>Contact</Text>
+          <Text>Community</Text>
+          <Text>Products</Text>
+          <Text>Community</Text>
+          <Text>Support</Text>
+          <Text>Contact</Text>
         </WrappedFooterLinks>
         <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
           <Box>
-            <Text to="/privacy-policy" sx={{ color: 'inherit' }}>
-              Privacy Policy Terms of Use
-            </Text>
+            <Text>Privacy Policy Terms of Use</Text>
             <Text>© 2019 Jane Doe</Text>
           </Box>
         </Box>

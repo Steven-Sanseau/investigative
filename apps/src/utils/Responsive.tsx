@@ -68,6 +68,7 @@ const responsiveProps = [
   'height',
   'justifyContent',
   'layout',
+  'listStyle',
   'letterSpacing',
   'lineHeight',
   'm',
@@ -95,19 +96,19 @@ const responsiveProps = [
   'width',
 ]
 
-export function useViewportWidth() {
-  const [width, setWidth] = React.useState(null)
+export function useViewportWidth(): number {
+  const [width, setWidth] = React.useState<number | null>(null)
   const layoutEffect =
     typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect
   layoutEffect(() => {
     setWidth(Dimensions.get('window').width)
 
-    function handleResize() {
+    function handleResize(): void {
       setWidth(Dimensions.get('window').width)
     }
 
     Dimensions.addEventListener('change', handleResize)
-    return () => Dimensions.removeEventListener('change', handleResize)
+    return (): void => Dimensions.removeEventListener('change', handleResize)
   }, [])
 
   return width
@@ -164,13 +165,14 @@ const StyledComponent = styled(Primitive)`
   ${ResponsiveCss}
 `
 
-export function Responsive({
-  component,
-  ...props
-}: {
+interface ResponsiveProps {
   component: any
   displayName?: string
-}): any {
+}
+export const Responsive: React.FC<ResponsiveProps> = ({
+  component,
+  ...props
+}: ResponsiveProps) => {
   const responsivedProps = useResponsiveProps(props)
   // console.log('StyledComponent', StyledComponent)
 

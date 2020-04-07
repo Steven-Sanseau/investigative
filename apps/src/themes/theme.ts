@@ -1,4 +1,3 @@
-import merge from 'deepmerge'
 import { coreTheme } from './core'
 import { darkTheme } from './dark'
 
@@ -12,5 +11,5 @@ export const createTheme = (theme) => {
     }
   }
 
-  return merge(coreTheme, themeConfig(theme))
+  return { ...coreTheme, ...themeConfig(theme) }
 }

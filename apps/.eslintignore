@@ -8,3 +8,4 @@ coverage
 .now/
 .expo/
 web-build/
+*/generated/*

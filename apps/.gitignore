@@ -39,4 +39,4 @@ web-report/
 .now/
 .vscode/
 .env
-.now
+/public/service-worker.js

@@ -3,6 +3,8 @@ import {
   H2 as EH2,
   H3 as EH3,
   H4 as EH4,
+  H4 as EH5,
+  H4 as EH6,
   P as EP,
 } from '@expo/html-elements'
 import React from 'react'
@@ -15,7 +17,7 @@ export function H1(props) {
       component={EH1}
       fontSize={6}
       fontFamily="heading"
-      color="gray"
+      color="grayDark"
       {...props}
     />
   )
@@ -48,6 +50,30 @@ export function H4(props) {
   return (
     <Responsive
       component={EH4}
+      fontSize={{ xs: 4, lg: 4, xl: 4 }}
+      fontFamily="heading"
+      textTransform="uppercase"
+      color="grayDark"
+      {...props}
+    />
+  )
+}
+export function H5(props) {
+  return (
+    <Responsive
+      component={EH5}
+      fontSize={{ xs: 4, lg: 4, xl: 4 }}
+      fontFamily="heading"
+      textTransform="uppercase"
+      color="grayDark"
+      {...props}
+    />
+  )
+}
+export function H6(props) {
+  return (
+    <Responsive
+      component={EH6}
       fontSize={{ xs: 4, lg: 4, xl: 4 }}
       fontFamily="heading"
       textTransform="uppercase"

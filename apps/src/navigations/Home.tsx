@@ -8,8 +8,8 @@ import TabBarIcon from 'src/components/TabBarIcon'
 import { Text } from 'src/components/Text'
 import { WebWiewScreen } from 'src/components/Webview'
 import Index from 'src/pages/index'
-import Post from 'src/pages/post/[slug].native'
-import Tag from 'src/pages/tag/[uri]'
+import Post from 'src/pages/post/[slug]'
+import Tag from 'src/pages/tag/[slug]'
 import Tags from 'src/pages/tags'
 
 const Stack = createStackNavigator()
@@ -63,7 +63,7 @@ export function Main() {
           component={Index}
           name="home"
           options={{
-            headerStyle: { backgroundColor: 'green' },
+            headerStyle: { backgroundColor: 'gray' },
             title: 'Home',
           }}
         />,

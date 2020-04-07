@@ -1,0 +1,15 @@
+query getPosts {
+  posts: posts {
+    edges {
+      node {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
+        }
+        date
+      }
+    }
+  }
+}

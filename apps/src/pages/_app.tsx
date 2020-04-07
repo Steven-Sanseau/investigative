@@ -1,10 +1,12 @@
 import Head from 'next/head'
 import React from 'react'
-import EStyleSheet from 'react-native-extended-stylesheet'
-import { Index } from 'src/Index'
 import Favicon from '../components/Favicon'
-
-EStyleSheet.build({}) // always call EStyleSheet.build() even if you don't use global variables!
+import { Text } from 'src/components/Text'
+import { ThemeProvider } from 'src/utils/Styled'
+import { ThemeProvider as ThemeProviderContext } from 'src/contexts/theme'
+import ErrorBoundary from 'react-error-boundary'
+import { createTheme } from 'src/themes/theme'
+import { useAsyncStorage } from 'src/utils/AsyncStorage'
 
 export default function App({ Component, router = {}, pageProps }: any) {
   const themeColor = '#4630eb'
@@ -14,7 +16,7 @@ export default function App({ Component, router = {}, pageProps }: any) {
       key: 'viewport',
       name: 'viewport',
       content:
-        'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1.00001,viewport-fit=cover',
+        'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1.0,viewport-fit=cover',
     },
     {
       name: 'msapplication-TileColor',
@@ -28,6 +30,16 @@ export default function App({ Component, router = {}, pageProps }: any) {
 
   const siteTitle = `Investigative`
 
+  const myErrorHandler = (
+    error: Error,
+    componentStack: string,
+  ): JSX.Element => {
+    return <Text>Error with APP</Text>
+  }
+
+  const [themeName, setThemeName] = useAsyncStorage('theme', 'dark')
+  const theme = createTheme(themeName)
+
   return (
     <>
       <Head>
@@ -37,12 +49,19 @@ export default function App({ Component, router = {}, pageProps }: any) {
           return <meta key={`meta-${index}`} {...value} />
         })}
       </Head>
-      <Index>
-        <>
-          <Favicon />
-          <Component {...pageProps} />
-        </>
-      </Index>
+      <Favicon />
+      <ErrorBoundary onError={myErrorHandler}>
+        <ThemeProvider theme={theme}>
+          <ThemeProviderContext
+            value={{
+              name: themeName,
+              setThemeName: setThemeName,
+            }}
+          >
+            <Component {...pageProps} />
+          </ThemeProviderContext>
+        </ThemeProvider>
+      </ErrorBoundary>
     </>
   )
 }
