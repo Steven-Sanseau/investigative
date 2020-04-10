@@ -26,7 +26,6 @@ export function Footer() {
             xs: 'repeat(2, 1fr)',
             lg: 'repeat(4, 1fr)',
           }}
-          borderTop="5px"
           borderStyle="solid"
           borderColor="dark"
         >

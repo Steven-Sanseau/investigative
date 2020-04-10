@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid } from 'src/components/Grid'
+import { Flex } from 'src/components/Grid'
 import { Text } from 'src/components/Text'
 import { Box } from 'src/components/Box'
 import { format } from 'date-fns'
@@ -8,26 +8,32 @@ import { Layout } from 'src/components/Layout'
 export const TopBar: React.FC = () => {
   const now = format(new Date(), 'EEEE, LLLL M, y')
   return (
-    <Box bg="black" alignItems="center">
-      <Layout alignItems="center">
-        <Grid
-          width="full"
-          alignItems="center"
-          gridAutoFlow="row"
-          gridGap={{ xs: 5, sm: 50, md: 100, lg: 200, xl: 400 }}
-          gridTemplateColumns="repeat(3, 1fr)"
-        >
-          <Box
-            alignItems="center"
-            justifyContent="flex-start"
-            flexDirection="row"
-            alignContent="space-between"
-          >
-            <Text color="white">Link</Text>
-            <Text color="white">Link</Text>
-            <Text color="white">Link</Text>
+    <Box bg="black">
+      <Layout>
+        <Flex width="full" flexDirection="row">
+          <Box width={{ xs: '1/12', lg: '1/12' }}>
+            <Box alignContent="flex-start">
+              <Flex
+                justifyContent="space-start"
+                alignItems="baseline"
+                flexDirection="row"
+              >
+                <Text color="white">Link</Text>
+                <Box ml="1">
+                  <Text color="white">Link</Text>
+                </Box>
+                <Box ml="1">
+                  <Text color="white">Link</Text>
+                </Box>
+              </Flex>
+            </Box>
           </Box>
-          <Box alignItems="center" justifyContent="center">
+          <Box
+            width="1/2"
+            flexGrow={1}
+            alignItems="center"
+            justifyContent="center"
+          >
             <Text
               m="auto"
               color="white"
@@ -39,10 +45,14 @@ export const TopBar: React.FC = () => {
               {now}
             </Text>
           </Box>
-          <Box alignItems="center" justifyContent="flex-end">
-            <Text color="white">Linkend</Text>
+          <Box
+            width={{ xs: '1/12', lg: '1/12' }}
+            alignItems="flex-end"
+            justifyContent="flex-end"
+          >
+            <Text color="white">Linked</Text>
           </Box>
-        </Grid>
+        </Flex>
       </Layout>
     </Box>
   )

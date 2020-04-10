@@ -1,5 +1,4 @@
 const { withExpo } = require('@expo/next-adapter')
-const withFonts = require('next-fonts')
 const withImages = require('next-images')
 const withTM = require('next-transpile-modules')
 const withPlugins = require('next-compose-plugins')
@@ -42,9 +41,7 @@ module.exports = withPlugins([
       transpileModules: ['expo-next-react-navigation'],
     },
   ],
-  withFonts,
   withImages,
-  // withBundleAnalyzer,
   ...(process.env.NODE_ENV === 'production'
     ? [withOffline, nextOfflineConfig]
     : [nextOfflineConfig]),

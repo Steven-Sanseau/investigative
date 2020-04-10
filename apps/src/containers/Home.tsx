@@ -1,32 +1,48 @@
 import React from 'react'
-import { Header } from 'src/components/Header'
 import { PostList } from 'src/components/posts/List'
-import { TopBar } from 'src/components/TopBar'
-import { Footer } from 'src/components/Footer'
-import { Layout } from 'src/components/Layout'
 import { Flex, Row, Column } from 'src/components/Grid'
 import { Main, Aside } from 'src/components/Elements'
 import { Sidebar } from 'src/components/Sidebar'
 import { Box } from 'src/components/Box'
+import { GetPostsQuery } from 'src/generated/graphql'
 
-export function Home() {
+export function Home({
+  initialPostsData,
+}: {
+  initialPostsData?: GetPostsQuery
+}) {
   return (
     <>
-      <TopBar />
-      <Layout>
-        <Header />
-        <Box overflow="hidden">
-          <Flex flexDirection="row">
-            <Main width={{ xs: 'full', lg: '9/12' }}>
-              <PostList />
+      <Box>
+        <Flex flexDirection={{ xs: 'column', md: 'row' }}>
+          <Box
+            width={{
+              xs: 'full',
+              sm: 'full',
+              md: '2/3',
+              lg: '3/4',
+              xl: '2/3',
+            }}
+          >
+            <Main>
+              <PostList initialPostsData={initialPostsData} />
             </Main>
-            <Aside width={{ xs: 'full', md: '3/12' }}>
+          </Box>
+          <Box
+            width={{
+              xs: 'full',
+              sm: 'full',
+              md: '1/3',
+              lg: '1/4',
+              xl: '1/3',
+            }}
+          >
+            <Aside>
               <Sidebar />
             </Aside>
-          </Flex>
-        </Box>
-      </Layout>
-      <Footer />
+          </Box>
+        </Flex>
+      </Box>
     </>
   )
 }

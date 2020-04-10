@@ -41,6 +41,7 @@ const responsiveProps = [
   'borderStyle',
   'borderTop',
   'boxShadow',
+  'boxSizing',
   'color',
   'color',
   'display',
@@ -68,9 +69,9 @@ const responsiveProps = [
   'height',
   'justifyContent',
   'layout',
-  'listStyle',
   'letterSpacing',
   'lineHeight',
+  'listStyle',
   'm',
   'maxWidth',
   'maxWidth',
@@ -81,19 +82,20 @@ const responsiveProps = [
   'mx',
   'my',
   'p',
-  'px',
-  'py',
   'pb',
   'pl',
   'position',
   'pr',
   'pt',
+  'px',
+  'py',
   'space',
   'textAlign',
   'textShadow',
   'textTransform',
   'typography',
   'width',
+  'minWidth',
 ]
 
 export function useViewportWidth(): number {
@@ -168,13 +170,10 @@ const StyledComponent = styled(Primitive)`
 interface ResponsiveProps {
   component: any
   displayName?: string
+  (...props: any): any
 }
-export const Responsive: React.FC<ResponsiveProps> = ({
-  component,
-  ...props
-}: ResponsiveProps) => {
+export const Responsive: any = ({ component, ...props }: any) => {
   const responsivedProps = useResponsiveProps(props)
-  // console.log('StyledComponent', StyledComponent)
 
   if (props.displayName) {
     StyledComponent.displayName = props.displayName

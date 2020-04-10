@@ -6,6 +6,7 @@ import Document, {
   DocumentContext,
 } from 'next/document'
 import React from 'react'
+import { API_URL } from 'src/config/config'
 
 class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -19,17 +20,10 @@ class CustomDocument extends Document {
     return (
       <html lang="en">
         <Head>
+          <link rel="preconnect" href={API_URL}></link>
+          <link rel="preconnect" href="https://fonts.googleapis.com/"></link>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/apple-touch-icon.png"
-          />
           <link rel="manifest" href="/static/manifest.json" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,400;1,700&family=Source+Serif+Pro&display=swap"
-            rel="stylesheet"
-          />
         </Head>
         <body>
           <Main />

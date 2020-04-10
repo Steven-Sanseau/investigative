@@ -38,5 +38,4 @@ web-report/
 .expo-shared/
 .now/
 .vscode/
-.env
-/public/service-worker.js
+.envout/
