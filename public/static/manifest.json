@@ -1,0 +1,12 @@
+{
+  "name": "Investigative",
+  "description": "Investigative Journalism Tanzania",
+  "short_name": "Investigation",
+  "lang": "en",
+  "orientation": "portrait",
+  "start_url": ".",
+  "icons": [],
+  "theme_color": "#4630EB",
+  "background_color": "#4630EB",
+  "display": "standalone"
+}

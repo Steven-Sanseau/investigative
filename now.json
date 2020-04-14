@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "^/service-worker.js$",
+      "dest": "/_next/static/service-worker.js",
+      "headers": {
+        "cache-control": "public, max-age=43200, immutable",
+        "Service-Worker-Allowed": "/"
+      }
+    }
+  ],
+  "env": {
+    "GHOST_API_URL": "@ghost_api_url",
+    "GHOST_CLIENT_KEY": "@ghost_client_key"
+  },
+  "build": {
+    "env": {
+      "GHOST_API_URL": "@ghost_api_url",
+      "GHOST_CLIENT_KEY": "@ghost_client_key"
+    },
+    "src": "next.config.js",
+    "use": "@now/next"
+  }
+}
