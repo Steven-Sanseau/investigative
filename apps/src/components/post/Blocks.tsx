@@ -3,6 +3,7 @@ import { H2, H1, H3, H4, H5, H6 } from 'src/components/Typography'
 import { UL, LI } from 'src/components/Elements'
 import { HR } from '@expo/html-elements'
 import { Text } from 'src/components/Text'
+import { GetPostBySlugQuery } from 'src/generated/graphql'
 
 function cleanContent(content: string): string {
   return content.replace(/<\/?[^>]+(>|$)/g, '')
@@ -82,10 +83,14 @@ const render = {
   CoreParagraphBlock,
 }
 
-export const RenderBlocks: React.FC = ({ blocks }) => {
+export const RenderBlocks = ({
+  data,
+}: {
+  data: GetPostBySlugQuery
+}): JSX.Element => {
   return (
     <>
-      {blocks.map((block, i) => {
+      {data?.post?.blocks.map((block, i) => {
         const Component = render[block.__typename]
 
         if (!Component) {

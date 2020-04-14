@@ -9,7 +9,6 @@ import { Layout } from 'src/components/Layout'
 const WrappedFooterLinks = styled(Box)`
   display: grid;
   grid-auto-flow: column;
-  /* grid-template-rows: repeat(4, 32px); */
 `
 
 const FooterWrapper = ({ ...props }) => (
@@ -26,7 +25,6 @@ export function Footer() {
             xs: 'repeat(2, 1fr)',
             lg: 'repeat(4, 1fr)',
           }}
-          borderTop="5px"
           borderStyle="solid"
           borderColor="dark"
         >

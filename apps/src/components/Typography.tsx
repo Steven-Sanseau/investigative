@@ -11,84 +11,98 @@ import React from 'react'
 import { Responsive } from 'src/utils/Responsive'
 import styled from 'styled-components/native'
 
-export function H1(props) {
+export const H1: React.FC<any> = (props) => {
   return (
     <Responsive
       component={EH1}
-      fontSize={6}
-      fontFamily="heading"
       color="grayDark"
+      fontFamily="heading"
+      fontSize={6}
+      fontWeight="700"
+      m={0}
+      p={0}
       {...props}
     />
   )
 }
 
-export function H2(props) {
+export const H2: React.FC<any> = (props) => {
   return (
     <Responsive
       component={EH2}
-      fontSize={{ xs: 4, lg: 4, xl: 2 }}
-      fontFamily="heading"
       color="grayDark"
+      fontFamily="heading"
+      fontSize={4}
+      fontWeight="700"
+      m={0}
+      p={0}
       {...props}
     />
   )
 }
 
-export function H3(props) {
+export const H3: React.FC<any> = (props) => {
   return (
     <Responsive
       component={EH3}
-      fontSize={{ xs: 3, lg: 4, xl: 2 }}
+      color="grayDark"
       fontFamily="heading"
+      fontSize={3}
+      m={0}
+      p={0}
       {...props}
     />
   )
 }
 
-export function H4(props) {
+export const H4: React.FC<any> = (props) => {
   return (
     <Responsive
       component={EH4}
-      fontSize={{ xs: 4, lg: 4, xl: 4 }}
-      fontFamily="heading"
-      textTransform="uppercase"
       color="grayDark"
+      fontFamily="heading"
+      fontSize={2}
+      m={0}
+      p={0}
+      textTransform="uppercase"
       {...props}
     />
   )
 }
-export function H5(props) {
+export const H5: React.FC<any> = (props) => {
   return (
     <Responsive
       component={EH5}
-      fontSize={{ xs: 4, lg: 4, xl: 4 }}
-      fontFamily="heading"
-      textTransform="uppercase"
       color="grayDark"
+      fontFamily="heading"
+      fontSize={1}
+      m={0}
+      p={0}
+      textTransform="uppercase"
       {...props}
     />
   )
 }
-export function H6(props) {
+export const H6: React.FC<any> = (props) => {
   return (
     <Responsive
       component={EH6}
-      fontSize={{ xs: 4, lg: 4, xl: 4 }}
-      fontFamily="heading"
-      textTransform="uppercase"
       color="grayDark"
+      fontFamily="heading"
+      fontSize={1}
+      textTransform="uppercase"
       {...props}
     />
   )
 }
 
-export function P(props) {
+export const P: React.FC<any> = (props) => {
   return (
     <Responsive
       component={EP}
-      fontSize={{ xs: 1 }}
       fontFamily="serif"
+      fontSize={1}
+      m={0}
       {...props}
     />
   )

@@ -1,18 +1,18 @@
 import React from 'react'
-import { Box } from 'src/components/Box'
+import { Box, PropsBox } from 'src/components/Box'
 
-export function Flex({ ...props }): JSX.Element {
-  return <Box flexWrap="wrap" display="flex" {...props} />
+export const Flex: React.FC<PropsBox> = ({ ...props }) => {
+  return <Box display="flex" {...props} />
 }
 
-export function Grid({ ...props }): JSX.Element {
+export const Grid: React.FC<PropsBox> = (props) => {
   return <Box display="grid" {...props} />
 }
 
-export function Column({ ...props }): JSX.Element {
-  return <Box flexDirection="column" {...props} />
+export const Column: React.FC<PropsBox> = (props) => {
+  return <Flex flexDirection="column" {...props} />
 }
 
-export function Row({ ...props }): JSX.Element {
-  return <Column flexDirection="row" {...props}></Column>
+export const Row: React.FC<PropsBox> = (props) => {
+  return <Flex flexDirection="row" {...props} />
 }

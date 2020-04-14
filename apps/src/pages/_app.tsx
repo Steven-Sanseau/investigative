@@ -7,10 +7,14 @@ import { ThemeProvider as ThemeProviderContext } from 'src/contexts/theme'
 import ErrorBoundary from 'react-error-boundary'
 import { createTheme } from 'src/themes/theme'
 import { useAsyncStorage } from 'src/utils/AsyncStorage'
+import { Footer } from 'src/components/Footer'
+import { Header } from 'src/components/Header'
+import { Layout } from 'src/components/Layout'
+import { TopBar } from 'src/components/TopBar'
+import { loadFonts } from 'src/utils/Fonts'
 
-export default function App({ Component, router = {}, pageProps }: any) {
+export default ({ Component, pageProps }: any): JSX.Element => {
   const themeColor = '#4630eb'
-
   const injectMeta = [
     {
       key: 'viewport',
@@ -27,18 +31,15 @@ export default function App({ Component, router = {}, pageProps }: any) {
       content: themeColor,
     },
   ]
-
   const siteTitle = `Investigative`
 
-  const myErrorHandler = (
-    error: Error,
-    componentStack: string,
-  ): JSX.Element => {
-    return <Text>Error with APP</Text>
-  }
+  const myErrorHandler = (error: Error): JSX.Element => (
+    <Text>Error with APP: {error.message}</Text>
+  )
 
   const [themeName, setThemeName] = useAsyncStorage('theme', 'dark')
   const theme = createTheme(themeName)
+  React.useEffect(() => loadFonts(), [])
 
   return (
     <>
@@ -58,7 +59,12 @@ export default function App({ Component, router = {}, pageProps }: any) {
               setThemeName: setThemeName,
             }}
           >
-            <Component {...pageProps} />
+            <TopBar />
+            <Layout>
+              <Header initialSettingsData={pageProps?.initialSettingsData} />
+              <Component {...pageProps} />
+            </Layout>
+            <Footer />
           </ThemeProviderContext>
         </ThemeProvider>
       </ErrorBoundary>

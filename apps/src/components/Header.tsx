@@ -72,15 +72,15 @@ const MenuLink: React.FC<PropsMenuLink> = ({ link }: PropsMenuLink) => {
 }
 
 export function Header({
-  initialHeaderData,
+  initialSettingsData,
 }: {
-  initialHeaderData?: any
+  initialSettingsData?: any
 }): JSX.Element {
   const { data }: { data?: GetSettingsQuery } = useSWR(
     'getSettings',
     (query) => fetcher(query),
     {
-      initialData: initialHeaderData,
+      initialData: initialSettingsData,
     },
   )
 

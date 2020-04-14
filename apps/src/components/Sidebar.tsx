@@ -1,12 +1,15 @@
 import React from 'react'
-import { Box } from 'src/components/Box'
 import { Text } from 'src/components/Text'
-import { Flex } from 'src/components/Grid'
+import { Flex, Row } from 'src/components/Grid'
 
 export function Sidebar() {
   return (
-    // <Box>
-    <Text>Sidebar</Text>
-    // </Box>
+    <Flex>
+      <Text>Sidebar</Text>
+      <Row justifyContent="space-around">
+        <Text>gauche</Text>
+        <Text>droite</Text>
+      </Row>
+    </Flex>
   )
 }

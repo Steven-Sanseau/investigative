@@ -13232,11 +13232,49 @@ export type GetPostsQuery = { __typename?: 'RootQuery' } & {
               node?: Maybe<
                 { __typename?: 'Post' } & Pick<
                   Post,
-                  'id' | 'title' | 'slug' | 'date'
+                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
                 > & {
                     author?: Maybe<{ __typename?: 'User' } & Pick<User, 'name'>>
+                    categories?: Maybe<
+                      { __typename?: 'PostToCategoryConnection' } & {
+                        nodes?: Maybe<
+                          Array<
+                            Maybe<
+                              { __typename?: 'Category' } & Pick<
+                                Category,
+                                'slug' | 'name'
+                              >
+                            >
+                          >
+                        >
+                      }
+                    >
+                    featuredImage?: Maybe<
+                      { __typename?: 'MediaItem' } & Pick<
+                        MediaItem,
+                        'altText' | 'sourceUrl' | 'caption' | 'description'
+                      >
+                    >
                   }
               >
+            }
+          >
+        >
+      >
+    }
+  >
+}
+
+export type GetPostsSlugQueryVariables = {}
+
+export type GetPostsSlugQuery = { __typename?: 'RootQuery' } & {
+  posts?: Maybe<
+    { __typename?: 'RootQueryToPostConnection' } & {
+      edges?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'RootQueryToPostConnectionEdge' } & {
+              node?: Maybe<{ __typename?: 'Post' } & Pick<Post, 'slug'>>
             }
           >
         >
@@ -13381,6 +13419,31 @@ export const GetPostsDocument = gql`
             name
           }
           date
+          categories {
+            nodes {
+              slug
+              name
+            }
+          }
+          commentCount
+          excerpt(format: RENDERED)
+          featuredImage {
+            altText
+            sourceUrl(size: MEDIUM)
+            caption(format: RAW)
+            description(format: RAW)
+          }
+        }
+      }
+    }
+  }
+`
+export const GetPostsSlugDocument = gql`
+  query getPostsSlug {
+    posts: posts {
+      edges {
+        node {
+          slug
         }
       }
     }
@@ -13445,6 +13508,16 @@ export function getSdk(
     getPosts(variables?: GetPostsQueryVariables): Promise<GetPostsQuery> {
       return withWrapper(() =>
         client.request<GetPostsQuery>(print(GetPostsDocument), variables),
+      )
+    },
+    getPostsSlug(
+      variables?: GetPostsSlugQueryVariables,
+    ): Promise<GetPostsSlugQuery> {
+      return withWrapper(() =>
+        client.request<GetPostsSlugQuery>(
+          print(GetPostsSlugDocument),
+          variables,
+        ),
       )
     },
     getSettings(
