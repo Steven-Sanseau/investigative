@@ -9,7 +9,6 @@ import { Layout } from 'src/components/Layout'
 const WrappedFooterLinks = styled(Box)`
   display: grid;
   grid-auto-flow: column;
-  /* grid-template-rows: repeat(4, 32px); */
 `
 
 const FooterWrapper = ({ ...props }) => (

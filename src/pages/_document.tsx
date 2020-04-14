@@ -9,14 +9,14 @@ import React from 'react'
 import { API_URL } from 'src/config/config'
 
 class CustomDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
+  static async getInitialProps(ctx: DocumentContext): Promise<any> {
     const result = await getInitialProps(ctx)
     return {
       ...result,
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <html lang="en">
         <Head>

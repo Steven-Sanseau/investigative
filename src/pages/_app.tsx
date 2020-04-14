@@ -13,7 +13,7 @@ import { Layout } from 'src/components/Layout'
 import { TopBar } from 'src/components/TopBar'
 import { loadFonts } from 'src/utils/Fonts'
 
-export default function App({ Component, router = {}, pageProps }: any) {
+export default ({ Component, pageProps }: any): JSX.Element => {
   const themeColor = '#4630eb'
   const injectMeta = [
     {

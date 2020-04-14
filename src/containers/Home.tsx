@@ -1,16 +1,15 @@
 import React from 'react'
 import { PostList } from 'src/components/posts/List'
-import { Flex, Row, Column } from 'src/components/Grid'
+import { Flex } from 'src/components/Grid'
 import { Main, Aside } from 'src/components/Elements'
 import { Sidebar } from 'src/components/Sidebar'
 import { Box } from 'src/components/Box'
 import { GetPostsQuery } from 'src/generated/graphql'
 
-export function Home({
-  initialPostsData,
-}: {
+interface PropsHome {
   initialPostsData?: GetPostsQuery
-}) {
+}
+export const Home: React.FC<PropsHome> = ({ initialPostsData }: PropsHome) => {
   return (
     <>
       <Box>
