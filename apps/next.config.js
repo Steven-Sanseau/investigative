@@ -42,7 +42,6 @@ module.exports = withPlugins([
     },
   ],
   withImages,
-  // withBundleAnalyzer,
   ...(process.env.NODE_ENV === 'production'
     ? [withOffline, nextOfflineConfig]
     : [nextOfflineConfig]),

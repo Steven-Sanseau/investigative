@@ -34,9 +34,15 @@ web-report/
 /.pnp
 .pnp.js
 # @end @expo/next-adapter
+
+#next
 .next/
-.expo-shared/
 .now/
-.vscode/
+
+.expo-shared/
 .env
-/public/service-worker.js
+out/
+
+#vscode
+.vscode/
+models.json
