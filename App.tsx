@@ -24,8 +24,8 @@ export default function Index(): JSX.Element {
   React.useEffect(() => {
     async function loadApp(): Promise<void> {
       await Font.loadAsync({
-        'Libre Franklin': require('src/assets/fonts/Libre_Franklin/LibreFranklin-Bold.ttf'),
-        'Source Serif Pro': require('src/assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf'),
+        'Libre Franklin': require('./assets/fonts/Libre_Franklin/LibreFranklin-Bold.ttf'),
+        'Source Serif Pro': require('./assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf'),
       })
 
       setAppLoaded(true)

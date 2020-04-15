@@ -46,3 +46,4 @@ out/
 #vscode
 .vscode/
 models.json
+investigative.code-workspace
