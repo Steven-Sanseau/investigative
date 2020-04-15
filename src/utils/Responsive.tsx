@@ -135,32 +135,27 @@ export function useBreakpoint() {
   }, [DEFAULT_BREAKPOINTS, width])
 }
 
-export function useResponsiveProps(props) {
+export const useResponsiveProps = (props): object => {
   const current = useBreakpoint()
   if (props.debug) {
     console.log({ current, props })
   }
-  const responsivedProps = Object.entries(props).reduce(
-    (acc, [propName, value]) => {
-      if (!responsiveProps.includes(propName)) {
-        return { ...acc, [propName]: value }
+  return Object.entries(props).reduce((acc, [propName, value]) => {
+    if (!responsiveProps.includes(propName)) {
+      return { ...acc, [propName]: value }
+    }
+    if (typeof value !== 'object') {
+      return { ...acc, [propName]: value }
+    }
+    if (value[current] === undefined) {
+      return {
+        ...acc,
+        [propName]: value[Object.keys(value)[Object.keys(value).length - 1]],
       }
-      if (typeof value !== 'object') {
-        return { ...acc, [propName]: value }
-      }
-      if (value[current] === undefined) {
-        return {
-          ...acc,
-          [propName]: value[Object.keys(value)[Object.keys(value).length - 1]],
-        }
-      }
+    }
 
-      return { ...acc, [propName]: value[current] }
-    },
-    [],
-  )
-
-  return responsivedProps
+    return { ...acc, [propName]: value[current] }
+  }, [])
 }
 
 const StyledComponent = styled(Primitive)`
@@ -173,7 +168,7 @@ interface ResponsiveProps {
   (...props: any): any
 }
 export const Responsive: any = ({ component, ...props }: any) => {
-  const responsivedProps = useResponsiveProps(props)
+  const responsiveProps = useResponsiveProps(props)
 
   if (props.displayName) {
     StyledComponent.displayName = props.displayName
@@ -182,7 +177,7 @@ export const Responsive: any = ({ component, ...props }: any) => {
     <StyledComponent
       css={{ ResponsiveCss }}
       as={component}
-      {...responsivedProps}
+      {...responsiveProps}
     />
   )
 }

@@ -5,8 +5,8 @@ import { UniversalLink } from 'src/components/UniversalLink'
 import { Flex } from 'src/components/Grid'
 import { Header as HeaderWrapper } from 'src/components/Elements'
 import useSWR from 'swr'
-import { fetcher } from 'src/utils/Fetcher'
 import { GetSettingsQuery, MenuItem } from 'src/generated/graphql'
+import { getSettings } from 'src/graphql/settings'
 
 const getUniversalUrl = (
   link: MenuItem,
@@ -76,13 +76,9 @@ export function Header({
 }: {
   initialSettingsData?: any
 }): JSX.Element {
-  const { data }: { data?: GetSettingsQuery } = useSWR(
-    'getSettings',
-    (query) => fetcher(query),
-    {
-      initialData: initialSettingsData,
-    },
-  )
+  const { data }: { data?: GetSettingsQuery } = useSWR(getSettings, {
+    initialData: initialSettingsData,
+  })
 
   return (
     <HeaderWrapper display="flex">

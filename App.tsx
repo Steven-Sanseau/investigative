@@ -14,6 +14,10 @@ import { Text } from 'src/components/Text'
 import { ThemeProvider as ThemeProviderContext } from 'src/contexts/theme'
 import { createTheme } from 'src/themes/theme'
 import { useAsyncStorage } from 'src/utils/AsyncStorage'
+import { I18nInitializer } from 'src/contexts/I18n'
+import { GrowlProvider } from 'src/contexts/Growl'
+import { SWRConfig } from 'swr'
+import { fetcher } from 'src/utils/Fetcher'
 
 export default function Index(): JSX.Element {
   const colorScheme = useColorScheme()
@@ -56,23 +60,32 @@ export default function Index(): JSX.Element {
 
   return (
     <ErrorBoundary onError={myErrorHandler}>
-      <SafeAreaProvider>
-        <ThemeProvider theme={theme}>
-          <AppearanceProvider>
-            {Platform.OS === 'ios' && (
-              <StatusBar animated barStyle={getStatusBarStyle(themeName)} />
-            )}
-            <ThemeProviderContext
-              value={{
-                name: themeName,
-                setThemeName: setThemeName,
-              }}
-            >
-              {appLoaded && <Navigation />}
-            </ThemeProviderContext>
-          </AppearanceProvider>
-        </ThemeProvider>
-      </SafeAreaProvider>
+      <SWRConfig
+        value={{
+          refreshInterval: 3000,
+          fetcher,
+        }}
+      >
+        <SafeAreaProvider>
+          <ThemeProvider theme={theme}>
+            <AppearanceProvider>
+              {Platform.OS === 'ios' && (
+                <StatusBar animated barStyle={getStatusBarStyle(themeName)} />
+              )}
+              <ThemeProviderContext
+                value={{
+                  name: themeName,
+                  setThemeName: setThemeName,
+                }}
+              >
+                <I18nInitializer>
+                  <GrowlProvider>{appLoaded && <Navigation />}</GrowlProvider>
+                </I18nInitializer>
+              </ThemeProviderContext>
+            </AppearanceProvider>
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </SWRConfig>
     </ErrorBoundary>
   )
 }

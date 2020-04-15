@@ -13,7 +13,6 @@ import Tag from 'src/pages/tag/[slug]'
 import Tags from 'src/pages/tags'
 
 const Stack = createStackNavigator()
-
 const Tab = createBottomTabNavigator()
 
 const TabLabel = (name) => ({ focused }) => (
@@ -48,9 +47,9 @@ export function PostStack() {
 export function AuthorStack() {
   return (
     <Stack.Navigator headerMode="screen">
-      {/* <Stack.Screen component={MoreScreen} name="more" />
+      <Stack.Screen component={MoreScreen} name="more" />
       <Stack.Screen component={Tags} name="tags" />
-    <Stack.Screen component={Tag} name="tag" /> */}
+      <Stack.Screen component={Tag} name="tag" />
     </Stack.Navigator>
   )
 }

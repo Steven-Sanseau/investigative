@@ -8,7 +8,7 @@ export default function Tags({ tags }) {
   const { getParam } = useRouting()
   const slug = getParam('slug')
 
-  // const { data: tags } = useSWR(`${slug}`, getTags, {
+  // const { data:  } = useSWR(`${slug}`, getTags, {
   //   initialData,
   //   suspense: true,
   // })
