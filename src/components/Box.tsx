@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import { View } from 'react-native'
 import { Responsive } from '../utils/Responsive'
@@ -14,7 +15,9 @@ export interface PropsBox
     SpaceProps,
     LayoutProps,
     BackgroundProps,
-    FlexboxProps {}
-export const Box: React.FC<PropsBox> = function Box(props: PropsBox) {
-  return <Responsive component={View} {...props} />
+    FlexboxProps {
+  ref: any
 }
+export const Box = React.forwardRef((props: PropsBox, ref) => {
+  return <Responsive ref={ref} component={View} {...props} />
+})

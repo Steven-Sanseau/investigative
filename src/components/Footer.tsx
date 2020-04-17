@@ -5,6 +5,7 @@ import { Responsive } from 'src/utils/Responsive'
 import { Text } from 'src/components/Text'
 import { Box } from 'src/components/Box'
 import { Layout } from 'src/components/Layout'
+import { T, useI18n } from 'src/contexts/I18n'
 
 const WrappedFooterLinks = styled(Box)`
   display: grid;
@@ -16,6 +17,10 @@ const FooterWrapper = ({ ...props }) => (
 )
 
 export function Footer() {
+  const { setLocale } = useI18n()
+  const changeLangue = React.useCallback(() => {
+    return setLocale('en')
+  }, [])
   return (
     <FooterWrapper bg="gray.1">
       <Layout>
@@ -47,8 +52,8 @@ export function Footer() {
         </WrappedFooterLinks>
         <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
           <Box>
-            <Text>Privacy Policy Terms of Use</Text>
-            <Text>© 2019 Jane Doe</Text>
+            <Text onPress={changeLangue}>Privacy Policy Terms of Use</Text>
+            <T id="footer.terms" />
           </Box>
         </Box>
       </Layout>

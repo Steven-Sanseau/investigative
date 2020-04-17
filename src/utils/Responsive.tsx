@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Dimensions } from 'react-native'
 import { styled, css, Primitive } from './Styled'
@@ -135,32 +137,27 @@ export function useBreakpoint() {
   }, [DEFAULT_BREAKPOINTS, width])
 }
 
-export function useResponsiveProps(props) {
+export const useResponsiveProps = (props): object => {
   const current = useBreakpoint()
   if (props.debug) {
     console.log({ current, props })
   }
-  const responsivedProps = Object.entries(props).reduce(
-    (acc, [propName, value]) => {
-      if (!responsiveProps.includes(propName)) {
-        return { ...acc, [propName]: value }
+  return Object.entries(props).reduce((acc, [propName, value]) => {
+    if (!responsiveProps.includes(propName)) {
+      return { ...acc, [propName]: value }
+    }
+    if (typeof value !== 'object') {
+      return { ...acc, [propName]: value }
+    }
+    if (value[current] === undefined) {
+      return {
+        ...acc,
+        [propName]: value[Object.keys(value)[Object.keys(value).length - 1]],
       }
-      if (typeof value !== 'object') {
-        return { ...acc, [propName]: value }
-      }
-      if (value[current] === undefined) {
-        return {
-          ...acc,
-          [propName]: value[Object.keys(value)[Object.keys(value).length - 1]],
-        }
-      }
+    }
 
-      return { ...acc, [propName]: value[current] }
-    },
-    [],
-  )
-
-  return responsivedProps
+    return { ...acc, [propName]: value[current] }
+  }, [])
 }
 
 const StyledComponent = styled(Primitive)`
@@ -172,17 +169,17 @@ interface ResponsiveProps {
   displayName?: string
   (...props: any): any
 }
-export const Responsive: any = ({ component, ...props }: any) => {
-  const responsivedProps = useResponsiveProps(props)
+export const Responsive: any = React.forwardRef(
+  ({ component, ...props }: ResponsiveProps, ref) => {
+    const responsiveProps = useResponsiveProps(props)
 
-  if (props.displayName) {
-    StyledComponent.displayName = props.displayName
-  }
-  return (
-    <StyledComponent
-      css={{ ResponsiveCss }}
-      as={component}
-      {...responsivedProps}
-    />
-  )
-}
+    return (
+      <StyledComponent
+        ref={ref}
+        css={{ ResponsiveCss }}
+        as={component}
+        {...responsiveProps}
+      />
+    )
+  },
+)

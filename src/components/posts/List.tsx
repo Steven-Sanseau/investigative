@@ -7,9 +7,10 @@ import { H2, P } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import styled from 'styled-components/native'
 import useSWR from 'swr'
-import { fetcher } from 'src/utils/Fetcher'
+
 import { GetPostsQuery } from 'src/generated/graphql'
 import { Flex } from 'src/components/Grid'
+import { getPosts } from 'src/graphql/posts'
 
 const Title = styled(H2)`
   text-transform: capitalize;
@@ -30,17 +31,12 @@ export const PostList: React.FC<PropsPostList> = ({
   initialPostsData,
 }: PropsPostList) => {
   const now = new Date()
-  const { data }: { data?: GetPostsQuery } = useSWR(
-    'getPosts',
-    (query) => fetcher(query),
-    {
-      initialData: initialPostsData || null,
-    },
-  )
-
+  const { data }: { data?: GetPostsQuery } = useSWR(getPosts, {
+    initialData: initialPostsData || null,
+  })
   return (
     <Flex>
-      {data?.posts.edges.map(({ node: post }, i) => (
+      {data.posts.edges.map(({ node: post }, i) => (
         <Box width="full" key={i}>
           <Flex flexWrap="wrap" flexDirection="row" justifyContent="flex-end">
             {post.featuredImage && (

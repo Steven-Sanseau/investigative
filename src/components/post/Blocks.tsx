@@ -1,103 +1,149 @@
-import React from 'react'
-import { H2, H1, H3, H4, H5, H6 } from 'src/components/Typography'
-import { UL, LI } from 'src/components/Elements'
-import { HR } from '@expo/html-elements'
+import React, { ReactChildren, ReactElement } from 'react'
+import { Dimensions } from 'react-native'
+import { P, H1, H2, H3, H4, H5, H6 } from 'src/components/Typography'
+import { UL, LI, HR, Pre } from 'src/components/Elements'
 import { Text } from 'src/components/Text'
 import { GetPostBySlugQuery } from 'src/generated/graphql'
+import { Box } from 'src/components/Box'
+import { parseDOM } from 'htmlparser2'
+import { UniversalLink } from 'src/components/UniversalLink'
+import { styled } from 'src/utils/Styled'
+import { Image } from 'src/components/Image'
+import ErrorBoundary from 'react-error-boundary'
+import { DropCaps } from 'src/components/DropCaps'
 
-function cleanContent(content: string): string {
-  return content.replace(/<\/?[^>]+(>|$)/g, '')
+interface LinkProps {
+  href: string
+  children: ReactChildren
 }
-
-function GetComponentHeading({
-  level,
+const Link: React.FC<LinkProps> = ({
+  href,
   ...props
-}: {
+}: LinkProps): ReactElement => (
+  <UniversalLink as={Text} routeName={href} color="blue" {...props} />
+)
+
+interface ImageProps {
+  src: string
+  alt: string
+}
+const Img: React.FC<ImageProps> = ({ src, alt }: ImageProps): ReactElement => {
+  const dimensions = Dimensions.get('window')
+  const imageHeight = Math.round((dimensions.width * 9) / 16)
+  const imageWidth = dimensions.width
+  return (
+    <Image
+      source={{ uri: src }}
+      mx={{ xs: 'auto', md: 0 }}
+      height={imageHeight}
+      width={imageWidth}
+      loading="lazy"
+      resizeMode="contain"
+      alt={alt}
+    />
+  )
+}
+
+interface ParagraphProps {
+  index: number
   level: number
-  children: any
-}): JSX.Element {
-  switch (level) {
-    case 1:
-      return <H1 {...props} />
-    case 2:
-      return <H2 {...props} />
-    case 3:
-      return <H3 {...props} />
-    case 4:
-      return <H4 {...props} />
-    case 5:
-      return <H5 {...props} />
-    case 6:
-      return <H6 {...props} />
+}
+function Paragraph({
+  index,
+  level,
+  children,
+}: React.PropsWithChildren<ParagraphProps>): ReactElement {
+  const childrenContent = children
+  console.log('index,level', index, level)
+  if (level === 0) {
+    console.log('level', index)
+    return (
+      <DropCaps>{childrenContent.toString().slice(0, 1)}</DropCaps> && (
+        <P>{childrenContent.toString().slice(1, 0)}</P>
+      )
+    )
   }
+  return <P>{children}</P>
 }
 
-function CoreHeadingBlock({
-  attributes: { level, content },
+const transform = ({
+  node,
+  wrapText,
+  index,
+  level,
 }: {
-  attributes: { level: number; content: string }
-}): JSX.Element {
-  return (
-    <GetComponentHeading level={level}>
-      {cleanContent(content)}
-    </GetComponentHeading>
-  )
+  node
+  wrapText
+  index
+  level
+}): ReactElement => {
+  const getChildren = (node, wrapText = true): [ReactElement] => {
+    return node.children?.map((child) =>
+      transform({ node: child, wrapText, index, level: level + 1 }),
+    )
+  }
+
+  const Elements = {
+    p: Paragraph,
+    hr: HR,
+    h1: H1,
+    h2: H2,
+    h3: H3,
+    h4: H4,
+    h5: H5,
+    h6: H6,
+    pre: Pre,
+    li: LI,
+    ul: UL,
+    em: Text,
+    div: Box,
+    blockquote: Text,
+    span: Text,
+    img: Img,
+    a: Link,
+  }
+
+  if (node.type === 'text') {
+    if (wrapText) {
+      return <Text>{node.data.replace(/\n|\r/g, '')}</Text>
+    }
+    return node.data.trim()
+  }
+  if (node.type === 'tag') {
+    const Element = Elements[node.name]
+    return Element ? (
+      <Element {...node.attribs} index={index} level={level}>
+        {getChildren(node)}
+      </Element>
+    ) : null
+  }
+
+  return null
 }
 
-function CoreQuoteBlock() {
-  return <></>
-}
-
-function CoreSeparatorBlock() {
-  return <HR />
-}
-
-function CoreListBlock({
-  attributes: { values },
-}: {
-  attributes: { level: number; values: string }
-}): JSX.Element {
-  const elements = values.split('</li>')
-
-  return (
-    <UL>
-      {elements?.map((element) => (
-        <LI>{cleanContent(element)}</LI>
-      ))}
-    </UL>
-  )
-}
-
-function CoreParagraphBlock({
-  attributes: { content },
-}: {
-  attributes: { content: string }
-}): JSX.Element {
-  return <Text>{cleanContent(content)}</Text>
-}
-
-const render = {
-  CoreListBlock,
-  CoreHeadingBlock,
-  CoreSeparatorBlock,
-  CoreParagraphBlock,
-}
+const Blocks = styled(Box)``
 
 export const RenderBlocks = ({
   data,
 }: {
   data: GetPostBySlugQuery
 }): JSX.Element => {
-  return (
-    <>
-      {data?.post?.blocks.map((block, i) => {
-        const Component = render[block.__typename]
+  const nodes = React.useMemo(
+    () =>
+      parseDOM(data?.post?.content)
+        .map((node, index) =>
+          transform({ node, wrapText: true, index, level: 0 }),
+        )
+        .filter(Boolean),
+    [data],
+  )
 
-        if (!Component) {
-          return null
-        }
-        return <Component {...block} key={i} />
-      })}
-    </>
+  return (
+    <Blocks width="3/4" mx="auto">
+      <ErrorBoundary onError={console.log}>
+        <Text>ok</Text>
+        {nodes?.map((Node) => Node)}
+      </ErrorBoundary>
+    </Blocks>
   )
 }

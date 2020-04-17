@@ -9,11 +9,8 @@ import { Text } from 'src/components/Text'
 import { WebWiewScreen } from 'src/components/Webview'
 import Index from 'src/pages/index'
 import Post from 'src/pages/post/[slug]'
-import Tag from 'src/pages/tag/[slug]'
-import Tags from 'src/pages/tags'
 
 const Stack = createStackNavigator()
-
 const Tab = createBottomTabNavigator()
 
 const TabLabel = (name) => ({ focused }) => (
@@ -26,15 +23,6 @@ const TabLabel = (name) => ({ focused }) => (
 const TabIcon = (name) => ({ focused }) => (
   <TabBarIcon color={focused ? 'primary' : 'grayDark'} name={name} />
 )
-
-export function More() {
-  return (
-    <Stack.Navigator headerMode="screen">
-      <Stack.Screen component={Tags} name="tags" />
-      <Stack.Screen component={Tag} name="tag" />
-    </Stack.Navigator>
-  )
-}
 
 export function PostStack() {
   return (
@@ -50,7 +38,7 @@ export function AuthorStack() {
     <Stack.Navigator headerMode="screen">
       {/* <Stack.Screen component={MoreScreen} name="more" />
       <Stack.Screen component={Tags} name="tags" />
-    <Stack.Screen component={Tag} name="tag" /> */}
+      <Stack.Screen component={Tag} name="tag" /> */}
     </Stack.Navigator>
   )
 }
@@ -92,7 +80,7 @@ export function MainTabs() {
           tabBarLabel: TabLabel('More'),
         }}
         name="more"
-        component={More}
+        component={Main}
       />
     </Tab.Navigator>
   )

@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
+export const ThemeContext = React.createContext<object | null>(null)
 
-export const ThemeContext = React.createContext(null)
-
-export function ThemeProvider({ children, value }) {
+interface ThemeProviderProps {
+  value: object
+}
+export const ThemeProvider = ({
+  children,
+  value,
+}: React.PropsWithChildren<ThemeProviderProps>): ReactElement => {
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
-export function useTheme() {
+export const useTheme = () => {
   return React.useContext(ThemeContext)
 }

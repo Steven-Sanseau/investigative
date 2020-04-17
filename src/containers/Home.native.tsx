@@ -6,11 +6,13 @@ import { Sidebar } from 'src/components/Sidebar'
 import { Box } from 'src/components/Box'
 import { Main, Aside } from 'src/components/Elements'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { GrowlMessage } from 'src/components/Growl'
 
-export function Home() {
+export const Home: React.FC = () => {
   return (
     <CollapsibleHeader>
       <SafeAreaView>
+        <GrowlMessage />
         <Box overflow="hidden">
           <Flex flexDirection="row">
             <Main width={{ xs: 'full', lg: '9/12' }}>

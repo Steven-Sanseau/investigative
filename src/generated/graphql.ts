@@ -9,9 +9,6 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  BlockJsonArray: any
-  BlockAttributesArray: any
-  BlockAttributesObject: any
 }
 
 /** The root entry point into the Graph */
@@ -22,8 +19,6 @@ export type RootQuery = {
    * @deprecated
    */
   allSettings?: Maybe<Settings>
-  /** @deprecated  */
-  blocksBy?: Maybe<Array<Maybe<Block>>>
   /**
    * Connection between the RootQuery type and the RootQuery type
    * @deprecated
@@ -160,11 +155,6 @@ export type RootQuery = {
    * @deprecated
    */
   posts?: Maybe<RootQueryToPostConnection>
-  /**
-   * Connection between the RootQuery type and the RootQuery type
-   * @deprecated
-   */
-  postsWithBlocks?: Maybe<PostsWithBlocksConnection>
   /** @deprecated  */
   readingSettings?: Maybe<ReadingSettings>
   /**
@@ -239,11 +229,6 @@ export type RootQuery = {
   viewer?: Maybe<User>
   /** @deprecated  */
   writingSettings?: Maybe<WritingSettings>
-}
-
-/** The root entry point into the Graph */
-export type RootQueryBlocksByArgs = {
-  json?: Maybe<Scalars['String']>
 }
 
 /** The root entry point into the Graph */
@@ -440,14 +425,6 @@ export type RootQueryPostsArgs = {
 }
 
 /** The root entry point into the Graph */
-export type RootQueryPostsWithBlocksArgs = {
-  first?: Maybe<Scalars['Int']>
-  last?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  before?: Maybe<Scalars['String']>
-}
-
-/** The root entry point into the Graph */
 export type RootQueryRevisionsArgs = {
   first?: Maybe<Scalars['Int']>
   last?: Maybe<Scalars['Int']>
@@ -622,25 +599,661 @@ export type Settings = {
   writingSettingsUseSmilies?: Maybe<Scalars['Boolean']>
 }
 
-/** Gutenberg block interface */
-export type Block = {
-  /** Inner blocks. */
-  innerBlocks: Array<Maybe<Block>>
-  /** Block validation assumes an idempotent operation from source block to serialized block */
-  isValid: Scalars['Boolean']
-  /** Name of the block. */
-  name: Scalars['String']
-  /** Original HTML content. */
-  originalContent: Scalars['String']
-  /** Parent post. */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /** Parent post id. */
-  parentId?: Maybe<Scalars['Int']>
-  /** Original HTML content with inner blocks. */
-  saveContent: Scalars['String']
+/** Arguments for filtering the RootQueryToCategoryConnection connection */
+export type RootQueryToCategoryConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: Maybe<Scalars['String']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: Maybe<Scalars['Int']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: Maybe<Scalars['Boolean']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: Maybe<Scalars['String']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: Maybe<Scalars['Boolean']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: Maybe<Scalars['Boolean']>
+  /** Array of term ids to include. Default empty array. */
+  include?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: Maybe<Scalars['String']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: Maybe<Scalars['Boolean']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: Maybe<Scalars['Int']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: Maybe<Scalars['String']>
+  /** Default false. If true, only the items connected to the source item will be returned. If false, all items will be returned regardless of connection to the source */
+  shouldOnlyIncludeConnectedItems?: Maybe<Scalars['Boolean']>
+  /** Default false. If true, the connection will be output in a flat list instead of the hierarchical list. So child terms will be output in the same level as the parent terms */
+  shouldOutputInFlatList?: Maybe<Scalars['Boolean']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: Maybe<Scalars['Boolean']>
 }
 
-export type PostObjectTypesWithBlocksUnion = Post | Page
+/** Options for ordering the connection by */
+export enum TermObjectsConnectionOrderbyEnum {
+  Count = 'COUNT',
+  Description = 'DESCRIPTION',
+  Name = 'NAME',
+  Slug = 'SLUG',
+  TermGroup = 'TERM_GROUP',
+  TermId = 'TERM_ID',
+  TermOrder = 'TERM_ORDER',
+}
+
+/** Connection between the RootQuery type and the RootQuery type */
+export type RootQueryToCategoryConnection = {
+  __typename?: 'RootQueryToCategoryConnection'
+  /**
+   * Edges for the RootQueryToCategoryConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<RootQueryToCategoryConnectionEdge>>>
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Category>>>
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>
+}
+
+/** An edge in a connection */
+export type RootQueryToCategoryConnectionEdge = {
+  __typename?: 'RootQueryToCategoryConnectionEdge'
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Category>
+}
+
+/** The category type */
+export type Category = Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'Category'
+    /**
+     * The ancestors of the object
+     * @deprecated
+     */
+    ancestors?: Maybe<Array<Maybe<Category>>>
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    categoryId?: Maybe<Scalars['Int']>
+    /**
+     * Connection between the category type and the category type
+     * @deprecated
+     */
+    children?: Maybe<CategoryToCategoryConnection>
+    /**
+     * The number of objects connected to the object
+     * @deprecated
+     */
+    count?: Maybe<Scalars['Int']>
+    /**
+     * Identifies the primary key from the database.
+     * @deprecated
+     */
+    databaseId: Scalars['Int']
+    /**
+     * The description of the object
+     * @deprecated
+     */
+    description?: Maybe<Scalars['String']>
+    /**
+     * The globally unique ID for the object
+     * @deprecated
+     */
+    id: Scalars['ID']
+    /**
+     * Whether the object is restricted from the current viewer
+     * @deprecated
+     */
+    isRestricted?: Maybe<Scalars['Boolean']>
+    /**
+     * The link to the term
+     * @deprecated
+     */
+    link?: Maybe<Scalars['String']>
+    /**
+     * The human friendly name of the object.
+     * @deprecated
+     */
+    name?: Maybe<Scalars['String']>
+    /**
+     * The parent object
+     * @deprecated
+     */
+    parent?: Maybe<Category>
+    /**
+     * Connection between the category type and the category type
+     * @deprecated
+     */
+    posts?: Maybe<CategoryToPostConnection>
+    /**
+     * An alphanumeric identifier for the object unique to its type.
+     * @deprecated
+     */
+    slug?: Maybe<Scalars['String']>
+    /**
+     * Connection between the category type and the category type
+     * @deprecated
+     */
+    taxonomy?: Maybe<CategoryToTaxonomyConnection>
+    /**
+     * The ID of the term group that this term object belongs to
+     * @deprecated
+     */
+    termGroupId?: Maybe<Scalars['Int']>
+    /**
+     * The taxonomy ID that the object is associated with
+     * @deprecated
+     */
+    termTaxonomyId?: Maybe<Scalars['Int']>
+    /**
+     * The unique resource identifier path
+     * @deprecated
+     */
+    uri: Scalars['String']
+  }
+
+/** The category type */
+export type CategoryChildrenArgs = {
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  before?: Maybe<Scalars['String']>
+  where?: Maybe<CategoryToCategoryConnectionWhereArgs>
+}
+
+/** The category type */
+export type CategoryPostsArgs = {
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  before?: Maybe<Scalars['String']>
+  where?: Maybe<CategoryToPostConnectionWhereArgs>
+}
+
+/** An object with an ID */
+export type Node = {
+  /** The globally unique ID for the object */
+  id: Scalars['ID']
+}
+
+/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
+export type TermNode = {
+  /** The number of objects connected to the object */
+  count?: Maybe<Scalars['Int']>
+  /** Identifies the primary key from the database. */
+  databaseId: Scalars['Int']
+  /** The description of the object */
+  description?: Maybe<Scalars['String']>
+  /** Unique identifier for the term */
+  id: Scalars['ID']
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>
+  /** The link to the term */
+  link?: Maybe<Scalars['String']>
+  /** The human friendly name of the object. */
+  name?: Maybe<Scalars['String']>
+  /** An alphanumeric identifier for the object unique to its type. */
+  slug?: Maybe<Scalars['String']>
+  /** The ID of the term group that this term object belongs to */
+  termGroupId?: Maybe<Scalars['Int']>
+  /** The taxonomy ID that the object is associated with */
+  termTaxonomyId?: Maybe<Scalars['Int']>
+  /** The unique resource identifier path */
+  uri: Scalars['String']
+}
+
+/** Any node that has a URI */
+export type UniformResourceIdentifiable = {
+  /** The unique resource identifier path */
+  databaseId: Scalars['Int']
+  /** The unique resource identifier path */
+  id: Scalars['ID']
+  /** The unique resource identifier path */
+  uri: Scalars['String']
+}
+
+/** Arguments for filtering the CategoryToCategoryConnection connection */
+export type CategoryToCategoryConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: Maybe<Scalars['String']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: Maybe<Scalars['Int']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: Maybe<Scalars['Boolean']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: Maybe<Scalars['String']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: Maybe<Scalars['Boolean']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: Maybe<Scalars['Boolean']>
+  /** Array of term ids to include. Default empty array. */
+  include?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: Maybe<Scalars['String']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: Maybe<Scalars['Boolean']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: Maybe<Scalars['Int']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: Maybe<Scalars['String']>
+  /** Default false. If true, only the items connected to the source item will be returned. If false, all items will be returned regardless of connection to the source */
+  shouldOnlyIncludeConnectedItems?: Maybe<Scalars['Boolean']>
+  /** Default false. If true, the connection will be output in a flat list instead of the hierarchical list. So child terms will be output in the same level as the parent terms */
+  shouldOutputInFlatList?: Maybe<Scalars['Boolean']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: Maybe<Scalars['Boolean']>
+}
+
+/** Connection between the category type and the category type */
+export type CategoryToCategoryConnection = {
+  __typename?: 'CategoryToCategoryConnection'
+  /**
+   * Edges for the CategoryToCategoryConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<CategoryToCategoryConnectionEdge>>>
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Category>>>
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>
+}
+
+/** An edge in a connection */
+export type CategoryToCategoryConnectionEdge = {
+  __typename?: 'CategoryToCategoryConnectionEdge'
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Category>
+}
+
+/** Information about pagination in a connection. */
+export type WpPageInfo = {
+  __typename?: 'WPPageInfo'
+  /**
+   * When paginating forwards, the cursor to continue.
+   * @deprecated
+   */
+  endCursor?: Maybe<Scalars['String']>
+  /**
+   * When paginating forwards, are there more items?
+   * @deprecated
+   */
+  hasNextPage: Scalars['Boolean']
+  /**
+   * When paginating backwards, are there more items?
+   * @deprecated
+   */
+  hasPreviousPage: Scalars['Boolean']
+  /**
+   * When paginating backwards, the cursor to continue.
+   * @deprecated
+   */
+  startCursor?: Maybe<Scalars['String']>
+}
+
+/** Arguments for filtering the CategoryToPostConnection connection */
+export type CategoryToPostConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: Maybe<Scalars['Int']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: Maybe<Scalars['String']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Category ID */
+  categoryId?: Maybe<Scalars['Int']>
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Use Category Slug */
+  categoryName?: Maybe<Scalars['String']>
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['String']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>
+  status?: Maybe<PostStatusEnum>
+  /** Tag Slug */
+  tag?: Maybe<Scalars['String']>
+  /** Use Tag ID */
+  tagId?: Maybe<Scalars['String']>
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of tag slugs, used to display objects from one tag OR another */
+  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Array of tag slugs, used to exclude objects in specified tags */
+  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>
+}
+
+/** Filter the connection based on input */
+export type DateQueryInput = {
+  /** Nodes should be returned after this date */
+  after?: Maybe<DateInput>
+  /** Nodes should be returned before this date */
+  before?: Maybe<DateInput>
+  /** Column to query against */
+  column?: Maybe<PostObjectsConnectionDateColumnEnum>
+  /** For after/before, whether exact value should be matched or not */
+  compare?: Maybe<Scalars['String']>
+  /** Day of the month (from 1 to 31) */
+  day?: Maybe<Scalars['Int']>
+  /** Hour (from 0 to 23) */
+  hour?: Maybe<Scalars['Int']>
+  /** For after/before, whether exact value should be matched or not */
+  inclusive?: Maybe<Scalars['Boolean']>
+  /** Minute (from 0 to 59) */
+  minute?: Maybe<Scalars['Int']>
+  /** Month number (from 1 to 12) */
+  month?: Maybe<Scalars['Int']>
+  /** OR or AND, how the sub-arrays should be compared */
+  relation?: Maybe<RelationEnum>
+  /** Second (0 to 59) */
+  second?: Maybe<Scalars['Int']>
+  /** Week of the year (from 0 to 53) */
+  week?: Maybe<Scalars['Int']>
+  /** 4 digit year (e.g. 2017) */
+  year?: Maybe<Scalars['Int']>
+}
+
+/** Date values */
+export type DateInput = {
+  /** Day of the month (from 1 to 31) */
+  day?: Maybe<Scalars['Int']>
+  /** Month number (from 1 to 12) */
+  month?: Maybe<Scalars['Int']>
+  /** 4 digit year (e.g. 2017) */
+  year?: Maybe<Scalars['Int']>
+}
+
+/** The column to use when filtering by date */
+export enum PostObjectsConnectionDateColumnEnum {
+  Date = 'DATE',
+  Modified = 'MODIFIED',
+}
+
+/** The logical relation between each item in the array when there are more than one. */
+export enum RelationEnum {
+  And = 'AND',
+  Or = 'OR',
+}
+
+/** The MimeType of the object */
+export enum MimeTypeEnum {
+  ApplicationJava = 'APPLICATION_JAVA',
+  ApplicationMsword = 'APPLICATION_MSWORD',
+  ApplicationOctetStream = 'APPLICATION_OCTET_STREAM',
+  ApplicationOnenote = 'APPLICATION_ONENOTE',
+  ApplicationOxps = 'APPLICATION_OXPS',
+  ApplicationPdf = 'APPLICATION_PDF',
+  ApplicationRar = 'APPLICATION_RAR',
+  ApplicationRtf = 'APPLICATION_RTF',
+  ApplicationTtafXml = 'APPLICATION_TTAF_XML',
+  ApplicationVndAppleKeynote = 'APPLICATION_VND_APPLE_KEYNOTE',
+  ApplicationVndAppleNumbers = 'APPLICATION_VND_APPLE_NUMBERS',
+  ApplicationVndApplePages = 'APPLICATION_VND_APPLE_PAGES',
+  ApplicationVndMsAccess = 'APPLICATION_VND_MS_ACCESS',
+  ApplicationVndMsExcel = 'APPLICATION_VND_MS_EXCEL',
+  ApplicationVndMsExcelAddinMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_ADDIN_MACROENABLED_12',
+  ApplicationVndMsExcelSheetBinaryMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_SHEET_BINARY_MACROENABLED_12',
+  ApplicationVndMsExcelSheetMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_SHEET_MACROENABLED_12',
+  ApplicationVndMsExcelTemplateMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_TEMPLATE_MACROENABLED_12',
+  ApplicationVndMsPowerpoint = 'APPLICATION_VND_MS_POWERPOINT',
+  ApplicationVndMsPowerpointAddinMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_ADDIN_MACROENABLED_12',
+  ApplicationVndMsPowerpointPresentationMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_PRESENTATION_MACROENABLED_12',
+  ApplicationVndMsPowerpointSlideshowMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_SLIDESHOW_MACROENABLED_12',
+  ApplicationVndMsPowerpointSlideMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_SLIDE_MACROENABLED_12',
+  ApplicationVndMsPowerpointTemplateMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_TEMPLATE_MACROENABLED_12',
+  ApplicationVndMsProject = 'APPLICATION_VND_MS_PROJECT',
+  ApplicationVndMsWordDocumentMacroenabled_12 = 'APPLICATION_VND_MS_WORD_DOCUMENT_MACROENABLED_12',
+  ApplicationVndMsWordTemplateMacroenabled_12 = 'APPLICATION_VND_MS_WORD_TEMPLATE_MACROENABLED_12',
+  ApplicationVndMsWrite = 'APPLICATION_VND_MS_WRITE',
+  ApplicationVndMsXpsdocument = 'APPLICATION_VND_MS_XPSDOCUMENT',
+  ApplicationVndOasisOpendocumentChart = 'APPLICATION_VND_OASIS_OPENDOCUMENT_CHART',
+  ApplicationVndOasisOpendocumentDatabase = 'APPLICATION_VND_OASIS_OPENDOCUMENT_DATABASE',
+  ApplicationVndOasisOpendocumentFormula = 'APPLICATION_VND_OASIS_OPENDOCUMENT_FORMULA',
+  ApplicationVndOasisOpendocumentGraphics = 'APPLICATION_VND_OASIS_OPENDOCUMENT_GRAPHICS',
+  ApplicationVndOasisOpendocumentPresentation = 'APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION',
+  ApplicationVndOasisOpendocumentSpreadsheet = 'APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET',
+  ApplicationVndOasisOpendocumentText = 'APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT',
+  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlPresentation = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION',
+  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlSlide = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDE',
+  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlSlideshow = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDESHOW',
+  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlTemplate = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_TEMPLATE',
+  ApplicationVndOpenxmlformatsOfficedocumentSpreadsheetmlSheet = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET',
+  ApplicationVndOpenxmlformatsOfficedocumentSpreadsheetmlTemplate = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_TEMPLATE',
+  ApplicationVndOpenxmlformatsOfficedocumentWordprocessingmlDocument = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT',
+  ApplicationVndOpenxmlformatsOfficedocumentWordprocessingmlTemplate = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE',
+  ApplicationWordperfect = 'APPLICATION_WORDPERFECT',
+  ApplicationX_7ZCompressed = 'APPLICATION_X_7Z_COMPRESSED',
+  ApplicationXGzip = 'APPLICATION_X_GZIP',
+  ApplicationXTar = 'APPLICATION_X_TAR',
+  ApplicationZip = 'APPLICATION_ZIP',
+  AudioAac = 'AUDIO_AAC',
+  AudioFlac = 'AUDIO_FLAC',
+  AudioMidi = 'AUDIO_MIDI',
+  AudioMpeg = 'AUDIO_MPEG',
+  AudioOgg = 'AUDIO_OGG',
+  AudioWav = 'AUDIO_WAV',
+  AudioXMatroska = 'AUDIO_X_MATROSKA',
+  AudioXMsWax = 'AUDIO_X_MS_WAX',
+  AudioXMsWma = 'AUDIO_X_MS_WMA',
+  AudioXRealaudio = 'AUDIO_X_REALAUDIO',
+  ImageBmp = 'IMAGE_BMP',
+  ImageGif = 'IMAGE_GIF',
+  ImageJpeg = 'IMAGE_JPEG',
+  ImagePng = 'IMAGE_PNG',
+  ImageTiff = 'IMAGE_TIFF',
+  ImageXIcon = 'IMAGE_X_ICON',
+  TextCalendar = 'TEXT_CALENDAR',
+  TextCss = 'TEXT_CSS',
+  TextCsv = 'TEXT_CSV',
+  TextPlain = 'TEXT_PLAIN',
+  TextRichtext = 'TEXT_RICHTEXT',
+  TextTabSeparatedValues = 'TEXT_TAB_SEPARATED_VALUES',
+  TextVtt = 'TEXT_VTT',
+  Video_3Gpp = 'VIDEO_3GPP',
+  Video_3Gpp2 = 'VIDEO_3GPP2',
+  VideoAvi = 'VIDEO_AVI',
+  VideoDivx = 'VIDEO_DIVX',
+  VideoMp4 = 'VIDEO_MP4',
+  VideoMpeg = 'VIDEO_MPEG',
+  VideoOgg = 'VIDEO_OGG',
+  VideoQuicktime = 'VIDEO_QUICKTIME',
+  VideoWebm = 'VIDEO_WEBM',
+  VideoXFlv = 'VIDEO_X_FLV',
+  VideoXMatroska = 'VIDEO_X_MATROSKA',
+  VideoXMsAsf = 'VIDEO_X_MS_ASF',
+  VideoXMsWm = 'VIDEO_X_MS_WM',
+  VideoXMsWmv = 'VIDEO_X_MS_WMV',
+  VideoXMsWmx = 'VIDEO_X_MS_WMX',
+}
+
+/** Options for ordering the connection */
+export type PostObjectsConnectionOrderbyInput = {
+  /** The field to order the connection by */
+  field: PostObjectsConnectionOrderbyEnum
+  /** Possible directions in which to order a list of items */
+  order: OrderEnum
+}
+
+/** Field to order the connection by */
+export enum PostObjectsConnectionOrderbyEnum {
+  /** Order by author */
+  Author = 'AUTHOR',
+  /** Order by publish date */
+  Date = 'DATE',
+  /** Preserve the ID order given in the IN array */
+  In = 'IN',
+  /** Order by the menu order value */
+  MenuOrder = 'MENU_ORDER',
+  /** Order by last modified date */
+  Modified = 'MODIFIED',
+  /** Preserve slug order given in the NAME_IN array */
+  NameIn = 'NAME_IN',
+  /** Order by parent ID */
+  Parent = 'PARENT',
+  /** Order by slug */
+  Slug = 'SLUG',
+  /** Order by title */
+  Title = 'TITLE',
+}
+
+/** The cardinality of the connection order */
+export enum OrderEnum {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
+
+/** The status of the object. */
+export enum PostStatusEnum {
+  /** Objects with the auto-draft status */
+  AutoDraft = 'AUTO_DRAFT',
+  /** Objects with the draft status */
+  Draft = 'DRAFT',
+  /** Objects with the future status */
+  Future = 'FUTURE',
+  /** Objects with the inherit status */
+  Inherit = 'INHERIT',
+  /** Objects with the pending status */
+  Pending = 'PENDING',
+  /** Objects with the private status */
+  Private = 'PRIVATE',
+  /** Objects with the publish status */
+  Publish = 'PUBLISH',
+  /** Objects with the request-completed status */
+  RequestCompleted = 'REQUEST_COMPLETED',
+  /** Objects with the request-confirmed status */
+  RequestConfirmed = 'REQUEST_CONFIRMED',
+  /** Objects with the request-failed status */
+  RequestFailed = 'REQUEST_FAILED',
+  /** Objects with the request-pending status */
+  RequestPending = 'REQUEST_PENDING',
+  /** Objects with the trash status */
+  Trash = 'TRASH',
+}
+
+/** Connection between the category type and the category type */
+export type CategoryToPostConnection = {
+  __typename?: 'CategoryToPostConnection'
+  /**
+   * Edges for the CategoryToPostConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<CategoryToPostConnectionEdge>>>
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Post>>>
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>
+}
+
+/** An edge in a connection */
+export type CategoryToPostConnectionEdge = {
+  __typename?: 'CategoryToPostConnectionEdge'
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Post>
+}
 
 /** The post type */
 export type Post = Node &
@@ -660,16 +1273,6 @@ export type Post = Node &
      * @deprecated
      */
     author?: Maybe<User>
-    /**
-     * Gutenberg blocks
-     * @deprecated
-     */
-    blocks?: Maybe<Array<Maybe<Block>>>
-    /**
-     * Gutenberg blocks as json string
-     * @deprecated
-     */
-    blocksJSON?: Maybe<Scalars['BlockJsonArray']>
     /**
      * Connection between the post type and the post type
      * @deprecated
@@ -863,11 +1466,6 @@ export type Post = Node &
   }
 
 /** The post type */
-export type PostBlocksArgs = {
-  json?: Maybe<Scalars['String']>
-}
-
-/** The post type */
 export type PostCategoriesArgs = {
   first?: Maybe<Scalars['Int']>
   last?: Maybe<Scalars['Int']>
@@ -940,12 +1538,6 @@ export type PostTermsArgs = {
 /** The post type */
 export type PostTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>
-}
-
-/** An object with an ID */
-export type Node = {
-  /** The globally unique ID for the object */
-  id: Scalars['ID']
 }
 
 /** Nodes used to manage content */
@@ -1185,16 +1777,6 @@ export type UserRolesArgs = {
   before?: Maybe<Scalars['String']>
 }
 
-/** Any node that has a URI */
-export type UniformResourceIdentifiable = {
-  /** The unique resource identifier path */
-  databaseId: Scalars['Int']
-  /** The unique resource identifier path */
-  id: Scalars['ID']
-  /** The unique resource identifier path */
-  uri: Scalars['String']
-}
-
 /** What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are judged in that order. Default is the value of the 'avatar_rating' option */
 export enum AvatarRatingEnum {
   G = 'G',
@@ -1343,34 +1925,6 @@ export type UserToCommentConnectionWhereArgs = {
   userId?: Maybe<Scalars['ID']>
 }
 
-/** The status of the object. */
-export enum PostStatusEnum {
-  /** Objects with the auto-draft status */
-  AutoDraft = 'AUTO_DRAFT',
-  /** Objects with the draft status */
-  Draft = 'DRAFT',
-  /** Objects with the future status */
-  Future = 'FUTURE',
-  /** Objects with the inherit status */
-  Inherit = 'INHERIT',
-  /** Objects with the pending status */
-  Pending = 'PENDING',
-  /** Objects with the private status */
-  Private = 'PRIVATE',
-  /** Objects with the publish status */
-  Publish = 'PUBLISH',
-  /** Objects with the request-completed status */
-  RequestCompleted = 'REQUEST_COMPLETED',
-  /** Objects with the request-confirmed status */
-  RequestConfirmed = 'REQUEST_CONFIRMED',
-  /** Objects with the request-failed status */
-  RequestFailed = 'REQUEST_FAILED',
-  /** Objects with the request-pending status */
-  RequestPending = 'REQUEST_PENDING',
-  /** Objects with the trash status */
-  Trash = 'TRASH',
-}
-
 /** Allowed Content Types */
 export enum ContentTypeEnum {
   /** The Type of Content object */
@@ -1379,12 +1933,6 @@ export enum ContentTypeEnum {
   Page = 'PAGE',
   /** The Type of Content object */
   Post = 'POST',
-}
-
-/** The cardinality of the connection order */
-export enum OrderEnum {
-  Asc = 'ASC',
-  Desc = 'DESC',
 }
 
 /** Options for ordering the connection */
@@ -1683,31 +2231,6 @@ export type CommentToCommentConnectionEdge = {
   node?: Maybe<Comment>
 }
 
-/** Information about pagination in a connection. */
-export type WpPageInfo = {
-  __typename?: 'WPPageInfo'
-  /**
-   * When paginating forwards, the cursor to continue.
-   * @deprecated
-   */
-  endCursor?: Maybe<Scalars['String']>
-  /**
-   * When paginating forwards, are there more items?
-   * @deprecated
-   */
-  hasNextPage: Scalars['Boolean']
-  /**
-   * When paginating backwards, are there more items?
-   * @deprecated
-   */
-  hasPreviousPage: Scalars['Boolean']
-  /**
-   * When paginating backwards, the cursor to continue.
-   * @deprecated
-   */
-  startCursor?: Maybe<Scalars['String']>
-}
-
 export type PostObjectUnion = Post | Page | MediaItem
 
 /** The page type */
@@ -1728,16 +2251,6 @@ export type Page = Node &
      * @deprecated
      */
     author?: Maybe<User>
-    /**
-     * Gutenberg blocks
-     * @deprecated
-     */
-    blocks?: Maybe<Array<Maybe<Block>>>
-    /**
-     * Gutenberg blocks as json string
-     * @deprecated
-     */
-    blocksJSON?: Maybe<Scalars['BlockJsonArray']>
     /**
      * Connection between the page type and the page type
      * @deprecated
@@ -1901,11 +2414,6 @@ export type Page = Node &
   }
 
 /** The page type */
-export type PageBlocksArgs = {
-  json?: Maybe<Scalars['String']>
-}
-
-/** The page type */
 export type PageChildPagesArgs = {
   first?: Maybe<Scalars['Int']>
   last?: Maybe<Scalars['Int']>
@@ -2003,16 +2511,6 @@ export type MediaItem = Node &
      * @deprecated
      */
     author?: Maybe<User>
-    /**
-     * Gutenberg blocks
-     * @deprecated
-     */
-    blocks?: Maybe<Array<Maybe<Block>>>
-    /**
-     * Gutenberg blocks as json string
-     * @deprecated
-     */
-    blocksJSON?: Maybe<Scalars['BlockJsonArray']>
     /**
      * The caption for the resource
      * @deprecated
@@ -2179,11 +2677,6 @@ export type MediaItem = Node &
      */
     uri: Scalars['String']
   }
-
-/** The mediaItem type */
-export type MediaItemBlocksArgs = {
-  json?: Maybe<Scalars['String']>
-}
 
 /** The mediaItem type */
 export type MediaItemCaptionArgs = {
@@ -2995,179 +3488,6 @@ export type PageToPageConnectionWhereArgs = {
   title?: Maybe<Scalars['String']>
 }
 
-/** Filter the connection based on input */
-export type DateQueryInput = {
-  /** Nodes should be returned after this date */
-  after?: Maybe<DateInput>
-  /** Nodes should be returned before this date */
-  before?: Maybe<DateInput>
-  /** Column to query against */
-  column?: Maybe<PostObjectsConnectionDateColumnEnum>
-  /** For after/before, whether exact value should be matched or not */
-  compare?: Maybe<Scalars['String']>
-  /** Day of the month (from 1 to 31) */
-  day?: Maybe<Scalars['Int']>
-  /** Hour (from 0 to 23) */
-  hour?: Maybe<Scalars['Int']>
-  /** For after/before, whether exact value should be matched or not */
-  inclusive?: Maybe<Scalars['Boolean']>
-  /** Minute (from 0 to 59) */
-  minute?: Maybe<Scalars['Int']>
-  /** Month number (from 1 to 12) */
-  month?: Maybe<Scalars['Int']>
-  /** OR or AND, how the sub-arrays should be compared */
-  relation?: Maybe<RelationEnum>
-  /** Second (0 to 59) */
-  second?: Maybe<Scalars['Int']>
-  /** Week of the year (from 0 to 53) */
-  week?: Maybe<Scalars['Int']>
-  /** 4 digit year (e.g. 2017) */
-  year?: Maybe<Scalars['Int']>
-}
-
-/** Date values */
-export type DateInput = {
-  /** Day of the month (from 1 to 31) */
-  day?: Maybe<Scalars['Int']>
-  /** Month number (from 1 to 12) */
-  month?: Maybe<Scalars['Int']>
-  /** 4 digit year (e.g. 2017) */
-  year?: Maybe<Scalars['Int']>
-}
-
-/** The column to use when filtering by date */
-export enum PostObjectsConnectionDateColumnEnum {
-  Date = 'DATE',
-  Modified = 'MODIFIED',
-}
-
-/** The logical relation between each item in the array when there are more than one. */
-export enum RelationEnum {
-  And = 'AND',
-  Or = 'OR',
-}
-
-/** The MimeType of the object */
-export enum MimeTypeEnum {
-  ApplicationJava = 'APPLICATION_JAVA',
-  ApplicationMsword = 'APPLICATION_MSWORD',
-  ApplicationOctetStream = 'APPLICATION_OCTET_STREAM',
-  ApplicationOnenote = 'APPLICATION_ONENOTE',
-  ApplicationOxps = 'APPLICATION_OXPS',
-  ApplicationPdf = 'APPLICATION_PDF',
-  ApplicationRar = 'APPLICATION_RAR',
-  ApplicationRtf = 'APPLICATION_RTF',
-  ApplicationTtafXml = 'APPLICATION_TTAF_XML',
-  ApplicationVndAppleKeynote = 'APPLICATION_VND_APPLE_KEYNOTE',
-  ApplicationVndAppleNumbers = 'APPLICATION_VND_APPLE_NUMBERS',
-  ApplicationVndApplePages = 'APPLICATION_VND_APPLE_PAGES',
-  ApplicationVndMsAccess = 'APPLICATION_VND_MS_ACCESS',
-  ApplicationVndMsExcel = 'APPLICATION_VND_MS_EXCEL',
-  ApplicationVndMsExcelAddinMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_ADDIN_MACROENABLED_12',
-  ApplicationVndMsExcelSheetBinaryMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_SHEET_BINARY_MACROENABLED_12',
-  ApplicationVndMsExcelSheetMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_SHEET_MACROENABLED_12',
-  ApplicationVndMsExcelTemplateMacroenabled_12 = 'APPLICATION_VND_MS_EXCEL_TEMPLATE_MACROENABLED_12',
-  ApplicationVndMsPowerpoint = 'APPLICATION_VND_MS_POWERPOINT',
-  ApplicationVndMsPowerpointAddinMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_ADDIN_MACROENABLED_12',
-  ApplicationVndMsPowerpointPresentationMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_PRESENTATION_MACROENABLED_12',
-  ApplicationVndMsPowerpointSlideshowMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_SLIDESHOW_MACROENABLED_12',
-  ApplicationVndMsPowerpointSlideMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_SLIDE_MACROENABLED_12',
-  ApplicationVndMsPowerpointTemplateMacroenabled_12 = 'APPLICATION_VND_MS_POWERPOINT_TEMPLATE_MACROENABLED_12',
-  ApplicationVndMsProject = 'APPLICATION_VND_MS_PROJECT',
-  ApplicationVndMsWordDocumentMacroenabled_12 = 'APPLICATION_VND_MS_WORD_DOCUMENT_MACROENABLED_12',
-  ApplicationVndMsWordTemplateMacroenabled_12 = 'APPLICATION_VND_MS_WORD_TEMPLATE_MACROENABLED_12',
-  ApplicationVndMsWrite = 'APPLICATION_VND_MS_WRITE',
-  ApplicationVndMsXpsdocument = 'APPLICATION_VND_MS_XPSDOCUMENT',
-  ApplicationVndOasisOpendocumentChart = 'APPLICATION_VND_OASIS_OPENDOCUMENT_CHART',
-  ApplicationVndOasisOpendocumentDatabase = 'APPLICATION_VND_OASIS_OPENDOCUMENT_DATABASE',
-  ApplicationVndOasisOpendocumentFormula = 'APPLICATION_VND_OASIS_OPENDOCUMENT_FORMULA',
-  ApplicationVndOasisOpendocumentGraphics = 'APPLICATION_VND_OASIS_OPENDOCUMENT_GRAPHICS',
-  ApplicationVndOasisOpendocumentPresentation = 'APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION',
-  ApplicationVndOasisOpendocumentSpreadsheet = 'APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET',
-  ApplicationVndOasisOpendocumentText = 'APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT',
-  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlPresentation = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION',
-  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlSlide = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDE',
-  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlSlideshow = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDESHOW',
-  ApplicationVndOpenxmlformatsOfficedocumentPresentationmlTemplate = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_TEMPLATE',
-  ApplicationVndOpenxmlformatsOfficedocumentSpreadsheetmlSheet = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET',
-  ApplicationVndOpenxmlformatsOfficedocumentSpreadsheetmlTemplate = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_TEMPLATE',
-  ApplicationVndOpenxmlformatsOfficedocumentWordprocessingmlDocument = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT',
-  ApplicationVndOpenxmlformatsOfficedocumentWordprocessingmlTemplate = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE',
-  ApplicationWordperfect = 'APPLICATION_WORDPERFECT',
-  ApplicationX_7ZCompressed = 'APPLICATION_X_7Z_COMPRESSED',
-  ApplicationXGzip = 'APPLICATION_X_GZIP',
-  ApplicationXTar = 'APPLICATION_X_TAR',
-  ApplicationZip = 'APPLICATION_ZIP',
-  AudioAac = 'AUDIO_AAC',
-  AudioFlac = 'AUDIO_FLAC',
-  AudioMidi = 'AUDIO_MIDI',
-  AudioMpeg = 'AUDIO_MPEG',
-  AudioOgg = 'AUDIO_OGG',
-  AudioWav = 'AUDIO_WAV',
-  AudioXMatroska = 'AUDIO_X_MATROSKA',
-  AudioXMsWax = 'AUDIO_X_MS_WAX',
-  AudioXMsWma = 'AUDIO_X_MS_WMA',
-  AudioXRealaudio = 'AUDIO_X_REALAUDIO',
-  ImageBmp = 'IMAGE_BMP',
-  ImageGif = 'IMAGE_GIF',
-  ImageJpeg = 'IMAGE_JPEG',
-  ImagePng = 'IMAGE_PNG',
-  ImageTiff = 'IMAGE_TIFF',
-  ImageXIcon = 'IMAGE_X_ICON',
-  TextCalendar = 'TEXT_CALENDAR',
-  TextCss = 'TEXT_CSS',
-  TextCsv = 'TEXT_CSV',
-  TextPlain = 'TEXT_PLAIN',
-  TextRichtext = 'TEXT_RICHTEXT',
-  TextTabSeparatedValues = 'TEXT_TAB_SEPARATED_VALUES',
-  TextVtt = 'TEXT_VTT',
-  Video_3Gpp = 'VIDEO_3GPP',
-  Video_3Gpp2 = 'VIDEO_3GPP2',
-  VideoAvi = 'VIDEO_AVI',
-  VideoDivx = 'VIDEO_DIVX',
-  VideoMp4 = 'VIDEO_MP4',
-  VideoMpeg = 'VIDEO_MPEG',
-  VideoOgg = 'VIDEO_OGG',
-  VideoQuicktime = 'VIDEO_QUICKTIME',
-  VideoWebm = 'VIDEO_WEBM',
-  VideoXFlv = 'VIDEO_X_FLV',
-  VideoXMatroska = 'VIDEO_X_MATROSKA',
-  VideoXMsAsf = 'VIDEO_X_MS_ASF',
-  VideoXMsWm = 'VIDEO_X_MS_WM',
-  VideoXMsWmv = 'VIDEO_X_MS_WMV',
-  VideoXMsWmx = 'VIDEO_X_MS_WMX',
-}
-
-/** Options for ordering the connection */
-export type PostObjectsConnectionOrderbyInput = {
-  /** The field to order the connection by */
-  field: PostObjectsConnectionOrderbyEnum
-  /** Possible directions in which to order a list of items */
-  order: OrderEnum
-}
-
-/** Field to order the connection by */
-export enum PostObjectsConnectionOrderbyEnum {
-  /** Order by author */
-  Author = 'AUTHOR',
-  /** Order by publish date */
-  Date = 'DATE',
-  /** Preserve the ID order given in the IN array */
-  In = 'IN',
-  /** Order by the menu order value */
-  MenuOrder = 'MENU_ORDER',
-  /** Order by last modified date */
-  Modified = 'MODIFIED',
-  /** Preserve slug order given in the NAME_IN array */
-  NameIn = 'NAME_IN',
-  /** Order by parent ID */
-  Parent = 'PARENT',
-  /** Order by slug */
-  Slug = 'SLUG',
-  /** Order by title */
-  Title = 'TITLE',
-}
-
 /** Connection between the page type and the page type */
 export type PageToPageConnection = {
   __typename?: 'PageToPageConnection'
@@ -3869,17 +4189,6 @@ export type PostToCategoryConnectionWhereArgs = {
   updateTermMetaCache?: Maybe<Scalars['Boolean']>
 }
 
-/** Options for ordering the connection by */
-export enum TermObjectsConnectionOrderbyEnum {
-  Count = 'COUNT',
-  Description = 'DESCRIPTION',
-  Name = 'NAME',
-  Slug = 'SLUG',
-  TermGroup = 'TERM_GROUP',
-  TermId = 'TERM_ID',
-  TermOrder = 'TERM_ORDER',
-}
-
 /** Connection between the post type and the post type */
 export type PostToCategoryConnection = {
   __typename?: 'PostToCategoryConnection'
@@ -3913,332 +4222,6 @@ export type PostToCategoryConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Category>
-}
-
-/** The category type */
-export type Category = Node &
-  TermNode &
-  UniformResourceIdentifiable & {
-    __typename?: 'Category'
-    /**
-     * The ancestors of the object
-     * @deprecated
-     */
-    ancestors?: Maybe<Array<Maybe<Category>>>
-    /**
-     * The id field matches the WP_Post-&gt;ID field.
-     * @deprecated Deprecated in favor of databaseId
-     */
-    categoryId?: Maybe<Scalars['Int']>
-    /**
-     * Connection between the category type and the category type
-     * @deprecated
-     */
-    children?: Maybe<CategoryToCategoryConnection>
-    /**
-     * The number of objects connected to the object
-     * @deprecated
-     */
-    count?: Maybe<Scalars['Int']>
-    /**
-     * Identifies the primary key from the database.
-     * @deprecated
-     */
-    databaseId: Scalars['Int']
-    /**
-     * The description of the object
-     * @deprecated
-     */
-    description?: Maybe<Scalars['String']>
-    /**
-     * The globally unique ID for the object
-     * @deprecated
-     */
-    id: Scalars['ID']
-    /**
-     * Whether the object is restricted from the current viewer
-     * @deprecated
-     */
-    isRestricted?: Maybe<Scalars['Boolean']>
-    /**
-     * The link to the term
-     * @deprecated
-     */
-    link?: Maybe<Scalars['String']>
-    /**
-     * The human friendly name of the object.
-     * @deprecated
-     */
-    name?: Maybe<Scalars['String']>
-    /**
-     * The parent object
-     * @deprecated
-     */
-    parent?: Maybe<Category>
-    /**
-     * Connection between the category type and the category type
-     * @deprecated
-     */
-    posts?: Maybe<CategoryToPostConnection>
-    /**
-     * An alphanumeric identifier for the object unique to its type.
-     * @deprecated
-     */
-    slug?: Maybe<Scalars['String']>
-    /**
-     * Connection between the category type and the category type
-     * @deprecated
-     */
-    taxonomy?: Maybe<CategoryToTaxonomyConnection>
-    /**
-     * The ID of the term group that this term object belongs to
-     * @deprecated
-     */
-    termGroupId?: Maybe<Scalars['Int']>
-    /**
-     * The taxonomy ID that the object is associated with
-     * @deprecated
-     */
-    termTaxonomyId?: Maybe<Scalars['Int']>
-    /**
-     * The unique resource identifier path
-     * @deprecated
-     */
-    uri: Scalars['String']
-  }
-
-/** The category type */
-export type CategoryChildrenArgs = {
-  first?: Maybe<Scalars['Int']>
-  last?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  before?: Maybe<Scalars['String']>
-  where?: Maybe<CategoryToCategoryConnectionWhereArgs>
-}
-
-/** The category type */
-export type CategoryPostsArgs = {
-  first?: Maybe<Scalars['Int']>
-  last?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  before?: Maybe<Scalars['String']>
-  where?: Maybe<CategoryToPostConnectionWhereArgs>
-}
-
-/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
-export type TermNode = {
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']>
-  /** Identifies the primary key from the database. */
-  databaseId: Scalars['Int']
-  /** The description of the object */
-  description?: Maybe<Scalars['String']>
-  /** Unique identifier for the term */
-  id: Scalars['ID']
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>
-  /** The link to the term */
-  link?: Maybe<Scalars['String']>
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']>
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']>
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']>
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']>
-  /** The unique resource identifier path */
-  uri: Scalars['String']
-}
-
-/** Arguments for filtering the CategoryToCategoryConnection connection */
-export type CategoryToCategoryConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>
-  /** Default false. If true, only the items connected to the source item will be returned. If false, all items will be returned regardless of connection to the source */
-  shouldOnlyIncludeConnectedItems?: Maybe<Scalars['Boolean']>
-  /** Default false. If true, the connection will be output in a flat list instead of the hierarchical list. So child terms will be output in the same level as the parent terms */
-  shouldOutputInFlatList?: Maybe<Scalars['Boolean']>
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>
-}
-
-/** Connection between the category type and the category type */
-export type CategoryToCategoryConnection = {
-  __typename?: 'CategoryToCategoryConnection'
-  /**
-   * Edges for the CategoryToCategoryConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<CategoryToCategoryConnectionEdge>>>
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<Category>>>
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>
-}
-
-/** An edge in a connection */
-export type CategoryToCategoryConnectionEdge = {
-  __typename?: 'CategoryToCategoryConnectionEdge'
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<Category>
-}
-
-/** Arguments for filtering the CategoryToPostConnection connection */
-export type CategoryToPostConnectionWhereArgs = {
-  /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>
-  /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>
-  /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>
-  /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>
-  /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>
-  /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>
-  /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>
-  /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>
-  /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['String']>
-  /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>
-  /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>
-  status?: Maybe<PostStatusEnum>
-  /** Tag Slug */
-  tag?: Maybe<Scalars['String']>
-  /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>
-  /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Title of the object */
-  title?: Maybe<Scalars['String']>
-}
-
-/** Connection between the category type and the category type */
-export type CategoryToPostConnection = {
-  __typename?: 'CategoryToPostConnection'
-  /**
-   * Edges for the CategoryToPostConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<CategoryToPostConnectionEdge>>>
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<Post>>>
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>
-}
-
-/** An edge in a connection */
-export type CategoryToPostConnectionEdge = {
-  __typename?: 'CategoryToPostConnectionEdge'
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<Post>
-}
-
-/** Connection between the category type and the category type */
-export type CategoryToTaxonomyConnection = {
-  __typename?: 'CategoryToTaxonomyConnection'
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  node?: Maybe<Taxonomy>
 }
 
 /** Arguments for filtering the PostToCommentConnection connection */
@@ -5019,85 +5002,14 @@ export type TagToTaxonomyConnection = {
 
 export type TermObjectUnion = Category | Tag | PostFormat
 
-/** Arguments for filtering the RootQueryToCategoryConnection connection */
-export type RootQueryToCategoryConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>
-  /** Default false. If true, only the items connected to the source item will be returned. If false, all items will be returned regardless of connection to the source */
-  shouldOnlyIncludeConnectedItems?: Maybe<Scalars['Boolean']>
-  /** Default false. If true, the connection will be output in a flat list instead of the hierarchical list. So child terms will be output in the same level as the parent terms */
-  shouldOutputInFlatList?: Maybe<Scalars['Boolean']>
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>
-}
-
-/** Connection between the RootQuery type and the RootQuery type */
-export type RootQueryToCategoryConnection = {
-  __typename?: 'RootQueryToCategoryConnection'
-  /**
-   * Edges for the RootQueryToCategoryConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<RootQueryToCategoryConnectionEdge>>>
+/** Connection between the category type and the category type */
+export type CategoryToTaxonomyConnection = {
+  __typename?: 'CategoryToTaxonomyConnection'
   /**
    * The nodes of the connection, without the edges
    * @deprecated
    */
-  nodes?: Maybe<Array<Maybe<Category>>>
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>
-}
-
-/** An edge in a connection */
-export type RootQueryToCategoryConnectionEdge = {
-  __typename?: 'RootQueryToCategoryConnectionEdge'
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<Category>
+  node?: Maybe<Taxonomy>
 }
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -6194,31 +6106,6 @@ export type RootQueryToPostConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Post>
-}
-
-/** Connection between the RootQuery type and the RootQuery type */
-export type PostsWithBlocksConnection = {
-  __typename?: 'PostsWithBlocksConnection'
-  /**
-   * Edges for the PostsWithBlocksConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<PostsWithBlocksConnectionEdge>>>
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>
-}
-
-/** An edge in a connection */
-export type PostsWithBlocksConnectionEdge = {
-  __typename?: 'PostsWithBlocksConnectionEdge'
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>
 }
 
 /** The reading setting type */
@@ -8141,5083 +8028,12 @@ export type UpdateUserPayload = {
   user?: Maybe<User>
 }
 
-/** core/paragraph block */
-export type CoreParagraphBlock = Block & {
-  __typename?: 'CoreParagraphBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreParagraphBlockAttributesUnion>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreParagraphBlockAttributesUnion =
-  | CoreParagraphBlockAttributes
-  | CoreParagraphBlockAttributesV2
-  | CoreParagraphBlockAttributesV3
-
-export type CoreParagraphBlockAttributes = {
-  __typename?: 'CoreParagraphBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content: Scalars['String']
-  /** @deprecated  */
-  customBackgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customFontSize?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  direction?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  dropCap: Scalars['Boolean']
-  /** @deprecated  */
-  fontSize?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  placeholder?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-}
-
-export type CoreParagraphBlockAttributesV2 = {
-  __typename?: 'CoreParagraphBlockAttributesV2'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content: Scalars['String']
-  /** @deprecated Deprecated without breaking change. */
-  customBackgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated Deprecated without breaking change. */
-  customFontSize?: Maybe<Scalars['Float']>
-  /** @deprecated Deprecated without breaking change. */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  direction?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  dropCap: Scalars['Boolean']
-  /** @deprecated  */
-  fontSize?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  placeholder?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-}
-
-export type CoreParagraphBlockAttributesV3 = {
-  __typename?: 'CoreParagraphBlockAttributesV3'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content: Scalars['String']
-  /** @deprecated  */
-  customBackgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customFontSize?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  direction?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  dropCap: Scalars['Boolean']
-  /** @deprecated  */
-  fontSize?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  placeholder?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-  /** @deprecated Deprecated without breaking change. */
-  width?: Maybe<Scalars['String']>
-}
-
-/** core/image block */
-export type CoreImageBlock = Block & {
-  __typename?: 'CoreImageBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreImageBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreImageBlockAttributes = {
-  __typename?: 'CoreImageBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  alt: Scalars['String']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  height?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  href?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  id?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  linkClass?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  linkDestination: Scalars['String']
-  /** @deprecated  */
-  linkTarget?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  rel?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  sizeSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  title?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  width?: Maybe<Scalars['Float']>
-}
-
-/** core/heading block */
-export type CoreHeadingBlock = Block & {
-  __typename?: 'CoreHeadingBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreHeadingBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreHeadingBlockAttributes = {
-  __typename?: 'CoreHeadingBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  anchor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content: Scalars['String']
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  level: Scalars['Float']
-  /** @deprecated  */
-  placeholder?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-}
-
-/** core/gallery block */
-export type CoreGalleryBlock = Block & {
-  __typename?: 'CoreGalleryBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreGalleryBlockAttributesUnion>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreGalleryBlockAttributesUnion =
-  | CoreGalleryBlockAttributes
-  | CoreGalleryBlockAttributesV2
-
-export type CoreGalleryBlockAttributes = {
-  __typename?: 'CoreGalleryBlockAttributes'
-  /** @deprecated  */
-  align: Scalars['String']
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  columns?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  imageCrop: Scalars['Boolean']
-  /** @deprecated  */
-  images: Scalars['BlockAttributesArray']
-  /** @deprecated  */
-  linkTo: Scalars['String']
-}
-
-export type CoreGalleryBlockAttributesV2 = {
-  __typename?: 'CoreGalleryBlockAttributesV2'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  columns?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  ids: Scalars['BlockAttributesArray']
-  /** @deprecated  */
-  imageCrop: Scalars['Boolean']
-  /** @deprecated  */
-  images: Scalars['BlockAttributesArray']
-  /** @deprecated  */
-  linkTo: Scalars['String']
-  /** @deprecated  */
-  sizeSlug: Scalars['String']
-}
-
-/** core/list block */
-export type CoreListBlock = Block & {
-  __typename?: 'CoreListBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreListBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreListBlockAttributes = {
-  __typename?: 'CoreListBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  ordered: Scalars['Boolean']
-  /** @deprecated  */
-  reversed?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  start?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  values: Scalars['String']
-}
-
-/** core/quote block */
-export type CoreQuoteBlock = Block & {
-  __typename?: 'CoreQuoteBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreQuoteBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreQuoteBlockAttributes = {
-  __typename?: 'CoreQuoteBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  citation: Scalars['String']
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated Deprecated without breaking change. */
-  style: Scalars['Float']
-  /** @deprecated  */
-  value: Scalars['String']
-}
-
-/** core/shortcode block */
-export type CoreShortcodeBlock = Block & {
-  __typename?: 'CoreShortcodeBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreShortcodeBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreShortcodeBlockAttributes = {
-  __typename?: 'CoreShortcodeBlockAttributes'
-  /** @deprecated  */
-  text?: Maybe<Scalars['String']>
-}
-
-/** core/archives block */
-export type CoreArchivesBlock = Block & {
-  __typename?: 'CoreArchivesBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreArchivesBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreArchivesBlockAttributes = {
-  __typename?: 'CoreArchivesBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  displayAsDropdown: Scalars['Boolean']
-  /** @deprecated  */
-  showPostCounts: Scalars['Boolean']
-}
-
-/** core/audio block */
-export type CoreAudioBlock = Block & {
-  __typename?: 'CoreAudioBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreAudioBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreAudioBlockAttributes = {
-  __typename?: 'CoreAudioBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  autoplay?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  id?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  loop?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  preload?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  src?: Maybe<Scalars['String']>
-}
-
-/** core/button block */
-export type CoreButtonBlock = Block & {
-  __typename?: 'CoreButtonBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreButtonBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreButtonBlockAttributes = {
-  __typename?: 'CoreButtonBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  borderRadius?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated Deprecated without breaking change. */
-  color?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customBackgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customGradient?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  gradient?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  linkTarget?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  placeholder?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  rel?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  text?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  title?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core/buttons block */
-export type CoreButtonsBlock = Block & {
-  __typename?: 'CoreButtonsBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreButtonsBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreButtonsBlockAttributes = {
-  __typename?: 'CoreButtonsBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-}
-
-/** core/calendar block */
-export type CoreCalendarBlock = Block & {
-  __typename?: 'CoreCalendarBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreCalendarBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreCalendarBlockAttributes = {
-  __typename?: 'CoreCalendarBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  month?: Maybe<Scalars['Int']>
-  /** @deprecated  */
-  year?: Maybe<Scalars['Int']>
-}
-
-/** core/categories block */
-export type CoreCategoriesBlock = Block & {
-  __typename?: 'CoreCategoriesBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreCategoriesBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreCategoriesBlockAttributes = {
-  __typename?: 'CoreCategoriesBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  displayAsDropdown: Scalars['Boolean']
-  /** @deprecated  */
-  showHierarchy: Scalars['Boolean']
-  /** @deprecated  */
-  showPostCounts: Scalars['Boolean']
-}
-
-/** core/code block */
-export type CoreCodeBlock = Block & {
-  __typename?: 'CoreCodeBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreCodeBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreCodeBlockAttributes = {
-  __typename?: 'CoreCodeBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content?: Maybe<Scalars['String']>
-}
-
-/** core/columns block */
-export type CoreColumnsBlock = Block & {
-  __typename?: 'CoreColumnsBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreColumnsBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreColumnsBlockAttributes = {
-  __typename?: 'CoreColumnsBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated Deprecated without breaking change. */
-  columns: Scalars['Float']
-  /** @deprecated  */
-  customBackgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  verticalAlignment?: Maybe<Scalars['String']>
-}
-
-/** core/column block */
-export type CoreColumnBlock = Block & {
-  __typename?: 'CoreColumnBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreColumnBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreColumnBlockAttributes = {
-  __typename?: 'CoreColumnBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  verticalAlignment?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  width?: Maybe<Scalars['Float']>
-}
-
-/** core/cover block */
-export type CoreCoverBlock = Block & {
-  __typename?: 'CoreCoverBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreCoverBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreCoverBlockAttributes = {
-  __typename?: 'CoreCoverBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundType: Scalars['String']
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated Deprecated without breaking change. */
-  contentAlign: Scalars['String']
-  /** @deprecated  */
-  customGradient?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customOverlayColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  dimRatio: Scalars['Float']
-  /** @deprecated  */
-  focalPoint?: Maybe<Scalars['BlockAttributesObject']>
-  /** @deprecated  */
-  gradient?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  hasParallax: Scalars['Boolean']
-  /** @deprecated  */
-  id?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  minHeight?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  overlayColor?: Maybe<Scalars['String']>
-  /** @deprecated Deprecated without breaking change. */
-  title?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core/embed block */
-export type CoreEmbedBlock = Block & {
-  __typename?: 'CoreEmbedBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedBlockAttributes = {
-  __typename?: 'CoreEmbedBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/twitter block */
-export type CoreEmbedTwitterBlock = Block & {
-  __typename?: 'CoreEmbedTwitterBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedTwitterBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedTwitterBlockAttributes = {
-  __typename?: 'CoreEmbedTwitterBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/youtube block */
-export type CoreEmbedYoutubeBlock = Block & {
-  __typename?: 'CoreEmbedYoutubeBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedYoutubeBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedYoutubeBlockAttributes = {
-  __typename?: 'CoreEmbedYoutubeBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/facebook block */
-export type CoreEmbedFacebookBlock = Block & {
-  __typename?: 'CoreEmbedFacebookBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedFacebookBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedFacebookBlockAttributes = {
-  __typename?: 'CoreEmbedFacebookBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/instagram block */
-export type CoreEmbedInstagramBlock = Block & {
-  __typename?: 'CoreEmbedInstagramBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedInstagramBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedInstagramBlockAttributes = {
-  __typename?: 'CoreEmbedInstagramBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/wordpress block */
-export type CoreEmbedWordpressBlock = Block & {
-  __typename?: 'CoreEmbedWordpressBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedWordpressBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedWordpressBlockAttributes = {
-  __typename?: 'CoreEmbedWordpressBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/soundcloud block */
-export type CoreEmbedSoundcloudBlock = Block & {
-  __typename?: 'CoreEmbedSoundcloudBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedSoundcloudBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedSoundcloudBlockAttributes = {
-  __typename?: 'CoreEmbedSoundcloudBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/spotify block */
-export type CoreEmbedSpotifyBlock = Block & {
-  __typename?: 'CoreEmbedSpotifyBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedSpotifyBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedSpotifyBlockAttributes = {
-  __typename?: 'CoreEmbedSpotifyBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/flickr block */
-export type CoreEmbedFlickrBlock = Block & {
-  __typename?: 'CoreEmbedFlickrBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedFlickrBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedFlickrBlockAttributes = {
-  __typename?: 'CoreEmbedFlickrBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/vimeo block */
-export type CoreEmbedVimeoBlock = Block & {
-  __typename?: 'CoreEmbedVimeoBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedVimeoBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedVimeoBlockAttributes = {
-  __typename?: 'CoreEmbedVimeoBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/animoto block */
-export type CoreEmbedAnimotoBlock = Block & {
-  __typename?: 'CoreEmbedAnimotoBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedAnimotoBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedAnimotoBlockAttributes = {
-  __typename?: 'CoreEmbedAnimotoBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/cloudup block */
-export type CoreEmbedCloudupBlock = Block & {
-  __typename?: 'CoreEmbedCloudupBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedCloudupBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedCloudupBlockAttributes = {
-  __typename?: 'CoreEmbedCloudupBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/collegehumor block */
-export type CoreEmbedCollegehumorBlock = Block & {
-  __typename?: 'CoreEmbedCollegehumorBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedCollegehumorBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedCollegehumorBlockAttributes = {
-  __typename?: 'CoreEmbedCollegehumorBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/crowdsignal block */
-export type CoreEmbedCrowdsignalBlock = Block & {
-  __typename?: 'CoreEmbedCrowdsignalBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedCrowdsignalBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedCrowdsignalBlockAttributes = {
-  __typename?: 'CoreEmbedCrowdsignalBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/dailymotion block */
-export type CoreEmbedDailymotionBlock = Block & {
-  __typename?: 'CoreEmbedDailymotionBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedDailymotionBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedDailymotionBlockAttributes = {
-  __typename?: 'CoreEmbedDailymotionBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/hulu block */
-export type CoreEmbedHuluBlock = Block & {
-  __typename?: 'CoreEmbedHuluBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedHuluBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedHuluBlockAttributes = {
-  __typename?: 'CoreEmbedHuluBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/imgur block */
-export type CoreEmbedImgurBlock = Block & {
-  __typename?: 'CoreEmbedImgurBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedImgurBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedImgurBlockAttributes = {
-  __typename?: 'CoreEmbedImgurBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/issuu block */
-export type CoreEmbedIssuuBlock = Block & {
-  __typename?: 'CoreEmbedIssuuBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedIssuuBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedIssuuBlockAttributes = {
-  __typename?: 'CoreEmbedIssuuBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/kickstarter block */
-export type CoreEmbedKickstarterBlock = Block & {
-  __typename?: 'CoreEmbedKickstarterBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedKickstarterBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedKickstarterBlockAttributes = {
-  __typename?: 'CoreEmbedKickstarterBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/meetup-com block */
-export type CoreEmbedMeetupComBlock = Block & {
-  __typename?: 'CoreEmbedMeetupComBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedMeetupComBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedMeetupComBlockAttributes = {
-  __typename?: 'CoreEmbedMeetupComBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/mixcloud block */
-export type CoreEmbedMixcloudBlock = Block & {
-  __typename?: 'CoreEmbedMixcloudBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedMixcloudBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedMixcloudBlockAttributes = {
-  __typename?: 'CoreEmbedMixcloudBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/polldaddy block */
-export type CoreEmbedPolldaddyBlock = Block & {
-  __typename?: 'CoreEmbedPolldaddyBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedPolldaddyBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedPolldaddyBlockAttributes = {
-  __typename?: 'CoreEmbedPolldaddyBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/reddit block */
-export type CoreEmbedRedditBlock = Block & {
-  __typename?: 'CoreEmbedRedditBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedRedditBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedRedditBlockAttributes = {
-  __typename?: 'CoreEmbedRedditBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/reverbnation block */
-export type CoreEmbedReverbnationBlock = Block & {
-  __typename?: 'CoreEmbedReverbnationBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedReverbnationBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedReverbnationBlockAttributes = {
-  __typename?: 'CoreEmbedReverbnationBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/screencast block */
-export type CoreEmbedScreencastBlock = Block & {
-  __typename?: 'CoreEmbedScreencastBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedScreencastBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedScreencastBlockAttributes = {
-  __typename?: 'CoreEmbedScreencastBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/scribd block */
-export type CoreEmbedScribdBlock = Block & {
-  __typename?: 'CoreEmbedScribdBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedScribdBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedScribdBlockAttributes = {
-  __typename?: 'CoreEmbedScribdBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/slideshare block */
-export type CoreEmbedSlideshareBlock = Block & {
-  __typename?: 'CoreEmbedSlideshareBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedSlideshareBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedSlideshareBlockAttributes = {
-  __typename?: 'CoreEmbedSlideshareBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/smugmug block */
-export type CoreEmbedSmugmugBlock = Block & {
-  __typename?: 'CoreEmbedSmugmugBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedSmugmugBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedSmugmugBlockAttributes = {
-  __typename?: 'CoreEmbedSmugmugBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/speaker block */
-export type CoreEmbedSpeakerBlock = Block & {
-  __typename?: 'CoreEmbedSpeakerBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedSpeakerBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedSpeakerBlockAttributes = {
-  __typename?: 'CoreEmbedSpeakerBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/speaker-deck block */
-export type CoreEmbedSpeakerDeckBlock = Block & {
-  __typename?: 'CoreEmbedSpeakerDeckBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedSpeakerDeckBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedSpeakerDeckBlockAttributes = {
-  __typename?: 'CoreEmbedSpeakerDeckBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/tiktok block */
-export type CoreEmbedTiktokBlock = Block & {
-  __typename?: 'CoreEmbedTiktokBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedTiktokBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedTiktokBlockAttributes = {
-  __typename?: 'CoreEmbedTiktokBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/ted block */
-export type CoreEmbedTedBlock = Block & {
-  __typename?: 'CoreEmbedTedBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedTedBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedTedBlockAttributes = {
-  __typename?: 'CoreEmbedTedBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/tumblr block */
-export type CoreEmbedTumblrBlock = Block & {
-  __typename?: 'CoreEmbedTumblrBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedTumblrBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedTumblrBlockAttributes = {
-  __typename?: 'CoreEmbedTumblrBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/videopress block */
-export type CoreEmbedVideopressBlock = Block & {
-  __typename?: 'CoreEmbedVideopressBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedVideopressBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedVideopressBlockAttributes = {
-  __typename?: 'CoreEmbedVideopressBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/wordpress-tv block */
-export type CoreEmbedWordpressTvBlock = Block & {
-  __typename?: 'CoreEmbedWordpressTvBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedWordpressTvBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedWordpressTvBlockAttributes = {
-  __typename?: 'CoreEmbedWordpressTvBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core-embed/amazon-kindle block */
-export type CoreEmbedAmazonKindleBlock = Block & {
-  __typename?: 'CoreEmbedAmazonKindleBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreEmbedAmazonKindleBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreEmbedAmazonKindleBlockAttributes = {
-  __typename?: 'CoreEmbedAmazonKindleBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  allowResponsive: Scalars['Boolean']
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  providerNameSlug?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  type?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core/file block */
-export type CoreFileBlock = Block & {
-  __typename?: 'CoreFileBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreFileBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreFileBlockAttributes = {
-  __typename?: 'CoreFileBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  downloadButtonText?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  fileName?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  href?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  id?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  showDownloadButton: Scalars['Boolean']
-  /** @deprecated  */
-  textLinkHref?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textLinkTarget?: Maybe<Scalars['String']>
-}
-
-/** core/group block */
-export type CoreGroupBlock = Block & {
-  __typename?: 'CoreGroupBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreGroupBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreGroupBlockAttributes = {
-  __typename?: 'CoreGroupBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  anchor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customBackgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-}
-
-/** core/freeform block */
-export type CoreFreeformBlock = Block & {
-  __typename?: 'CoreFreeformBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreFreeformBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreFreeformBlockAttributes = {
-  __typename?: 'CoreFreeformBlockAttributes'
-  /** @deprecated  */
-  content?: Maybe<Scalars['String']>
-}
-
-/** core/html block */
-export type CoreHtmlBlock = Block & {
-  __typename?: 'CoreHtmlBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreHtmlBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreHtmlBlockAttributes = {
-  __typename?: 'CoreHtmlBlockAttributes'
-  /** @deprecated  */
-  content?: Maybe<Scalars['String']>
-}
-
-/** core/media-text block */
-export type CoreMediaTextBlock = Block & {
-  __typename?: 'CoreMediaTextBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreMediaTextBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreMediaTextBlockAttributes = {
-  __typename?: 'CoreMediaTextBlockAttributes'
-  /** @deprecated  */
-  align: Scalars['String']
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customBackgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  focalPoint?: Maybe<Scalars['BlockAttributesObject']>
-  /** @deprecated  */
-  href?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  imageFill?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  isStackedOnMobile: Scalars['Boolean']
-  /** @deprecated  */
-  linkClass?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  linkDestination?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  linkTarget?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  mediaAlt: Scalars['String']
-  /** @deprecated  */
-  mediaId?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  mediaLink?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  mediaPosition: Scalars['String']
-  /** @deprecated  */
-  mediaType?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  mediaUrl?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  mediaWidth: Scalars['Float']
-  /** @deprecated  */
-  rel?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  verticalAlignment?: Maybe<Scalars['String']>
-}
-
-/** core/latest-comments block */
-export type CoreLatestCommentsBlock = Block & {
-  __typename?: 'CoreLatestCommentsBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreLatestCommentsBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreLatestCommentsBlockAttributes = {
-  __typename?: 'CoreLatestCommentsBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  commentsToShow: Scalars['Float']
-  /** @deprecated  */
-  displayAvatar: Scalars['Boolean']
-  /** @deprecated  */
-  displayDate: Scalars['Boolean']
-  /** @deprecated  */
-  displayExcerpt: Scalars['Boolean']
-}
-
-/** core/latest-posts block */
-export type CoreLatestPostsBlock = Block & {
-  __typename?: 'CoreLatestPostsBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreLatestPostsBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreLatestPostsBlockAttributes = {
-  __typename?: 'CoreLatestPostsBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  categories?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  columns: Scalars['Float']
-  /** @deprecated  */
-  displayFeaturedImage: Scalars['Boolean']
-  /** @deprecated  */
-  displayPostContent: Scalars['Boolean']
-  /** @deprecated  */
-  displayPostContentRadio: Scalars['String']
-  /** @deprecated  */
-  displayPostDate: Scalars['Boolean']
-  /** @deprecated  */
-  excerptLength: Scalars['Float']
-  /** @deprecated  */
-  featuredImageAlign?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  featuredImageSizeHeight?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  featuredImageSizeSlug: Scalars['String']
-  /** @deprecated  */
-  featuredImageSizeWidth?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  order: Scalars['String']
-  /** @deprecated  */
-  orderBy: Scalars['String']
-  /** @deprecated  */
-  postLayout: Scalars['String']
-  /** @deprecated  */
-  postsToShow: Scalars['Float']
-}
-
-/** core/missing block */
-export type CoreMissingBlock = Block & {
-  __typename?: 'CoreMissingBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreMissingBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreMissingBlockAttributes = {
-  __typename?: 'CoreMissingBlockAttributes'
-  /** @deprecated  */
-  originalContent?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  originalName?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  originalUndelimitedContent?: Maybe<Scalars['String']>
-}
-
-/** core/more block */
-export type CoreMoreBlock = Block & {
-  __typename?: 'CoreMoreBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreMoreBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreMoreBlockAttributes = {
-  __typename?: 'CoreMoreBlockAttributes'
-  /** @deprecated  */
-  customText?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  noTeaser: Scalars['Boolean']
-}
-
-/** core/nextpage block */
-export type CoreNextpageBlock = Block & {
-  __typename?: 'CoreNextpageBlock'
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-/** core/preformatted block */
-export type CorePreformattedBlock = Block & {
-  __typename?: 'CorePreformattedBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CorePreformattedBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CorePreformattedBlockAttributes = {
-  __typename?: 'CorePreformattedBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content: Scalars['String']
-}
-
-/** core/pullquote block */
-export type CorePullquoteBlock = Block & {
-  __typename?: 'CorePullquoteBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CorePullquoteBlockAttributesUnion>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CorePullquoteBlockAttributesUnion =
-  | CorePullquoteBlockAttributes
-  | CorePullquoteBlockAttributesV2
-
-export type CorePullquoteBlockAttributes = {
-  __typename?: 'CorePullquoteBlockAttributes'
-  /** @deprecated  */
-  align: Scalars['String']
-  /** @deprecated  */
-  citation?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customMainColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  mainColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  value?: Maybe<Scalars['String']>
-}
-
-export type CorePullquoteBlockAttributesV2 = {
-  __typename?: 'CorePullquoteBlockAttributesV2'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  citation: Scalars['String']
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customMainColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customTextColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  mainColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  textColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  value?: Maybe<Scalars['String']>
-}
-
-/** core/rss block */
-export type CoreRssBlock = Block & {
-  __typename?: 'CoreRssBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreRssBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreRssBlockAttributes = {
-  __typename?: 'CoreRssBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  blockLayout: Scalars['String']
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  columns: Scalars['Float']
-  /** @deprecated  */
-  displayAuthor: Scalars['Boolean']
-  /** @deprecated  */
-  displayDate: Scalars['Boolean']
-  /** @deprecated  */
-  displayExcerpt: Scalars['Boolean']
-  /** @deprecated  */
-  excerptLength: Scalars['Float']
-  /** @deprecated  */
-  feedURL: Scalars['String']
-  /** @deprecated  */
-  itemsToShow: Scalars['Float']
-}
-
-/** core/search block */
-export type CoreSearchBlock = Block & {
-  __typename?: 'CoreSearchBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreSearchBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreSearchBlockAttributes = {
-  __typename?: 'CoreSearchBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  buttonText: Scalars['String']
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  label: Scalars['String']
-  /** @deprecated  */
-  placeholder: Scalars['String']
-}
-
-/** core/separator block */
-export type CoreSeparatorBlock = Block & {
-  __typename?: 'CoreSeparatorBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreSeparatorBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreSeparatorBlockAttributes = {
-  __typename?: 'CoreSeparatorBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  color?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  customColor?: Maybe<Scalars['String']>
-}
-
-/** core/social-links block */
-export type CoreSocialLinksBlock = Block & {
-  __typename?: 'CoreSocialLinksBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreSocialLinksBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreSocialLinksBlockAttributes = {
-  __typename?: 'CoreSocialLinksBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-}
-
-/** core/social-link block */
-export type CoreSocialLinkBlock = Block & {
-  __typename?: 'CoreSocialLinkBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreSocialLinkBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreSocialLinkBlockAttributes = {
-  __typename?: 'CoreSocialLinkBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  label?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  service?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  url?: Maybe<Scalars['String']>
-}
-
-/** core/spacer block */
-export type CoreSpacerBlock = Block & {
-  __typename?: 'CoreSpacerBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreSpacerBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreSpacerBlockAttributes = {
-  __typename?: 'CoreSpacerBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  height: Scalars['Float']
-}
-
-/** core/subhead block */
-export type CoreSubheadBlock = Block & {
-  __typename?: 'CoreSubheadBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreSubheadBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreSubheadBlockAttributes = {
-  __typename?: 'CoreSubheadBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content?: Maybe<Scalars['String']>
-}
-
-/** core/table block */
-export type CoreTableBlock = Block & {
-  __typename?: 'CoreTableBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreTableBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreTableBlockAttributes = {
-  __typename?: 'CoreTableBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  backgroundColor?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  body: Scalars['BlockAttributesArray']
-  /** @deprecated  */
-  caption: Scalars['String']
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  foot: Scalars['BlockAttributesArray']
-  /** @deprecated  */
-  hasFixedLayout: Scalars['Boolean']
-  /** @deprecated  */
-  head: Scalars['BlockAttributesArray']
-}
-
-/** core/tag-cloud block */
-export type CoreTagCloudBlock = Block & {
-  __typename?: 'CoreTagCloudBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreTagCloudBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Server side rendered content.
-   * @deprecated
-   */
-  renderedContent: Scalars['String']
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreTagCloudBlockAttributes = {
-  __typename?: 'CoreTagCloudBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  showTagCounts: Scalars['Boolean']
-  /** @deprecated  */
-  taxonomy: Scalars['String']
-}
-
-/** core/text-columns block */
-export type CoreTextColumnsBlock = Block & {
-  __typename?: 'CoreTextColumnsBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreTextColumnsBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreTextColumnsBlockAttributes = {
-  __typename?: 'CoreTextColumnsBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  columns: Scalars['Float']
-  /** @deprecated  */
-  content: Scalars['BlockAttributesArray']
-  /** @deprecated  */
-  width?: Maybe<Scalars['String']>
-}
-
-/** core/verse block */
-export type CoreVerseBlock = Block & {
-  __typename?: 'CoreVerseBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreVerseBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreVerseBlockAttributes = {
-  __typename?: 'CoreVerseBlockAttributes'
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  content: Scalars['String']
-  /** @deprecated  */
-  textAlign?: Maybe<Scalars['String']>
-}
-
-/** core/video block */
-export type CoreVideoBlock = Block & {
-  __typename?: 'CoreVideoBlock'
-  /** @deprecated  */
-  attributes?: Maybe<CoreVideoBlockAttributes>
-  /**
-   * Inner blocks.
-   * @deprecated
-   */
-  innerBlocks: Array<Maybe<Block>>
-  /**
-   * Block validation assumes an idempotent operation from source block to serialized block
-   * @deprecated
-   */
-  isValid: Scalars['Boolean']
-  /**
-   * Name of the block.
-   * @deprecated
-   */
-  name: Scalars['String']
-  /**
-   * Original HTML content.
-   * @deprecated
-   */
-  originalContent: Scalars['String']
-  /**
-   * Parent post.
-   * @deprecated
-   */
-  parent?: Maybe<PostObjectTypesWithBlocksUnion>
-  /**
-   * Parent post id.
-   * @deprecated
-   */
-  parentId?: Maybe<Scalars['Int']>
-  /**
-   * Original HTML content with inner blocks.
-   * @deprecated
-   */
-  saveContent: Scalars['String']
-}
-
-export type CoreVideoBlockAttributes = {
-  __typename?: 'CoreVideoBlockAttributes'
-  /** @deprecated  */
-  align?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  autoplay?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  caption?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  className?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  controls: Scalars['Boolean']
-  /** @deprecated  */
-  id?: Maybe<Scalars['Float']>
-  /** @deprecated  */
-  loop?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  muted?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  playsInline?: Maybe<Scalars['Boolean']>
-  /** @deprecated  */
-  poster?: Maybe<Scalars['String']>
-  /** @deprecated  */
-  preload: Scalars['String']
-  /** @deprecated  */
-  src?: Maybe<Scalars['String']>
-}
-
 export type GetPostBySlugQueryVariables = {
   slug?: Maybe<Scalars['String']>
 }
 
 export type GetPostBySlugQuery = { __typename?: 'RootQuery' } & {
-  post?: Maybe<
-    { __typename?: 'Post' } & Pick<Post, 'uri'> & {
-        blocks?: Maybe<
-          Array<
-            Maybe<
-              | ({ __typename: 'CoreParagraphBlock' } & Pick<
-                  CoreParagraphBlock,
-                  'name'
-                > & {
-                    attributes?: Maybe<
-                      | ({ __typename: 'CoreParagraphBlockAttributes' } & Pick<
-                          CoreParagraphBlockAttributes,
-                          'backgroundColor' | 'content'
-                        >)
-                      | ({
-                          __typename: 'CoreParagraphBlockAttributesV2'
-                        } & Pick<
-                          CoreParagraphBlockAttributesV2,
-                          'align' | 'backgroundColor' | 'content'
-                        >)
-                      | ({
-                          __typename: 'CoreParagraphBlockAttributesV3'
-                        } & Pick<
-                          CoreParagraphBlockAttributesV3,
-                          'fontSize' | 'content'
-                        >)
-                    >
-                  })
-              | ({ __typename: 'CoreImageBlock' } & Pick<
-                  CoreImageBlock,
-                  'name'
-                > & {
-                    attributes?: Maybe<
-                      { __typename?: 'CoreImageBlockAttributes' } & Pick<
-                        CoreImageBlockAttributes,
-                        | 'alt'
-                        | 'href'
-                        | 'title'
-                        | 'url'
-                        | 'rel'
-                        | 'id'
-                        | 'caption'
-                        | 'align'
-                      >
-                    >
-                  })
-              | ({ __typename: 'CoreHeadingBlock' } & Pick<
-                  CoreHeadingBlock,
-                  'name'
-                > & {
-                    attributes?: Maybe<
-                      { __typename: 'CoreHeadingBlockAttributes' } & Pick<
-                        CoreHeadingBlockAttributes,
-                        'content' | 'level'
-                      >
-                    >
-                  })
-              | ({ __typename: 'CoreGalleryBlock' } & Pick<
-                  CoreGalleryBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreListBlock' } & Pick<
-                  CoreListBlock,
-                  'name'
-                > & {
-                    attributes?: Maybe<
-                      { __typename?: 'CoreListBlockAttributes' } & Pick<
-                        CoreListBlockAttributes,
-                        'values' | 'type' | 'ordered'
-                      >
-                    >
-                  })
-              | ({ __typename: 'CoreQuoteBlock' } & Pick<
-                  CoreQuoteBlock,
-                  'parentId' | 'originalContent' | 'name'
-                > & {
-                    attributes?: Maybe<
-                      { __typename?: 'CoreQuoteBlockAttributes' } & Pick<
-                        CoreQuoteBlockAttributes,
-                        'citation' | 'value'
-                      >
-                    >
-                  })
-              | ({ __typename: 'CoreShortcodeBlock' } & Pick<
-                  CoreShortcodeBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreArchivesBlock' } & Pick<
-                  CoreArchivesBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreAudioBlock' } & Pick<
-                  CoreAudioBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreButtonBlock' } & Pick<
-                  CoreButtonBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreButtonsBlock' } & Pick<
-                  CoreButtonsBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreCalendarBlock' } & Pick<
-                  CoreCalendarBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreCategoriesBlock' } & Pick<
-                  CoreCategoriesBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreCodeBlock' } & Pick<CoreCodeBlock, 'name'>)
-              | ({ __typename: 'CoreColumnsBlock' } & Pick<
-                  CoreColumnsBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreColumnBlock' } & Pick<
-                  CoreColumnBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreCoverBlock' } & Pick<
-                  CoreCoverBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedBlock' } & Pick<
-                  CoreEmbedBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedTwitterBlock' } & Pick<
-                  CoreEmbedTwitterBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedYoutubeBlock' } & Pick<
-                  CoreEmbedYoutubeBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedFacebookBlock' } & Pick<
-                  CoreEmbedFacebookBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedInstagramBlock' } & Pick<
-                  CoreEmbedInstagramBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedWordpressBlock' } & Pick<
-                  CoreEmbedWordpressBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedSoundcloudBlock' } & Pick<
-                  CoreEmbedSoundcloudBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedSpotifyBlock' } & Pick<
-                  CoreEmbedSpotifyBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedFlickrBlock' } & Pick<
-                  CoreEmbedFlickrBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedVimeoBlock' } & Pick<
-                  CoreEmbedVimeoBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedAnimotoBlock' } & Pick<
-                  CoreEmbedAnimotoBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedCloudupBlock' } & Pick<
-                  CoreEmbedCloudupBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedCollegehumorBlock' } & Pick<
-                  CoreEmbedCollegehumorBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedCrowdsignalBlock' } & Pick<
-                  CoreEmbedCrowdsignalBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedDailymotionBlock' } & Pick<
-                  CoreEmbedDailymotionBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedHuluBlock' } & Pick<
-                  CoreEmbedHuluBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedImgurBlock' } & Pick<
-                  CoreEmbedImgurBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedIssuuBlock' } & Pick<
-                  CoreEmbedIssuuBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedKickstarterBlock' } & Pick<
-                  CoreEmbedKickstarterBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedMeetupComBlock' } & Pick<
-                  CoreEmbedMeetupComBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedMixcloudBlock' } & Pick<
-                  CoreEmbedMixcloudBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedPolldaddyBlock' } & Pick<
-                  CoreEmbedPolldaddyBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedRedditBlock' } & Pick<
-                  CoreEmbedRedditBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedReverbnationBlock' } & Pick<
-                  CoreEmbedReverbnationBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedScreencastBlock' } & Pick<
-                  CoreEmbedScreencastBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedScribdBlock' } & Pick<
-                  CoreEmbedScribdBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedSlideshareBlock' } & Pick<
-                  CoreEmbedSlideshareBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedSmugmugBlock' } & Pick<
-                  CoreEmbedSmugmugBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedSpeakerBlock' } & Pick<
-                  CoreEmbedSpeakerBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedSpeakerDeckBlock' } & Pick<
-                  CoreEmbedSpeakerDeckBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedTiktokBlock' } & Pick<
-                  CoreEmbedTiktokBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedTedBlock' } & Pick<
-                  CoreEmbedTedBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedTumblrBlock' } & Pick<
-                  CoreEmbedTumblrBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedVideopressBlock' } & Pick<
-                  CoreEmbedVideopressBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedWordpressTvBlock' } & Pick<
-                  CoreEmbedWordpressTvBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreEmbedAmazonKindleBlock' } & Pick<
-                  CoreEmbedAmazonKindleBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreFileBlock' } & Pick<CoreFileBlock, 'name'>)
-              | ({ __typename: 'CoreGroupBlock' } & Pick<
-                  CoreGroupBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreFreeformBlock' } & Pick<
-                  CoreFreeformBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreHtmlBlock' } & Pick<CoreHtmlBlock, 'name'>)
-              | ({ __typename: 'CoreMediaTextBlock' } & Pick<
-                  CoreMediaTextBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreLatestCommentsBlock' } & Pick<
-                  CoreLatestCommentsBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreLatestPostsBlock' } & Pick<
-                  CoreLatestPostsBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreMissingBlock' } & Pick<
-                  CoreMissingBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreMoreBlock' } & Pick<CoreMoreBlock, 'name'>)
-              | ({ __typename: 'CoreNextpageBlock' } & Pick<
-                  CoreNextpageBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CorePreformattedBlock' } & Pick<
-                  CorePreformattedBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CorePullquoteBlock' } & Pick<
-                  CorePullquoteBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreRssBlock' } & Pick<CoreRssBlock, 'name'>)
-              | ({ __typename: 'CoreSearchBlock' } & Pick<
-                  CoreSearchBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreSeparatorBlock' } & Pick<
-                  CoreSeparatorBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreSocialLinksBlock' } & Pick<
-                  CoreSocialLinksBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreSocialLinkBlock' } & Pick<
-                  CoreSocialLinkBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreSpacerBlock' } & Pick<
-                  CoreSpacerBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreSubheadBlock' } & Pick<
-                  CoreSubheadBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreTableBlock' } & Pick<
-                  CoreTableBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreTagCloudBlock' } & Pick<
-                  CoreTagCloudBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreTextColumnsBlock' } & Pick<
-                  CoreTextColumnsBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreVerseBlock' } & Pick<
-                  CoreVerseBlock,
-                  'name'
-                >)
-              | ({ __typename: 'CoreVideoBlock' } & Pick<
-                  CoreVideoBlock,
-                  'name'
-                >)
-            >
-          >
-        >
-      }
-  >
+  post?: Maybe<{ __typename?: 'Post' } & Pick<Post, 'uri' | 'content'>>
 }
 
 export type GetPostsQueryVariables = {}
@@ -13341,69 +8157,7 @@ export const GetPostBySlugDocument = gql`
   query getPostBySlug($slug: String) {
     post: postBy(slug: $slug) {
       uri
-      blocks {
-        __typename
-        ... on CoreHeadingBlock {
-          name
-          attributes {
-            __typename
-            ... on CoreHeadingBlockAttributes {
-              content
-              level
-            }
-            content
-            level
-          }
-        }
-        ... on CoreParagraphBlock {
-          name
-          attributes {
-            __typename
-            ... on CoreParagraphBlockAttributes {
-              backgroundColor
-              content
-            }
-            ... on CoreParagraphBlockAttributesV3 {
-              fontSize
-              content
-            }
-            ... on CoreParagraphBlockAttributesV2 {
-              align
-              backgroundColor
-              content
-            }
-          }
-        }
-        name
-        ... on CoreImageBlock {
-          attributes {
-            alt
-            href
-            title
-            url
-            rel
-            id
-            caption
-            align
-          }
-        }
-        ... on CoreListBlock {
-          attributes {
-            values
-            type
-            ordered
-          }
-          name
-        }
-        ... on CoreQuoteBlock {
-          parentId
-          attributes {
-            citation
-            value
-          }
-          originalContent
-        }
-      }
+      content
     }
   }
 `
