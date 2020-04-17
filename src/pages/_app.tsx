@@ -17,6 +17,7 @@ import { GrowlProvider } from 'src/contexts/Growl'
 import { GrowlMessage } from 'src/components/Growl'
 import { SWRConfig } from 'swr'
 import { fetcher } from 'src/utils/Fetcher'
+import { Box } from 'src/components/Box'
 
 export default ({ Component, pageProps }: any): JSX.Element => {
   const themeColor = '#4630eb'
@@ -45,6 +46,25 @@ export default ({ Component, pageProps }: any): JSX.Element => {
   const [themeName, setThemeName] = useAsyncStorage('theme', 'dark')
   const theme = createTheme(themeName)
   React.useEffect(() => loadFonts(), [])
+
+  const [isSticky, setSticky] = React.useState<boolean>(false)
+  const ref = React.useRef<any>(null)
+
+  const handleScroll = (): void => {
+    console.log(ref)
+    if (ref.current) {
+      console.log(ref.current)
+      setSticky(true)
+    }
+  }
+
+  React.useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', () => handleScroll)
+    }
+  }, [])
 
   return (
     <>
@@ -76,6 +96,8 @@ export default ({ Component, pageProps }: any): JSX.Element => {
                   <Layout>
                     <GrowlMessage />
                     <Header
+                      ref={ref}
+                      sticky={isSticky}
                       initialSettingsData={pageProps?.initialSettingsData}
                     />
                     <Component {...pageProps} />

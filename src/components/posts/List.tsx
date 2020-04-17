@@ -36,7 +36,7 @@ export const PostList: React.FC<PropsPostList> = ({
   })
   return (
     <Flex>
-      {data?.posts.edges.map(({ node: post }, i) => (
+      {data.posts.edges.map(({ node: post }, i) => (
         <Box width="full" key={i}>
           <Flex flexWrap="wrap" flexDirection="row" justifyContent="flex-end">
             {post.featuredImage && (

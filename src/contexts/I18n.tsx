@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import rosetta, { Rosetta } from 'rosetta'
-import * as Localization from 'expo-localization'
+// import * as Localization from 'expo-localization'
 import * as locales from '../../i18n'
 import { Text } from 'src/components/Text'
 
@@ -26,7 +26,7 @@ export const configureI18n = (locale: string): I18nProps => {
   return { i18n }
 }
 
-export function I18nProvider({
+export const I18nProvider = ({
   i18n,
   setLocale,
   children,
@@ -34,19 +34,18 @@ export function I18nProvider({
   i18n: Rosetta<object>
   setLocale: any
   children: any
-}): ReactElement {
+}): any => {
   const value = React.useMemo(() => ({ i18n, setLocale }), [i18n, setLocale])
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }
-
-export function I18nInitializer({
+interface I18nInitializerProps {
+  defaultLocale?: string
+}
+export const I18nInitializer = ({
   children,
   defaultLocale = 'fr',
-}: {
-  children: any
-  defaultLocale?: string
-}): ReactElement {
+}: React.PropsWithChildren<I18nInitializerProps>): any => {
   const [locale, setLocale] = React.useState(defaultLocale)
 
   return (

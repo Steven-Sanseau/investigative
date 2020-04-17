@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Dimensions } from 'react-native'
 import { styled, css, Primitive } from './Styled'
@@ -167,17 +169,17 @@ interface ResponsiveProps {
   displayName?: string
   (...props: any): any
 }
-export const Responsive: any = ({ component, ...props }: any) => {
-  const responsiveProps = useResponsiveProps(props)
+export const Responsive: any = React.forwardRef(
+  ({ component, ...props }: ResponsiveProps, ref) => {
+    const responsiveProps = useResponsiveProps(props)
 
-  if (props.displayName) {
-    StyledComponent.displayName = props.displayName
-  }
-  return (
-    <StyledComponent
-      css={{ ResponsiveCss }}
-      as={component}
-      {...responsiveProps}
-    />
-  )
-}
+    return (
+      <StyledComponent
+        ref={ref}
+        css={{ ResponsiveCss }}
+        as={component}
+        {...responsiveProps}
+      />
+    )
+  },
+)

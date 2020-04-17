@@ -65,7 +65,7 @@ const Post: React.FC = () => {
           publisherLogo="https://www.example.com/photos/logo.jpg"
           description="This is a mighty good description of this article."
         />
-        {data && <RenderBlocks data={data} />}
+        <RenderBlocks data={data} />
       </ScrollView>
     </>
   )

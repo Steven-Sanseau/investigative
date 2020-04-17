@@ -7,6 +7,7 @@ import {
   LI as ELI,
   Main as EMain,
   Aside as EAside,
+  Pre as EPre,
 } from '@expo/html-elements'
 
 export function HR(props) {
@@ -28,4 +29,7 @@ export function Main({ ...props }) {
 }
 export function Aside({ ...props }) {
   return <Responsive component={EAside} {...props} />
+}
+export function Pre({ ...props }) {
+  return <Responsive component={EPre} {...props} />
 }
