@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { HR, UL, LI } from 'src/components/Elements'
 import { H1 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
@@ -7,9 +7,7 @@ import { Header as HeaderElement } from 'src/components/Elements'
 import useSWR from 'swr'
 import { GetSettingsQuery, MenuItem } from 'src/generated/graphql'
 import { getSettings } from 'src/graphql/settings'
-import { styled } from 'src/utils/Styled'
-import { Box } from 'src/components/Box'
-import { ScrollView } from 'react-native-gesture-handler'
+import { Box } from 'src/components/primitives/Box'
 
 const getUniversalUrl = (
   link: MenuItem,
@@ -74,72 +72,62 @@ const MenuLink: React.FC<PropsMenuLink> = ({ link }: PropsMenuLink) => {
   )
 }
 
-const Sticky = styled(Box)`
-  position: ${(props) => (props.sticky ? 'fixed' : 'relative')};
-  top: 40px;
-  padding: 5px;
-  background-color: #bbbbbb;
-  border-bottom: black solid 1px;
-  transition: top 0.2s ease-out;
-`
-const HeaderWrapper = styled(HeaderElement)`
-  position: relative;
-  height: 3rem;
+const Sticky = ({ sticky }) => (
+  <Box
+    sx={{
+      position: props.sticky ? 'fixed' : 'relative',
+      top: '40rpx',
+      p: '5rpx',
+      backgroundColor: '#bbbbbb',
+      borderBottom: 'black solid 1px',
+      transition: 'top 0.2s ease-out',
+    }}
+  />
+)
 
-  .sticky {
-    position: ${(props) => (props.sticky ? 'fixed' : 'relative')};
-    top: 40px;
-    padding: 5px;
-    background-color: #bbbbbb;
-    border-bottom: black solid 1px;
-    transition: top 0.2s ease-out;
-  }
-`
-
+const HeaderWrapper = Box
 interface HeaderProps {
   initialSettingsData?: GetSettingsQuery
   sticky: boolean
   ref: any
 }
 
-export function Header({
-  initialSettingsData,
-  sticky,
-  ref,
-}: HeaderProps): ReactElement {
-  const { data }: { data?: GetSettingsQuery } = useSWR(getSettings, {
-    initialData: initialSettingsData,
-  })
+export const Header = React.forwardRef(
+  ({ initialSettingsData }: HeaderProps, ref) => {
+    const { data }: { data?: GetSettingsQuery } = useSWR(getSettings, {
+      initialData: initialSettingsData,
+    })
 
-  return (
-    <Box ref={ref}>
-      <HeaderWrapper className={sticky ? sticky : ''}>
-        <Flex justifyContent="center" mx="auto">
-          <UniversalLink
-            routeName="home"
-            web={{
-              path: ``,
-            }}
-          >
-            <H1>{data?.settings?.title}</H1>
-          </UniversalLink>
-        </Flex>
-        <Flex>
-          <HR width="full" height="2px" />
-        </Flex>
-        <Flex width="full">
-          <UL display="flex" flexWrap="wrap" flexDirection="row">
-            {data?.menus?.nodes[0].menuItems?.nodes.map(
-              (link, i: React.ReactText) =>
-                link && (
-                  //@ts-ignore
-                  <MenuLink link={link} key={i} />
-                ),
-            )}
-          </UL>
-          <HR width="full" height="1px" bg="gray.1" />
-        </Flex>
-      </HeaderWrapper>
-    </Box>
-  )
-}
+    return (
+      <Box ref={ref}>
+        <HeaderWrapper>
+          <Flex sx={{ justifyContent: 'center', mx: 'auto' }}>
+            <UniversalLink
+              routeName="home"
+              web={{
+                path: ``,
+              }}
+            >
+              <H1>{data?.settings?.title}</H1>
+            </UniversalLink>
+          </Flex>
+          <Flex>
+            <HR width="full" height="2px" />
+          </Flex>
+          <Flex width="full">
+            <UL display="flex" flexWrap="wrap" flexDirection="row">
+              {data?.menus?.nodes[0].menuItems?.nodes.map(
+                (link, i: React.ReactText) =>
+                  link && (
+                    //@ts-ignore
+                    <MenuLink link={link} key={i} />
+                  ),
+              )}
+            </UL>
+            <HR width="full" height="1px" bg="gray.1" />
+          </Flex>
+        </HeaderWrapper>
+      </Box>
+    )
+  },
+)

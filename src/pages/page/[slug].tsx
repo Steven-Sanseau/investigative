@@ -1,8 +1,8 @@
 import { useRouting } from 'expo-next-react-navigation'
 import React from 'react'
-import { Box } from 'src/components/Box'
+import { Box } from 'src/components/primitives/Box'
 import { Header } from 'src/components/Header'
-import { Text } from 'src/components/Text'
+import { Text } from 'src/components/primitives/Text'
 import { UniversalLink } from 'src/components/UniversalLink'
 
 function Page() {

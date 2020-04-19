@@ -3,9 +3,9 @@ const withImages = require('next-images')
 const withTM = require('next-transpile-modules')
 const withPlugins = require('next-compose-plugins')
 const withOffline = require('next-offline')
-// const withBundleAnalyzer = require('@next/bundle-analyzer')({
-//   enabled: process.env.ANALYZE === 'true',
-// })
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 const nextOfflineConfig = {
   target: 'serverless',
   transformManifest: (manifest) => ['/'].concat(manifest), // add the homepage to the cache
@@ -42,8 +42,17 @@ module.exports = withPlugins([
     },
   ],
   withImages,
+  withBundleAnalyzer,
   ...(process.env.NODE_ENV === 'production'
     ? [withOffline, nextOfflineConfig]
     : [nextOfflineConfig]),
-  [withExpo, { projectRoot: __dirname }],
+  [
+    withExpo,
+    {
+      projectRoot: __dirname,
+      typescript: {
+        ignoreDevErrors: true,
+      },
+    },
+  ],
 ])

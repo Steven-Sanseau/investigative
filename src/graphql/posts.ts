@@ -1,5 +1,3 @@
-// import gql from 'graphql-tag'
-
 export const getPosts = /* GraphQL */ `
   query getPosts {
     posts: posts {

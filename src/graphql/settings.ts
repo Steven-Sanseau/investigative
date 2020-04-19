@@ -1,5 +1,3 @@
-// import gql from 'graphql-tag'
-
 export const getSettings = /* GraphQL */ `
   query getSettings {
     settings: generalSettings {

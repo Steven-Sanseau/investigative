@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { createCollapsibleStack } from 'react-navigation-collapsible'
-import { Box } from 'src/components/Box'
+import { Box } from 'src/components/primitives/Box'
 import TabBarIcon from 'src/components/TabBarIcon'
-import { Text } from 'src/components/Text'
+import { Text } from 'src/components/primitives/Text'
 import { WebWiewScreen } from 'src/components/Webview'
 import Index from 'src/pages/index'
 import Post from 'src/pages/post/[slug]'
@@ -14,7 +14,7 @@ const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const TabLabel = (name) => ({ focused }) => (
-  <Box ml={{ xs: 0, sm: 3 }}>
+  <Box sx={{ ml: { xs: 0, sm: 3 } }}>
     <Text fontFamily="heading" color={focused ? 'primary' : 'grayDark'}>
       {name}
     </Text>

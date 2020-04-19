@@ -1,5 +1,6 @@
 import { coreTheme } from './core'
 import { darkTheme } from './dark'
+import { defaultTheme } from 'src/utils/native-styled'
 
 export const createTheme = (theme: string): object => {
   const themeConfig = (theme: string): object => {
@@ -11,5 +12,5 @@ export const createTheme = (theme: string): object => {
     }
   }
 
-  return { ...coreTheme, ...themeConfig(theme) }
+  return { ...defaultTheme, ...coreTheme, ...themeConfig(theme) }
 }

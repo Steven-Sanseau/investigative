@@ -2,13 +2,12 @@ import React, { ReactChildren, ReactElement } from 'react'
 import { Dimensions } from 'react-native'
 import { P, H1, H2, H3, H4, H5, H6 } from 'src/components/Typography'
 import { UL, LI, HR, Pre } from 'src/components/Elements'
-import { Text } from 'src/components/Text'
+import { Text } from 'src/components/primitives/Text'
 import { GetPostBySlugQuery } from 'src/generated/graphql'
-import { Box } from 'src/components/Box'
+import { Box } from 'src/components/primitives/Box'
 import { parseDOM } from 'htmlparser2'
 import { UniversalLink } from 'src/components/UniversalLink'
-import { styled } from 'src/utils/Styled'
-import { Image } from 'src/components/Image'
+import { Image } from 'src/components/primitives/Image'
 import ErrorBoundary from 'react-error-boundary'
 import { DropCaps } from 'src/components/DropCaps'
 
@@ -20,7 +19,7 @@ const Link: React.FC<LinkProps> = ({
   href,
   ...props
 }: LinkProps): ReactElement => (
-  <UniversalLink as={Text} routeName={href} color="blue" {...props} />
+  <UniversalLink as={Text} routeName={href} sx={{ color: 'blue' }} {...props} />
 )
 
 interface ImageProps {
@@ -34,9 +33,11 @@ const Img: React.FC<ImageProps> = ({ src, alt }: ImageProps): ReactElement => {
   return (
     <Image
       source={{ uri: src }}
-      mx={{ xs: 'auto', md: 0 }}
-      height={imageHeight}
-      width={imageWidth}
+      sx={{
+        mx: { xs: 'auto', md: 0 },
+        height: { imageHeight },
+        width: { imageWidth },
+      }}
       loading="lazy"
       resizeMode="contain"
       alt={alt}
@@ -54,9 +55,7 @@ function Paragraph({
   children,
 }: React.PropsWithChildren<ParagraphProps>): ReactElement {
   const childrenContent = children
-  console.log('index,level', index, level)
   if (level === 0) {
-    console.log('level', index)
     return (
       <DropCaps>{childrenContent.toString().slice(0, 1)}</DropCaps> && (
         <P>{childrenContent.toString().slice(1, 0)}</P>
@@ -121,8 +120,6 @@ const transform = ({
   return null
 }
 
-const Blocks = styled(Box)``
-
 export const RenderBlocks = ({
   data,
 }: {
@@ -139,11 +136,11 @@ export const RenderBlocks = ({
   )
 
   return (
-    <Blocks width="3/4" mx="auto">
+    <Box sx={{ width: '3/4', mx: 'auto' }}>
       <ErrorBoundary onError={console.log}>
         <Text>ok</Text>
         {nodes?.map((Node) => Node)}
       </ErrorBoundary>
-    </Blocks>
+    </Box>
   )
 }

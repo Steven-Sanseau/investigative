@@ -1,8 +1,8 @@
 import { formatRelative, parseISO } from 'date-fns'
 import React from 'react'
-import { Box } from 'src/components/Box'
-import { Image } from 'src/components/Image'
-import { Text } from 'src/components/Text'
+import { Box } from 'src/components/primitives/Box'
+import { Image } from 'src/components/primitives/Image'
+import { Text } from 'src/components/primitives/Text'
 import { H2, P } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import styled from 'styled-components/native'
@@ -12,20 +12,31 @@ import { GetPostsQuery } from 'src/generated/graphql'
 import { Flex } from 'src/components/Grid'
 import { getPosts } from 'src/graphql/posts'
 
-const Title = styled(H2)`
-  text-transform: capitalize;
-`
-const Author = styled(Text).attrs({
-  fontFamily: 'heading',
-  fontWeight: 'bold',
-  fontSize: '0',
-})``
+const Title = (props) => (
+  <H2
+    sx={{
+      textTransform: 'capitalize',
+    }}
+    {...props}
+  />
+)
+
+const Author = (props) => (
+  <Text
+    sx={{
+      fontFamily: 'heading',
+      fontWeight: 'bold',
+      fontSize: '0',
+    }}
+    {...props}
+  />
+)
 
 interface PropsPostList {
   initialPostsData?: GetPostsQuery
 }
 
-const DatePost = styled(Text)``
+const DatePost = Text
 
 export const PostList: React.FC<PropsPostList> = ({
   initialPostsData,
