@@ -1,17 +1,22 @@
-import React from 'react'
-import { Footer as EFooter } from '@expo/html-elements'
+import React, { ReactElement } from 'react'
 import { Text } from 'src/components/primitives/Text'
 import { Box } from 'src/components/primitives/Box'
 import { Layout } from 'src/components/Layout'
 import { T, useI18n } from 'src/contexts/I18n'
 
-const WrappedFooterLinks = ({ sx, ...props }) => (
+interface WrappedFooterLinks {
+  sx?: any
+}
+const WrappedFooterLinks = ({
+  sx,
+  ...props
+}: WrappedFooterLinks): ReactElement => (
   <Box sx={{ ...sx, display: 'grid', gridAutoFlow: 'column' }} {...props} />
 )
 
-const FooterWrapper = ({ ...props }) => <Box {...props} />
+const FooterWrapper: React.FC<any> = ({ ...props }) => <Box {...props} />
 
-export function Footer() {
+export function Footer(): ReactElement {
   const { setLocale } = useI18n()
   const changeLangue = React.useCallback(() => {
     return setLocale('en')

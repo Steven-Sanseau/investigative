@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { createCollapsibleStack } from 'react-navigation-collapsible'
 import { Box } from 'src/components/primitives/Box'
-import TabBarIcon from 'src/components/TabBarIcon'
+// import TabBarIcon from 'src/components/TabBarIcon'
 import { Text } from 'src/components/primitives/Text'
-import { WebWiewScreen } from 'src/components/Webview'
+import { Webview } from 'src/components/Webview'
 import Index from 'src/pages/index'
 import Post from 'src/pages/post/[slug]'
 
@@ -20,15 +20,15 @@ const TabLabel = (name) => ({ focused }) => (
     </Text>
   </Box>
 )
-const TabIcon = (name) => ({ focused }) => (
-  <TabBarIcon color={focused ? 'primary' : 'grayDark'} name={name} />
-)
+// const TabIcon = (name) => ({ focused }) => (
+//   <TabBarIcon color={focused ? 'primary' : 'grayDark'} name={name} />
+// )
 
 export function PostStack() {
   return (
     <Stack.Navigator headerMode="screen">
       <Stack.Screen component={Post} name="post" />
-      <Stack.Screen component={WebWiewScreen} name="webview" />
+      <Stack.Screen component={Webview} name="webview" />
     </Stack.Navigator>
   )
 }
@@ -58,7 +58,7 @@ export function Main() {
       )}
 
       <MainStack.Screen component={Post} name="post" />
-      <MainStack.Screen component={WebWiewScreen} name="webview" />
+      <MainStack.Screen component={Webview} name="webview" />
     </MainStack.Navigator>
   )
 }
@@ -70,13 +70,13 @@ export function MainTabs() {
         name="home"
         component={Main}
         options={{
-          tabBarIcon: TabIcon('ios-today'),
+          // tabBarIcon: TabIcon('ios-today'),
           tabBarLabel: TabLabel('Home'),
         }}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: TabIcon('ios-settings'),
+          // tabBarIcon: TabIcon('ios-settings'),
           tabBarLabel: TabLabel('More'),
         }}
         name="more"

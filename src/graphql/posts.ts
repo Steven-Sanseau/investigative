@@ -18,9 +18,12 @@ export const getPosts = /* GraphQL */ `
           }
           commentCount
           excerpt(format: RENDERED)
-          featuredImage {
+          thumbnail: featuredImage {
+            sourceUrl(size: POST_THUMBNAIL)
+          }
+          image: featuredImage {
             altText
-            sourceUrl(size: MEDIUM)
+            sourceUrl(size: LARGE)
             caption(format: RAW)
             description(format: RAW)
           }

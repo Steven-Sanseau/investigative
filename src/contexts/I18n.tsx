@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import rosetta, { Rosetta } from 'rosetta'
 // import * as Localization from 'expo-localization'
 import * as locales from '../../i18n'

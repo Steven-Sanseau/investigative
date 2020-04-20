@@ -1,5 +1,4 @@
 import React, { ReactChildren, ReactElement } from 'react'
-import { Dimensions } from 'react-native'
 import { P, H1, H2, H3, H4, H5, H6 } from 'src/components/Typography'
 import { UL, LI, HR, Pre } from 'src/components/Elements'
 import { Text } from 'src/components/primitives/Text'
@@ -8,8 +7,8 @@ import { Box } from 'src/components/primitives/Box'
 import { parseDOM } from 'htmlparser2'
 import { UniversalLink } from 'src/components/UniversalLink'
 import { Image } from 'src/components/primitives/Image'
+import { Webview } from 'src/components/Webview'
 import ErrorBoundary from 'react-error-boundary'
-import { DropCaps } from 'src/components/DropCaps'
 
 interface LinkProps {
   href: string
@@ -27,63 +26,46 @@ interface ImageProps {
   alt: string
 }
 const Img: React.FC<ImageProps> = ({ src, alt }: ImageProps): ReactElement => {
-  const dimensions = Dimensions.get('window')
-  const imageHeight = Math.round((dimensions.width * 9) / 16)
-  const imageWidth = dimensions.width
   return (
     <Image
-      source={{ uri: src }}
+      src={src}
       sx={{
         mx: { xs: 'auto', md: 0 },
-        height: { imageHeight },
-        width: { imageWidth },
+        height: '300hpx',
+        width: 'full',
       }}
-      loading="lazy"
-      resizeMode="contain"
       alt={alt}
     />
   )
 }
 
-interface ParagraphProps {
-  index: number
-  level: number
+interface IframeProps {
+  src: string
 }
-function Paragraph({
-  index,
-  level,
-  children,
-}: React.PropsWithChildren<ParagraphProps>): ReactElement {
-  const childrenContent = children
-  if (level === 0) {
-    return (
-      <DropCaps>{childrenContent.toString().slice(0, 1)}</DropCaps> && (
-        <P>{childrenContent.toString().slice(1, 0)}</P>
-      )
-    )
-  }
-  return <P>{children}</P>
+const Iframe: React.FC<IframeProps> = ({
+  src,
+  ...props
+}: React.PropsWithChildren<IframeProps>) => {
+  return (
+    <Box sx={{ width: 'full', mx: { xs: 'auto', md: 0 } }}>
+      <Webview uri={src} />
+    </Box>
+  )
 }
 
 const transform = ({
   node,
   wrapText,
-  index,
-  level,
 }: {
-  node
-  wrapText
-  index
-  level
+  node: any
+  wrapText: any
 }): ReactElement => {
   const getChildren = (node, wrapText = true): [ReactElement] => {
-    return node.children?.map((child) =>
-      transform({ node: child, wrapText, index, level: level + 1 }),
-    )
+    return node.children?.map((child) => transform({ node: child, wrapText }))
   }
 
   const Elements = {
-    p: Paragraph,
+    p: P,
     hr: HR,
     h1: H1,
     h2: H2,
@@ -95,52 +77,44 @@ const transform = ({
     li: LI,
     ul: UL,
     em: Text,
+    figure: Text,
     div: Box,
     blockquote: Text,
     span: Text,
     img: Img,
     a: Link,
+    iframe: Iframe,
   }
 
   if (node.type === 'text') {
     if (wrapText) {
       return <Text>{node.data.replace(/\n|\r/g, '')}</Text>
     }
+
     return node.data.trim()
   }
   if (node.type === 'tag') {
     const Element = Elements[node.name]
     return Element ? (
-      <Element {...node.attribs} index={index} level={level}>
-        {getChildren(node)}
-      </Element>
+      <Element {...node.attribs}>{getChildren(node)}</Element>
     ) : null
   }
 
   return null
 }
 
-export const RenderBlocks = ({
-  data,
-}: {
-  data: GetPostBySlugQuery
-}): JSX.Element => {
+export const RenderBlocks = ({ content }: { content: string }): JSX.Element => {
   const nodes = React.useMemo(
     () =>
-      parseDOM(data?.post?.content)
-        .map((node, index) =>
-          transform({ node, wrapText: true, index, level: 0 }),
-        )
+      parseDOM(content)
+        .map((node) => transform({ node, wrapText: true }))
         .filter(Boolean),
-    [data],
+    [content],
   )
 
   return (
-    <Box sx={{ width: '3/4', mx: 'auto' }}>
-      <ErrorBoundary onError={console.log}>
-        <Text>ok</Text>
-        {nodes?.map((Node) => Node)}
-      </ErrorBoundary>
-    </Box>
+    <ErrorBoundary onError={console.log}>
+      {nodes?.map((Node) => Node)}
+    </ErrorBoundary>
   )
 }

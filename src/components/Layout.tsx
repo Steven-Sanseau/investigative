@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Box } from 'src/components/primitives/Box'
+import { Box, BoxProps } from 'src/components/primitives/Box'
 
-export const Layout = ({ sx, ...props }) => (
+export const Layout: React.FC<BoxProps> = ({ sx, ...props }: BoxProps) => (
   <Box
     sx={{
       ...sx,

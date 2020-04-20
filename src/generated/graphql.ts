@@ -8033,7 +8033,24 @@ export type GetPostBySlugQueryVariables = {
 }
 
 export type GetPostBySlugQuery = { __typename?: 'RootQuery' } & {
-  post?: Maybe<{ __typename?: 'Post' } & Pick<Post, 'uri' | 'content'>>
+  post?: Maybe<
+    { __typename?: 'Post' } & Pick<
+      Post,
+      | 'title'
+      | 'excerpt'
+      | 'date'
+      | 'modified'
+      | 'content'
+      | 'commentCount'
+      | 'commentStatus'
+    > & {
+        author?: Maybe<
+          { __typename?: 'User' } & Pick<User, 'slug' | 'name'> & {
+              avatar?: Maybe<{ __typename?: 'Avatar' } & Pick<Avatar, 'url'>>
+            }
+        >
+      }
+  >
 }
 
 export type GetPostsQueryVariables = {}
@@ -8065,7 +8082,13 @@ export type GetPostsQuery = { __typename?: 'RootQuery' } & {
                         >
                       }
                     >
-                    featuredImage?: Maybe<
+                    thumbnail?: Maybe<
+                      { __typename?: 'MediaItem' } & Pick<
+                        MediaItem,
+                        'sourceUrl'
+                      >
+                    >
+                    image?: Maybe<
                       { __typename?: 'MediaItem' } & Pick<
                         MediaItem,
                         'altText' | 'sourceUrl' | 'caption' | 'description'
@@ -8156,8 +8179,20 @@ export type GetSettingsQuery = { __typename?: 'RootQuery' } & {
 export const GetPostBySlugDocument = gql`
   query getPostBySlug($slug: String) {
     post: postBy(slug: $slug) {
-      uri
-      content
+      title(format: RENDERED)
+      excerpt(format: RENDERED)
+      date
+      modified
+      author {
+        slug
+        name
+        avatar {
+          url
+        }
+      }
+      content(format: RENDERED)
+      commentCount
+      commentStatus
     }
   }
 `
@@ -8181,9 +8216,12 @@ export const GetPostsDocument = gql`
           }
           commentCount
           excerpt(format: RENDERED)
-          featuredImage {
+          thumbnail: featuredImage {
+            sourceUrl(size: POST_THUMBNAIL)
+          }
+          image: featuredImage {
             altText
-            sourceUrl(size: MEDIUM)
+            sourceUrl(size: LARGE)
             caption(format: RAW)
             description(format: RAW)
           }

@@ -3,14 +3,13 @@ import { enableScreens } from 'react-native-screens'
 enableScreens()
 
 import Navigation from 'src/navigations/Home'
+import { ThemeProvider } from 'src/utils/native-styled'
 
 import * as Font from 'expo-font'
 import ErrorBoundary from 'react-error-boundary'
 import { Platform, StatusBar } from 'react-native'
-import { ThemeProvider, defaultTheme } from 'native-styled'
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { Text } from 'src/components/primitives/Text'
 import { ThemeProvider as ThemeProviderContext } from 'src/contexts/theme'
 import { createTheme } from 'src/themes/theme'
 import { useAsyncStorage } from 'src/utils/AsyncStorage'
@@ -31,12 +30,11 @@ export default function Index(): JSX.Element {
         'Libre Franklin': require('./assets/fonts/Libre_Franklin/LibreFranklin-Bold.ttf'),
         'Source Serif Pro': require('./assets/fonts/Source_Serif_Pro/SourceSerifPro-Regular.ttf'),
       })
-
       setAppLoaded(true)
     }
 
     loadApp()
-  }, [])
+  }, [theme])
 
   function getStatusBarStyle(
     theme,
@@ -60,14 +58,14 @@ export default function Index(): JSX.Element {
 
   return (
     <ErrorBoundary>
-      <SWRConfig
-        value={{
-          refreshInterval: 3000,
-          fetcher,
-        }}
-      >
-        <SafeAreaProvider>
-          <ThemeProvider theme={defaultTheme}>
+      {appLoaded && (
+        <SWRConfig
+          value={{
+            refreshInterval: 3000,
+            fetcher,
+          }}
+        >
+          <SafeAreaProvider>
             <AppearanceProvider>
               {Platform.OS === 'ios' && (
                 <StatusBar animated barStyle={getStatusBarStyle(themeName)} />
@@ -78,14 +76,16 @@ export default function Index(): JSX.Element {
                   setThemeName: setThemeName,
                 }}
               >
-                <I18nInitializer>
-                  <GrowlProvider>{appLoaded && <Navigation />}</GrowlProvider>
-                </I18nInitializer>
+                <ThemeProvider theme={theme}>
+                  <I18nInitializer>
+                    <GrowlProvider>{<Navigation />}</GrowlProvider>
+                  </I18nInitializer>
+                </ThemeProvider>
               </ThemeProviderContext>
             </AppearanceProvider>
-          </ThemeProvider>
-        </SafeAreaProvider>
-      </SWRConfig>
+          </SafeAreaProvider>
+        </SWRConfig>
+      )}
     </ErrorBoundary>
   )
 }

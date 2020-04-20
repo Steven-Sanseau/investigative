@@ -13,12 +13,12 @@ export const Home: React.FC = () => {
     <CollapsibleHeader>
       <SafeAreaView>
         <GrowlMessage />
-        <Box overflow="hidden">
-          <Flex flexDirection="row">
-            <Main width={{ xs: 'full', lg: '9/12' }}>
+        <Box sx={{ overflow: 'hidden' }}>
+          <Flex sx={{ flexDirection: 'row' }}>
+            <Main sx={{ width: { xs: 'full', lg: '9/12' } }}>
               <PostList />
             </Main>
-            <Aside width={{ xs: 'full', md: '3/12' }}>
+            <Aside sx={{ width: { xs: 'full', md: '3/12' } }}>
               <Sidebar />
             </Aside>
           </Flex>

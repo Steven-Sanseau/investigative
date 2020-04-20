@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Styled } from 'src/utils/native-styled'
+import { View } from 'react-native'
+import { useStyling } from 'src/utils/native-styled'
 import { ThemedStyle } from 'src/utils/native-styled/ThemeContext'
 // import { Responsive } from '../utils/Responsive'
 // import {
@@ -33,7 +33,7 @@ export const Box: React.FC<BoxProps> = React.forwardRef(
     { sx, displayName, ...props }: React.PropsWithChildren<BoxProps>,
     ref?: Ref,
   ): any => {
-    const styling = Styled().useStyling()
+    const styling = useStyling()
     Box.displayName = displayName || 'Box'
     return <View ref={ref} style={styling(sx)} {...props} />
   },

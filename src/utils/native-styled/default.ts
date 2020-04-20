@@ -1,4 +1,6 @@
-export const defaultTheme = {
+import { StaticTheme } from 'src/utils/native-styled/ThemeContext'
+
+export const defaultTheme: StaticTheme = {
   breakpoints: { xs: 640, sm: 768, md: 1024, lg: 1280 },
 
   scales: {
@@ -69,7 +71,7 @@ export const defaultTheme = {
       body: '400',
       heading: '700',
     },
-    fontFamily: {},
+
     lineHeights: {
       1: 1,
       tight: 1.25,
@@ -200,7 +202,7 @@ export const defaultTheme = {
     marginBottom: 'spaces',
     marginLeft: 'spaces',
 
-    fontFamily: 'fontFamily',
+    fontFamily: 'fonts',
     fontSize: 'fontSizes',
     fontWeight: 'fontWeights',
     lineHeight: 'lineHeights',

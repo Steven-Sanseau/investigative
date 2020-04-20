@@ -1,18 +1,18 @@
 import { formatRelative, parseISO } from 'date-fns'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { Box } from 'src/components/primitives/Box'
 import { Image } from 'src/components/primitives/Image'
 import { Text } from 'src/components/primitives/Text'
 import { H2, P } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
-import styled from 'styled-components/native'
 import useSWR from 'swr'
 
 import { GetPostsQuery } from 'src/generated/graphql'
 import { Flex } from 'src/components/Grid'
 import { getPosts } from 'src/graphql/posts'
+import { RenderBlocks } from 'src/components/post/Blocks'
 
-const Title = (props) => (
+const Title = (props): ReactElement => (
   <H2
     sx={{
       textTransform: 'capitalize',
@@ -21,7 +21,7 @@ const Title = (props) => (
   />
 )
 
-const Author = (props) => (
+const Author = (props): ReactElement => (
   <Text
     sx={{
       fontFamily: 'heading',
@@ -47,25 +47,37 @@ export const PostList: React.FC<PropsPostList> = ({
   })
   return (
     <Flex>
-      {data.posts.edges.map(({ node: post }, i) => (
-        <Box width="full" key={i}>
-          <Flex flexWrap="wrap" flexDirection="row" justifyContent="flex-end">
-            {post.featuredImage && (
-              <Box width={{ xs: 'full', lg: '1/3' }} overflow="hidden">
+      {data?.posts?.edges.map(({ node: post }, i) => (
+        <Box sx={{ width: 'full' }} key={i}>
+          <Flex
+            sx={{
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+            }}
+          >
+            {post.image && (
+              <Box
+                sx={{ width: { xs: 'full', lg: '1/3' }, overflow: 'hidden' }}
+              >
                 <Image
-                  mx={{ xs: 'auto', md: 0 }}
-                  height={{ xs: '143px', lg: '185px', xl: '185px' }}
-                  width={{ xs: '200px', lg: '260px', xl: '260px' }}
-                  loading="lazy"
-                  resizeMode="contain"
-                  source={{ uri: post.featuredImage.sourceUrl }}
+                  alt={post.image.altText && post.image.caption}
+                  sx={{
+                    mx: { xs: 'auto', md: 0 },
+                    height: { xs: 143, lg: 185, xl: 185 },
+                    width: { xs: 'full', lg: 260, xl: 260 },
+                  }}
+                  thumbnail={post.thumbnail.sourceUrl}
+                  src={post.image.sourceUrl}
                 />
               </Box>
             )}
             <Box
-              width={{ xs: 'full', lg: post?.featuredImage ? '2/3' : 'full' }}
+              sx={{
+                width: { xs: 'full', lg: post?.image ? '2/3' : 'full' },
+              }}
             >
-              <Flex alignItems="flex-start">
+              <Flex sx={{ alignItems: 'flex-start' }}>
                 <UniversalLink
                   key={i}
                   routeName={`post`}
@@ -78,7 +90,7 @@ export const PostList: React.FC<PropsPostList> = ({
                 >
                   <Title>{post.title}</Title>
                 </UniversalLink>
-                <Box flexDirection="row" alignItems="baseline">
+                <Box sx={{ flexDirection: 'row', alignItems: 'baseline' }}>
                   <Author>by {post.author.name}</Author>
                   {post?.date && (
                     <DatePost>
@@ -88,7 +100,7 @@ export const PostList: React.FC<PropsPostList> = ({
                   <Text>{post.commentCount}</Text>
                 </Box>
                 <Box>
-                  <P textAlign="justify">{post.excerpt}</P>
+                  <RenderBlocks content={post.excerpt} />
                 </Box>
               </Flex>
             </Box>

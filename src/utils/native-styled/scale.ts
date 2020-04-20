@@ -38,6 +38,9 @@ export function getScaleValue({
   if (typeof value === 'string' && new RegExp('rpx').test(value)) {
     return normalize(parseInt(value.replace('rpx', '')))
   }
+  if (typeof value === 'string' && new RegExp('hpx').test(value)) {
+    return normalize(parseInt(value.replace('hpx', '')), 'height')
+  }
 
   return value
 }

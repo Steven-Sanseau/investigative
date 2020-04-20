@@ -1,8 +1,8 @@
 import React from 'react'
 import { Storage } from './storage'
 
-export function useAsyncStorage(key, initialValue) {
-  const [storedValue, setStoredValue] = React.useState(initialValue)
+export function useAsyncStorage(key, initialValue): [any, React.Dispatch<any>] {
+  const [storedValue, setStoredValue] = React.useState<any>(initialValue)
 
   React.useEffect(() => {
     const getItem = async (): Promise<string> => {
@@ -22,5 +22,5 @@ export function useAsyncStorage(key, initialValue) {
     await Storage.setItem(key, JSON.stringify(valueToStore))
   }
 
-  return [storedValue, setValue] as const
+  return [storedValue, setValue]
 }

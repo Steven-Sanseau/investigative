@@ -2,7 +2,7 @@ import React, { ReactElement, CSSProperties } from 'react'
 import { ValueOf } from 'type-fest'
 
 export interface ScaleTokens<T extends keyof CSSProperties> {
-  [key: string]: NonNullable<CSSProperties[T]>
+  [key: string]: NonNullable<CSSProperties[T]> | NonNullable<CSSProperties[T]>[]
 }
 
 export interface CommonTheme {

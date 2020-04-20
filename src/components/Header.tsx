@@ -3,11 +3,11 @@ import { HR, UL, LI } from 'src/components/Elements'
 import { H1 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import { Flex } from 'src/components/Grid'
-import { Header as HeaderElement } from 'src/components/Elements'
 import useSWR from 'swr'
 import { GetSettingsQuery, MenuItem } from 'src/generated/graphql'
 import { getSettings } from 'src/graphql/settings'
 import { Box } from 'src/components/primitives/Box'
+import { Text } from 'src/components/primitives/Text'
 
 const getUniversalUrl = (
   link: MenuItem,
@@ -60,39 +60,26 @@ const MenuLink: React.FC<PropsMenuLink> = ({ link }: PropsMenuLink) => {
       }}
     >
       <LI
-        listStyle="none"
-        mx={{ lg: 1, xl: 3 }}
-        fontFamily="heading"
-        textTransform="capitalize"
-        fontSize={2}
+        sx={{
+          listStyle: 'none',
+          mx: { lg: 1, xl: 3 },
+          fontFamily: 'heading',
+          textTransform: 'capitalize',
+          fontSize: 2,
+        }}
       >
-        {link.label}
+        <Text>{link.label}</Text>
       </LI>
     </UniversalLink>
   )
 }
 
-const Sticky = ({ sticky }) => (
-  <Box
-    sx={{
-      position: props.sticky ? 'fixed' : 'relative',
-      top: '40rpx',
-      p: '5rpx',
-      backgroundColor: '#bbbbbb',
-      borderBottom: 'black solid 1px',
-      transition: 'top 0.2s ease-out',
-    }}
-  />
-)
-
 const HeaderWrapper = Box
+
 interface HeaderProps {
   initialSettingsData?: GetSettingsQuery
-  sticky: boolean
-  ref: any
 }
-
-export const Header = React.forwardRef(
+export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
   ({ initialSettingsData }: HeaderProps, ref) => {
     const { data }: { data?: GetSettingsQuery } = useSWR(getSettings, {
       initialData: initialSettingsData,
@@ -112,10 +99,12 @@ export const Header = React.forwardRef(
             </UniversalLink>
           </Flex>
           <Flex>
-            <HR width="full" height="2px" />
+            <HR sx={{ width: 'full', height: '2rpx' }} />
           </Flex>
-          <Flex width="full">
-            <UL display="flex" flexWrap="wrap" flexDirection="row">
+          <Flex sx={{ width: 'full' }}>
+            <UL
+              sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}
+            >
               {data?.menus?.nodes[0].menuItems?.nodes.map(
                 (link, i: React.ReactText) =>
                   link && (
@@ -124,7 +113,7 @@ export const Header = React.forwardRef(
                   ),
               )}
             </UL>
-            <HR width="full" height="1px" bg="gray.1" />
+            <HR sx={{ width: 'full', height: '1rpx', bg: 'gray.1' }} />
           </Flex>
         </HeaderWrapper>
       </Box>
