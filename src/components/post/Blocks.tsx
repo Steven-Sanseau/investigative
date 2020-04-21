@@ -56,12 +56,16 @@ const Iframe: React.FC<IframeProps> = ({
 const transform = ({
   node,
   wrapText,
+  key,
 }: {
   node: any
   wrapText: any
+  key: any
 }): ReactElement => {
   const getChildren = (node, wrapText = true): [ReactElement] => {
-    return node.children?.map((child) => transform({ node: child, wrapText }))
+    return node.children?.map((child, key) =>
+      transform({ node: child, wrapText, key }),
+    )
   }
 
   const Elements = {
@@ -88,7 +92,7 @@ const transform = ({
 
   if (node.type === 'text') {
     if (wrapText) {
-      return <Text>{node.data.replace(/\n|\r/g, '')}</Text>
+      return <Text key={key}>{node.data.replace(/\n|\r/g, '')}</Text>
     }
 
     return node.data.trim()
@@ -96,7 +100,9 @@ const transform = ({
   if (node.type === 'tag') {
     const Element = Elements[node.name]
     return Element ? (
-      <Element {...node.attribs}>{getChildren(node)}</Element>
+      <Element {...node.attribs} key={key}>
+        {getChildren(node)}
+      </Element>
     ) : null
   }
 
@@ -107,11 +113,11 @@ export const RenderBlocks = ({ content }: { content: string }): JSX.Element => {
   const nodes = React.useMemo(
     () =>
       parseDOM(content)
-        .map((node) => transform({ node, wrapText: true }))
+        .map((node, key) => transform({ node, wrapText: true, key }))
         .filter(Boolean),
     [content],
   )
-
+  console.log(nodes)
   return (
     <ErrorBoundary onError={console.log}>
       {nodes?.map((Node) => Node)}

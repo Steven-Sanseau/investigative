@@ -79,7 +79,6 @@ export default ({ Component, pageProps }: any): JSX.Element => {
         <ThemeProvider theme={theme}>
           <SWRConfig
             value={{
-              refreshInterval: 3000,
               fetcher: (query, ...args) => fetcher(query, ...args),
             }}
           >

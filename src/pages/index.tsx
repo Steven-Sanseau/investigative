@@ -12,7 +12,9 @@ interface PropsIndex {
 
 export const getStaticProps = async (): Promise<{ props: PropsIndex }> => {
   const initialSettingsData: GetSettingsQuery = await fetcher(getSettings)
-  const initialPostsData: GetPostsQuery = await fetcher(getPosts)
+  const initialPostsData: GetPostsQuery = await fetcher(getPosts, {
+    after: null,
+  })
   return { props: { initialPostsData, initialSettingsData } }
 }
 

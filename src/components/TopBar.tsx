@@ -4,51 +4,42 @@ import { Text } from 'src/components/primitives/Text'
 import { Box } from 'src/components/primitives/Box'
 import { format } from 'date-fns'
 import { Layout } from 'src/components/Layout'
+import { UniversalLink } from 'src/components/UniversalLink'
+
+const TopLink = ({ link, ...props }) => (
+  <Box ml="1">
+    <UniversalLink
+      sx={{ color: 'white' }}
+      routeName={link}
+      as={Text}
+      {...props}
+    />
+  </Box>
+)
 
 export const TopBar: React.FC = () => {
   const now = format(new Date(), 'EEEE, LLLL M, y')
   return (
-    <Box sx={{ bg: 'darkGray' }}>
+    <Box sx={{ bg: 'black' }}>
       <Layout>
-        <Flex sx={{ width: 'full', flexDirection: 'row' }}>
+        <Flex sx={{ width: 'full', flexDirection: 'row', height: '40hpx' }}>
           <Box sx={{ width: { xs: '1/12', lg: '1/12' } }}>
-            <Box sx={{ alignContent: 'flex-start' }}>
+            <Box
+              sx={{
+                alignContent: 'flex-start',
+                justifyContent: 'center',
+              }}
+            >
               <Box
                 sx={{
-                  justifyContent: 'space-start',
+                  justifyContent: 'center',
                   alignItems: 'baseline',
                   flexDirection: 'row',
                 }}
               >
-                <Text
-                  sx={{
-                    color: 'white',
-                  }}
-                >
-                  Link
-                </Text>
-                <Box ml="1">
-                  <Text
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    Link
-                  </Text>
-                </Box>
-                <Box
-                  sx={{
-                    ml: 1,
-                  }}
-                >
-                  <Text
-                    sx={{
-                      color: 'white',
-                    }}
-                  >
-                    Link
-                  </Text>
-                </Box>
+                <TopLink link="http://google.fr">Test</TopLink>
+                <TopLink link="http://google.fr">Test</TopLink>
+                <TopLink link="http://google.fr">Test</TopLink>
               </Box>
             </Box>
           </Box>
@@ -63,9 +54,9 @@ export const TopBar: React.FC = () => {
             <Text
               sx={{
                 m: 'auto',
-                color: { xs: 'red', xl: 'grayDark' },
+                color: 'white',
                 fontFamily: 'heading',
-                fontWeight: 'heading',
+                fontWeight: 400,
                 fontSize: '0',
                 align: 'center',
               }}
@@ -77,7 +68,7 @@ export const TopBar: React.FC = () => {
             sx={{
               width: { xs: '1/12', lg: '1/12' },
               alignItems: 'flex-end',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
             }}
           >
             <Text sx={{ color: 'white' }}>Linked</Text>

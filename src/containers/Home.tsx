@@ -1,50 +1,26 @@
 import React from 'react'
 import { PostList } from 'src/components/posts/List'
 import { Flex } from 'src/components/Grid'
-import { Main, Aside } from 'src/components/Elements'
-import { Sidebar } from 'src/components/Sidebar'
+import { Main } from 'src/components/Elements'
 import { Box } from 'src/components/primitives/Box'
-import { GetPostsQuery } from 'src/generated/graphql'
+import { GetPostsQuery, GetFeaturedPostQuery } from 'src/generated/graphql'
+import { FeaturedPost } from 'src/components/posts/FeaturedPost'
 
 interface PropsHome {
   initialPostsData?: GetPostsQuery
+  initialFeaturedPostData?: GetFeaturedPostQuery
 }
-export const Home: React.FC<PropsHome> = ({ initialPostsData }: PropsHome) => {
+export const Home: React.FC<PropsHome> = ({
+  initialPostsData,
+  initialFeaturedPostData,
+}: PropsHome) => {
   return (
     <>
       <Box>
-        <Flex sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
-          <Box
-            sx={{
-              width: {
-                xs: 'full',
-                sm: 'full',
-                md: '2/3',
-                lg: '3/4',
-                xl: '2/3',
-              },
-            }}
-          >
-            <Main>
-              <PostList initialPostsData={initialPostsData} />
-            </Main>
-          </Box>
-          <Box
-            sx={{
-              width: {
-                xs: 'full',
-                sm: 'full',
-                md: '1/3',
-                lg: '1/4',
-                xl: '1/3',
-              },
-            }}
-          >
-            <Aside>
-              <Sidebar />
-            </Aside>
-          </Box>
-        </Flex>
+        <Main>
+          <FeaturedPost initialFeaturedPostData={initialFeaturedPostData} />
+          <PostList initialPostsData={initialPostsData} />
+        </Main>
       </Box>
     </>
   )

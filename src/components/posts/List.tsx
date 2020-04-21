@@ -5,12 +5,13 @@ import { Image } from 'src/components/primitives/Image'
 import { Text } from 'src/components/primitives/Text'
 import { H2, P } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
-import useSWR from 'swr'
+import useSWR, { useSWRPages } from 'swr'
 
 import { GetPostsQuery } from 'src/generated/graphql'
 import { Flex } from 'src/components/Grid'
 import { getPosts } from 'src/graphql/posts'
 import { RenderBlocks } from 'src/components/post/Blocks'
+import { LoadMore } from 'src/components/posts/LoadMore'
 
 const Title = (props): ReactElement => (
   <H2
@@ -42,12 +43,26 @@ export const PostList: React.FC<PropsPostList> = ({
   initialPostsData,
 }: PropsPostList) => {
   const now = new Date()
-  const { data }: { data?: GetPostsQuery } = useSWR(getPosts, {
-    initialData: initialPostsData || null,
-  })
-  return (
-    <Flex>
-      {data?.posts?.edges.map(({ node: post }, i) => (
+
+  const { pages, isLoadingMore, isReachingEnd, loadMore } = useSWRPages(
+    'index',
+    ({ offset, withSWR }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const paginationParams = React.useMemo(() => ({ after: offset }), [
+        offset,
+      ])
+      const { data }: { data?: GetPostsQuery } = withSWR(
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useSWR([getPosts, paginationParams], {
+          initialData: offset ? null : initialPostsData,
+        }),
+      )
+
+      if (!data) {
+        return <></>
+      }
+
+      return data.posts.edges.map(({ node: post }, i) => (
         <Box sx={{ width: 'full' }} key={i}>
           <Flex
             sx={{
@@ -58,14 +73,31 @@ export const PostList: React.FC<PropsPostList> = ({
           >
             {post.image && (
               <Box
-                sx={{ width: { xs: 'full', lg: '1/3' }, overflow: 'hidden' }}
+                sx={{
+                  width: {
+                    xs: 'full',
+                    lg: '1/3',
+                  },
+                  overflow: 'hidden',
+                }}
               >
                 <Image
                   alt={post.image.altText && post.image.caption}
                   sx={{
-                    mx: { xs: 'auto', md: 0 },
-                    height: { xs: 143, lg: 185, xl: 185 },
-                    width: { xs: 'full', lg: 260, xl: 260 },
+                    mx: {
+                      xs: 'auto',
+                      md: 0,
+                    },
+                    height: {
+                      xs: 143,
+                      lg: 185,
+                      xl: 185,
+                    },
+                    width: {
+                      xs: 'full',
+                      lg: 260,
+                      xl: 260,
+                    },
                   }}
                   thumbnail={post.thumbnail.sourceUrl}
                   src={post.image.sourceUrl}
@@ -74,14 +106,23 @@ export const PostList: React.FC<PropsPostList> = ({
             )}
             <Box
               sx={{
-                width: { xs: 'full', lg: post?.image ? '2/3' : 'full' },
+                width: {
+                  xs: 'full',
+                  lg: post?.image ? '2/3' : 'full',
+                },
               }}
             >
-              <Flex sx={{ alignItems: 'flex-start' }}>
+              <Flex
+                sx={{
+                  alignItems: 'flex-start',
+                }}
+              >
                 <UniversalLink
                   key={i}
                   routeName={`post`}
-                  params={{ slug: post.slug }}
+                  params={{
+                    slug: post.slug,
+                  }}
                   web={{
                     path: `post/[slug]`,
                     as: `post/${post.slug}`,
@@ -90,7 +131,12 @@ export const PostList: React.FC<PropsPostList> = ({
                 >
                   <Title>{post.title}</Title>
                 </UniversalLink>
-                <Box sx={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                <Box
+                  sx={{
+                    flexDirection: 'row',
+                    alignItems: 'baseline',
+                  }}
+                >
                   <Author>by {post.author.name}</Author>
                   {post?.date && (
                     <DatePost>
@@ -106,7 +152,24 @@ export const PostList: React.FC<PropsPostList> = ({
             </Box>
           </Flex>
         </Box>
-      ))}
+      ))
+    },
+    ({ data }) => {
+      return data?.posts.pageInfo.hasNextPage
+        ? data.posts.pageInfo.endCursor
+        : null
+    },
+    [],
+  )
+
+  return (
+    <Flex>
+      {pages}
+      <LoadMore
+        isReachingEnd={isReachingEnd}
+        isLoadingMore={isLoadingMore}
+        loadMore={loadMore}
+      />
     </Flex>
   )
 }

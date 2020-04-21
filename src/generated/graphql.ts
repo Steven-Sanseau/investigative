@@ -8053,10 +8053,10 @@ export type GetPostBySlugQuery = { __typename?: 'RootQuery' } & {
   >
 }
 
-export type GetPostsQueryVariables = {}
+export type GetFeaturedPostQueryVariables = {}
 
-export type GetPostsQuery = { __typename?: 'RootQuery' } & {
-  posts?: Maybe<
+export type GetFeaturedPostQuery = { __typename?: 'RootQuery' } & {
+  featuredPost?: Maybe<
     { __typename?: 'RootQueryToPostConnection' } & {
       edges?: Maybe<
         Array<
@@ -8104,16 +8104,57 @@ export type GetPostsQuery = { __typename?: 'RootQuery' } & {
   >
 }
 
-export type GetPostsSlugQueryVariables = {}
+export type GetPostsQueryVariables = {
+  after?: Maybe<Scalars['String']>
+}
 
-export type GetPostsSlugQuery = { __typename?: 'RootQuery' } & {
+export type GetPostsQuery = { __typename?: 'RootQuery' } & {
   posts?: Maybe<
     { __typename?: 'RootQueryToPostConnection' } & {
+      pageInfo?: Maybe<
+        { __typename?: 'WPPageInfo' } & Pick<
+          WpPageInfo,
+          'hasNextPage' | 'endCursor'
+        >
+      >
       edges?: Maybe<
         Array<
           Maybe<
             { __typename?: 'RootQueryToPostConnectionEdge' } & {
-              node?: Maybe<{ __typename?: 'Post' } & Pick<Post, 'slug'>>
+              node?: Maybe<
+                { __typename?: 'Post' } & Pick<
+                  Post,
+                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
+                > & {
+                    author?: Maybe<{ __typename?: 'User' } & Pick<User, 'name'>>
+                    categories?: Maybe<
+                      { __typename?: 'PostToCategoryConnection' } & {
+                        nodes?: Maybe<
+                          Array<
+                            Maybe<
+                              { __typename?: 'Category' } & Pick<
+                                Category,
+                                'slug' | 'name'
+                              >
+                            >
+                          >
+                        >
+                      }
+                    >
+                    thumbnail?: Maybe<
+                      { __typename?: 'MediaItem' } & Pick<
+                        MediaItem,
+                        'sourceUrl'
+                      >
+                    >
+                    image?: Maybe<
+                      { __typename?: 'MediaItem' } & Pick<
+                        MediaItem,
+                        'altText' | 'sourceUrl' | 'caption' | 'description'
+                      >
+                    >
+                  }
+              >
             }
           >
         >
@@ -8196,9 +8237,47 @@ export const GetPostBySlugDocument = gql`
     }
   }
 `
+export const GetFeaturedPostDocument = gql`
+  query getFeaturedPost {
+    featuredPost: posts {
+      edges {
+        node {
+          id
+          title(format: RENDERED)
+          slug
+          author {
+            name
+          }
+          date
+          categories {
+            nodes {
+              slug
+              name
+            }
+          }
+          commentCount
+          excerpt(format: RENDERED)
+          thumbnail: featuredImage {
+            sourceUrl(size: POST_THUMBNAIL)
+          }
+          image: featuredImage {
+            altText
+            sourceUrl(size: _2048X2048)
+            caption(format: RAW)
+            description(format: RAW)
+          }
+        }
+      }
+    }
+  }
+`
 export const GetPostsDocument = gql`
-  query getPosts {
-    posts: posts {
+  query getPosts($after: String) {
+    posts: posts(after: $after, first: 8) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       edges {
         node {
           id
@@ -8225,17 +8304,6 @@ export const GetPostsDocument = gql`
             caption(format: RAW)
             description(format: RAW)
           }
-        }
-      }
-    }
-  }
-`
-export const GetPostsSlugDocument = gql`
-  query getPostsSlug {
-    posts: posts {
-      edges {
-        node {
-          slug
         }
       }
     }
@@ -8297,19 +8365,19 @@ export function getSdk(
         ),
       )
     },
+    getFeaturedPost(
+      variables?: GetFeaturedPostQueryVariables,
+    ): Promise<GetFeaturedPostQuery> {
+      return withWrapper(() =>
+        client.request<GetFeaturedPostQuery>(
+          print(GetFeaturedPostDocument),
+          variables,
+        ),
+      )
+    },
     getPosts(variables?: GetPostsQueryVariables): Promise<GetPostsQuery> {
       return withWrapper(() =>
         client.request<GetPostsQuery>(print(GetPostsDocument), variables),
-      )
-    },
-    getPostsSlug(
-      variables?: GetPostsSlugQueryVariables,
-    ): Promise<GetPostsSlugQuery> {
-      return withWrapper(() =>
-        client.request<GetPostsSlugQuery>(
-          print(GetPostsSlugDocument),
-          variables,
-        ),
       )
     },
     getSettings(

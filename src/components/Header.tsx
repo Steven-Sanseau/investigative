@@ -113,7 +113,7 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
                   ),
               )}
             </UL>
-            <HR sx={{ width: 'full', height: '1rpx', bg: 'gray.1' }} />
+            <HR sx={{ width: 'full', height: '1rpx', bg: 'grayDark' }} />
           </Flex>
         </HeaderWrapper>
       </Box>
