@@ -10,6 +10,7 @@ import { getPostBySlug } from 'src/graphql/post'
 import { useGrowl } from 'src/contexts/Growl'
 import { GrowlMessage } from 'src/components/Growl'
 import { useT } from 'src/contexts/I18n'
+import { Box } from 'src/components/primitives/Box'
 
 const Post: React.FC = () => {
   const { getParam } = useRouting()
@@ -50,22 +51,20 @@ const Post: React.FC = () => {
         }
       >
         <GrowlMessage />
-        <ArticleJsonLd
-          url="https://example.com/article"
-          title="Article headline"
-          images={[
-            'https://example.com/photos/1x1/photo.jpg',
-            'https://example.com/photos/4x3/photo.jpg',
-            'https://example.com/photos/16x9/photo.jpg',
-          ]}
-          datePublished="2015-02-05T08:00:00+08:00"
-          dateModified="2015-02-05T09:00:00+08:00"
-          authorName="Jane Blogs"
-          publisherName="Gary Meehan"
-          publisherLogo="https://www.example.com/photos/logo.jpg"
-          description="This is a mighty good description of this article."
-        />
-        <RenderBlocks data={data} />
+        {data?.post && (
+          <ArticleJsonLd
+            title={data.post.title}
+            datePublished={data.post.date}
+            dateModified={data.post.modified}
+            authorName={data.post.author.name}
+            publisherName={data.post.author.name}
+            publisherLogo={data.post.author.avatar.url}
+            description={data.post.excerpt}
+          />
+        )}
+        <Box sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}>
+          <RenderBlocks content={data?.post.content} />
+        </Box>
       </ScrollView>
     </>
   )

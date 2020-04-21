@@ -27,6 +27,14 @@ export default {
     title: {},
     message: {
       refreshPost: 'This post has been updated',
+      refreshPosts: 'Updated',
     },
   },
+  home: {
+    posts: {
+      loadMore: 'Plus',
+      noMore: 'Fin',
+    },
+  },
+  loading: '...',
 }

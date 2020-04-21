@@ -1,18 +1,27 @@
-import React from 'react'
-import { Box, PropsBox } from 'src/components/Box'
+import React, { ReactElement } from 'react'
+import { Box, BoxProps } from 'src/components/primitives/Box'
 
-export const Flex: React.FC<PropsBox> = ({ ...props }) => {
-  return <Box display="flex" {...props} />
+export const Flex = ({ sx, ...props }: BoxProps): any => {
+  return <Box sx={{ ...(sx || null), display: 'flex' }} {...props} />
 }
 
-export const Grid: React.FC<PropsBox> = (props) => {
-  return <Box display="grid" {...props} />
+export const Grid: React.FC<BoxProps> = ({
+  sx,
+  ...props
+}: BoxProps): ReactElement => {
+  return <Box sx={{ ...(sx || null), display: 'grid' }} {...props} />
 }
 
-export const Column: React.FC<PropsBox> = (props) => {
-  return <Flex flexDirection="column" {...props} />
+export const Column: React.FC<BoxProps> = ({
+  sx,
+  ...props
+}: BoxProps): ReactElement => {
+  return <Flex sx={{ ...(sx || null), flexDirection: 'column' }} {...props} />
 }
 
-export const Row: React.FC<PropsBox> = (props) => {
-  return <Flex flexDirection="row" {...props} />
+export const Row: React.FC<BoxProps> = ({
+  sx,
+  ...props
+}: BoxProps): ReactElement => {
+  return <Flex sx={{ ...(sx || null), flexDirection: 'row' }} {...props} />
 }

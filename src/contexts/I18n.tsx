@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import rosetta, { Rosetta } from 'rosetta'
 // import * as Localization from 'expo-localization'
 import * as locales from '../../i18n'
-import { Text } from 'src/components/Text'
+import { Text } from 'src/components/primitives/Text'
 
 interface I18nProps {
   i18n: Rosetta<object>

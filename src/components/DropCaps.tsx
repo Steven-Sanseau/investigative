@@ -1,14 +1,17 @@
-import { styled } from 'src/utils/Styled'
-import { Text } from 'src/components/Text'
+import React, { ReactElement } from 'react'
+import { Text } from 'src/components/primitives/Text'
+import { BoxProps } from 'src/components/primitives/Box'
 
-export const DropCaps = styled(Text)`
-  font-feature-settings: 'kern' 0;
-  font-kerning: none;
-  font-size: 3.25em;
-  line-height: 0.8;
-  margin-left: -0.05em;
-  margin-bottom: -0.05em;
-  padding: 0.05em 0.075em 0 0;
-  position: relative;
-  -webkit-font-smoothing: antialiased;
-`
+export const DropCaps = ({ sx, ...props }: BoxProps): ReactElement => (
+  <Text
+    sx={{
+      ...sx,
+      fontSize: 4,
+      lineHeight: 1.8,
+      marginLeft: -0.5,
+      marginBottom: -0.5,
+      position: 'relative',
+    }}
+    {...props}
+  />
+)

@@ -3,9 +3,9 @@ const withImages = require('next-images')
 const withTM = require('next-transpile-modules')
 const withPlugins = require('next-compose-plugins')
 const withOffline = require('next-offline')
-// const withBundleAnalyzer = require('@next/bundle-analyzer')({
-//   enabled: process.env.ANALYZE === 'true',
-// })
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 const nextOfflineConfig = {
   target: 'serverless',
   transformManifest: (manifest) => ['/'].concat(manifest), // add the homepage to the cache
@@ -42,8 +42,25 @@ module.exports = withPlugins([
     },
   ],
   withImages,
+  withBundleAnalyzer,
   ...(process.env.NODE_ENV === 'production'
     ? [withOffline, nextOfflineConfig]
     : [nextOfflineConfig]),
-  [withExpo, { projectRoot: __dirname }],
+  [
+    withExpo,
+    {
+      projectRoot: __dirname,
+      typescript: {
+        ignoreDevErrors: true,
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        //
+        // This option is rarely needed, and should be reserved for advanced
+        // setups. You may be looking for `ignoreDevErrors` instead.
+        // !! WARN !!
+        ignoreBuildErrors: true,
+      },
+    },
+  ],
 ])

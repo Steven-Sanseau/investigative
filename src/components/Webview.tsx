@@ -1,9 +1,8 @@
-import { useRouting } from 'expo-next-react-navigation'
-import React from 'react'
-import { WebView } from 'react-native-webview'
+import React, { ReactElement } from 'react'
 
-export function WebWiewScreen() {
-  const { getParam } = useRouting()
-  const uri: string = getParam('href')
-  return <WebView source={{ uri }} />
+interface WebWiewProps {
+  uri: string
+}
+export function Webview({ uri }: WebWiewProps): ReactElement {
+  return <iframe src={uri} />
 }

@@ -1,41 +1,35 @@
-import {
-  H1 as EH1,
-  H2 as EH2,
-  H3 as EH3,
-  H4 as EH4,
-  H4 as EH5,
-  H4 as EH6,
-  P as EP,
-} from '@expo/html-elements'
-import React from 'react'
-import { Responsive } from 'src/utils/Responsive'
-import styled from 'styled-components/native'
+import React, { ReactElement } from 'react'
+import { Text } from 'src/components/primitives/Text'
+import { BoxProps } from 'src/components/primitives/Box'
 
 export const H1: React.FC<any> = (props) => {
   return (
-    <Responsive
-      component={EH1}
-      color="grayDark"
-      fontFamily="heading"
-      fontSize={6}
-      fontWeight="700"
-      m={0}
-      p={0}
+    <Text
+      accessibilityRole="heading"
+      aria-level="1"
+      sx={{
+        color: 'grayDark',
+        fontFamily: 'heading',
+        fontSize: 6,
+        fontWeight: '700',
+      }}
       {...props}
     />
   )
 }
 
-export const H2: React.FC<any> = (props) => {
+export const H2: React.FC<any> = ({ sx, ...props }: BoxProps) => {
   return (
-    <Responsive
-      component={EH2}
-      color="grayDark"
-      fontFamily="heading"
-      fontSize={4}
-      fontWeight="700"
-      m={0}
-      p={0}
+    <Text
+      accessibilityRole="heading"
+      aria-level="2"
+      sx={{
+        ...sx,
+        color: 'grayDark',
+        fontFamily: 'heading',
+        fontSize: 4,
+        fontWeight: '700',
+      }}
       {...props}
     />
   )
@@ -43,13 +37,15 @@ export const H2: React.FC<any> = (props) => {
 
 export const H3: React.FC<any> = (props) => {
   return (
-    <Responsive
-      component={EH3}
-      color="grayDark"
-      fontFamily="heading"
-      fontSize={3}
-      m={0}
-      p={0}
+    <Text
+      accessibilityRole="heading"
+      aria-level="3"
+      sx={{
+        color: 'grayDark',
+        fontFamily: 'heading',
+        fontSize: 3,
+        fontWeight: '700',
+      }}
       {...props}
     />
   )
@@ -57,40 +53,46 @@ export const H3: React.FC<any> = (props) => {
 
 export const H4: React.FC<any> = (props) => {
   return (
-    <Responsive
-      component={EH4}
-      color="grayDark"
-      fontFamily="heading"
-      fontSize={2}
-      m={0}
-      p={0}
-      textTransform="uppercase"
+    <Text
+      accessibilityRole="heading"
+      aria-level="4"
+      sx={{
+        color: 'grayDark',
+        fontFamily: 'heading',
+        fontSize: 2,
+        fontWeight: '700',
+        textTransform: 'uppercase',
+      }}
       {...props}
     />
   )
 }
 export const H5: React.FC<any> = (props) => {
   return (
-    <Responsive
-      component={EH5}
-      color="grayDark"
-      fontFamily="heading"
-      fontSize={1}
-      m={0}
-      p={0}
-      textTransform="uppercase"
+    <Text
+      accessibilityRole="heading"
+      aria-level="5"
+      sx={{
+        color: 'grayDark',
+        fontFamily: 'heading',
+        fontSize: 1,
+        fontWeight: '700',
+      }}
       {...props}
     />
   )
 }
 export const H6: React.FC<any> = (props) => {
   return (
-    <Responsive
-      component={EH6}
-      color="grayDark"
-      fontFamily="heading"
-      fontSize={1}
-      textTransform="uppercase"
+    <Text
+      accessibilityRole="heading"
+      aria-level="6"
+      sx={{
+        color: 'grayDark',
+        fontFamily: 'heading',
+        fontSize: 1,
+        fontWeight: '700',
+      }}
       {...props}
     />
   )
@@ -98,16 +100,18 @@ export const H6: React.FC<any> = (props) => {
 
 export const P: React.FC<any> = (props) => {
   return (
-    <Responsive
-      component={EP}
-      fontFamily="serif"
-      fontSize={1}
-      m={0}
+    <Text
+      sx={{
+        color: 'grayDark',
+        fontFamily: 'serif',
+        fontSize: { xs: 2, sm: 3, md: 3, lg: 2, xl: 2 },
+        fontWeight: '500',
+      }}
       {...props}
     />
   )
 }
 
-export const Caps = styled.Text`
-  text-transform: uppercase;
-`
+export const Caps = ({ ...props }): ReactElement => (
+  <Text sx={{ textTransform: 'uppercase' }} {...props} />
+)

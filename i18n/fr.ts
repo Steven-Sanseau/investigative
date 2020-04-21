@@ -14,6 +14,14 @@ export default {
     },
     message: {
       refreshPost: 'Le post à été mis à jour',
+      refreshPosts: 'Mis a jour',
     },
   },
+  home: {
+    posts: {
+      loadMore: 'Plus',
+      noMore: 'Fin',
+    },
+  },
+  loading: '...',
 }

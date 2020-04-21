@@ -1,16 +1,14 @@
 import React, { ReactChildren, ReactElement } from 'react'
-import { Dimensions } from 'react-native'
 import { P, H1, H2, H3, H4, H5, H6 } from 'src/components/Typography'
 import { UL, LI, HR, Pre } from 'src/components/Elements'
-import { Text } from 'src/components/Text'
+import { Text } from 'src/components/primitives/Text'
 import { GetPostBySlugQuery } from 'src/generated/graphql'
-import { Box } from 'src/components/Box'
+import { Box } from 'src/components/primitives/Box'
 import { parseDOM } from 'htmlparser2'
 import { UniversalLink } from 'src/components/UniversalLink'
-import { styled } from 'src/utils/Styled'
-import { Image } from 'src/components/Image'
+import { Image } from 'src/components/primitives/Image'
+import { Webview } from 'src/components/Webview'
 import ErrorBoundary from 'react-error-boundary'
-import { DropCaps } from 'src/components/DropCaps'
 
 interface LinkProps {
   href: string
@@ -20,7 +18,7 @@ const Link: React.FC<LinkProps> = ({
   href,
   ...props
 }: LinkProps): ReactElement => (
-  <UniversalLink as={Text} routeName={href} color="blue" {...props} />
+  <UniversalLink as={Text} routeName={href} sx={{ color: 'blue' }} {...props} />
 )
 
 interface ImageProps {
@@ -28,63 +26,50 @@ interface ImageProps {
   alt: string
 }
 const Img: React.FC<ImageProps> = ({ src, alt }: ImageProps): ReactElement => {
-  const dimensions = Dimensions.get('window')
-  const imageHeight = Math.round((dimensions.width * 9) / 16)
-  const imageWidth = dimensions.width
   return (
     <Image
-      source={{ uri: src }}
-      mx={{ xs: 'auto', md: 0 }}
-      height={imageHeight}
-      width={imageWidth}
-      loading="lazy"
-      resizeMode="contain"
+      src={src}
+      sx={{
+        mx: { xs: 'auto', md: 0 },
+        height: '300hpx',
+        width: 'full',
+      }}
       alt={alt}
     />
   )
 }
 
-interface ParagraphProps {
-  index: number
-  level: number
+interface IframeProps {
+  src: string
 }
-function Paragraph({
-  index,
-  level,
-  children,
-}: React.PropsWithChildren<ParagraphProps>): ReactElement {
-  const childrenContent = children
-  console.log('index,level', index, level)
-  if (level === 0) {
-    console.log('level', index)
-    return (
-      <DropCaps>{childrenContent.toString().slice(0, 1)}</DropCaps> && (
-        <P>{childrenContent.toString().slice(1, 0)}</P>
-      )
-    )
-  }
-  return <P>{children}</P>
+const Iframe: React.FC<IframeProps> = ({
+  src,
+  ...props
+}: React.PropsWithChildren<IframeProps>) => {
+  return (
+    <Box sx={{ width: 'full', mx: { xs: 'auto', md: 0 } }}>
+      <Webview uri={src} />
+    </Box>
+  )
 }
 
 const transform = ({
   node,
   wrapText,
-  index,
-  level,
+  key,
 }: {
-  node
-  wrapText
-  index
-  level
+  node: any
+  wrapText: any
+  key: any
 }): ReactElement => {
   const getChildren = (node, wrapText = true): [ReactElement] => {
-    return node.children?.map((child) =>
-      transform({ node: child, wrapText, index, level: level + 1 }),
+    return node.children?.map((child, key) =>
+      transform({ node: child, wrapText, key }),
     )
   }
 
   const Elements = {
-    p: Paragraph,
+    p: P,
     hr: HR,
     h1: H1,
     h2: H2,
@@ -96,23 +81,26 @@ const transform = ({
     li: LI,
     ul: UL,
     em: Text,
+    figure: Text,
     div: Box,
     blockquote: Text,
     span: Text,
     img: Img,
     a: Link,
+    iframe: Iframe,
   }
 
   if (node.type === 'text') {
     if (wrapText) {
-      return <Text>{node.data.replace(/\n|\r/g, '')}</Text>
+      return <Text key={key}>{node.data.replace(/\n|\r/g, '')}</Text>
     }
+
     return node.data.trim()
   }
   if (node.type === 'tag') {
     const Element = Elements[node.name]
     return Element ? (
-      <Element {...node.attribs} index={index} level={level}>
+      <Element {...node.attribs} key={key}>
         {getChildren(node)}
       </Element>
     ) : null
@@ -121,29 +109,18 @@ const transform = ({
   return null
 }
 
-const Blocks = styled(Box)``
-
-export const RenderBlocks = ({
-  data,
-}: {
-  data: GetPostBySlugQuery
-}): JSX.Element => {
+export const RenderBlocks = ({ content }: { content: string }): JSX.Element => {
   const nodes = React.useMemo(
     () =>
-      parseDOM(data?.post?.content)
-        .map((node, index) =>
-          transform({ node, wrapText: true, index, level: 0 }),
-        )
+      parseDOM(content)
+        .map((node, key) => transform({ node, wrapText: true, key }))
         .filter(Boolean),
-    [data],
+    [content],
   )
-
+  console.log(nodes)
   return (
-    <Blocks width="3/4" mx="auto">
-      <ErrorBoundary onError={console.log}>
-        <Text>ok</Text>
-        {nodes?.map((Node) => Node)}
-      </ErrorBoundary>
-    </Blocks>
+    <ErrorBoundary onError={console.log}>
+      {nodes?.map((Node) => Node)}
+    </ErrorBoundary>
   )
 }
