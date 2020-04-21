@@ -65,6 +65,7 @@ export function FeaturedPost({
               fontWeight: 'bold',
               fontSize: 6,
               zIndex: 10,
+              color: 'white',
             }}
           >
             {post.title}

@@ -8028,6 +8028,34 @@ export type UpdateUserPayload = {
   user?: Maybe<User>
 }
 
+export type GetPageByUriQueryVariables = {
+  uri?: Maybe<Scalars['String']>
+}
+
+export type GetPageByUriQuery = { __typename?: 'RootQuery' } & {
+  page?: Maybe<{ __typename?: 'Page' } & Pick<Page, 'title' | 'content'>>
+}
+
+export type GetPagesQueryVariables = {}
+
+export type GetPagesQuery = { __typename?: 'RootQuery' } & {
+  pages?: Maybe<
+    { __typename?: 'RootQueryToPageConnection' } & {
+      edges?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'RootQueryToPageConnectionEdge' } & {
+              node?: Maybe<
+                { __typename?: 'Page' } & Pick<Page, 'title' | 'uri'>
+              >
+            }
+          >
+        >
+      >
+    }
+  >
+}
+
 export type GetPostBySlugQueryVariables = {
   slug?: Maybe<Scalars['String']>
 }
@@ -8217,6 +8245,26 @@ export type GetSettingsQuery = { __typename?: 'RootQuery' } & {
   >
 }
 
+export const GetPageByUriDocument = gql`
+  query getPageByUri($uri: String) {
+    page: pageBy(uri: $uri) {
+      title(format: RENDERED)
+      content
+    }
+  }
+`
+export const GetPagesDocument = gql`
+  query getPages {
+    pages: pages(first: 10) {
+      edges {
+        node {
+          title(format: RENDERED)
+          uri
+        }
+      }
+    }
+  }
+`
 export const GetPostBySlugDocument = gql`
   query getPostBySlug($slug: String) {
     post: postBy(slug: $slug) {
@@ -8355,6 +8403,21 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
+    getPageByUri(
+      variables?: GetPageByUriQueryVariables,
+    ): Promise<GetPageByUriQuery> {
+      return withWrapper(() =>
+        client.request<GetPageByUriQuery>(
+          print(GetPageByUriDocument),
+          variables,
+        ),
+      )
+    },
+    getPages(variables?: GetPagesQueryVariables): Promise<GetPagesQuery> {
+      return withWrapper(() =>
+        client.request<GetPagesQuery>(print(GetPagesDocument), variables),
+      )
+    },
     getPostBySlug(
       variables?: GetPostBySlugQueryVariables,
     ): Promise<GetPostBySlugQuery> {

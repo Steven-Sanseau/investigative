@@ -32,8 +32,8 @@ export default {
   },
   home: {
     posts: {
-      loadMore: 'Plus',
-      noMore: 'Fin',
+      loadMore: 'More',
+      noMore: 'End',
     },
   },
   loading: '...',

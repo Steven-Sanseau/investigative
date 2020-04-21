@@ -117,7 +117,6 @@ export const RenderBlocks = ({ content }: { content: string }): JSX.Element => {
         .filter(Boolean),
     [content],
   )
-  console.log(nodes)
   return (
     <ErrorBoundary onError={console.log}>
       {nodes?.map((Node) => Node)}

@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react'
 import { Box } from 'src/components/primitives/Box'
 import { Image } from 'src/components/primitives/Image'
 import { Text } from 'src/components/primitives/Text'
-import { H2, P } from 'src/components/Typography'
+import { H2 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import useSWR, { useSWRPages } from 'swr'
 
@@ -124,8 +124,8 @@ export const PostList: React.FC<PropsPostList> = ({
                     slug: post.slug,
                   }}
                   web={{
-                    path: `post/[slug]`,
-                    as: `post/${post.slug}`,
+                    path: `/post/[slug]`,
+                    as: `/post/${post.slug}`,
                   }}
                   as={Box}
                 >
