@@ -1,63 +1,68 @@
 import { useRouting } from 'expo-next-react-navigation'
 import { ArticleJsonLd } from 'next-seo'
 import React from 'react'
-import { RefreshControl, ScrollView } from 'react-native'
 import { RenderBlocks } from 'src/components/post/Blocks'
 import useSWR from 'swr'
-import { fetcher } from 'src/utils/Fetcher'
 import { GetPostBySlugQuery } from 'src/generated/graphql'
+import { getPostBySlug } from 'src/graphql/post'
+import { Box } from 'src/components/primitives/Box'
+import { H1, H5, H2 } from 'src/components/Typography'
+import { Text } from 'src/components/primitives/Text'
+import { UniversalLink } from 'src/components/UniversalLink'
 
-function Post() {
+const Post: React.FC = () => {
   const { getParam } = useRouting()
   const slug: string = getParam('slug')
-  const [refreshing, setRefreshing] = React.useState(false)
-  const [lastRefreshingDate, setLastRefreshingDate] = React.useState(
-    new Date().toDateString(),
-  )
+  console.log({ slug, params: getParam('screen') })
+  const slugParams = React.useMemo(() => ({ slug }), [slug])
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true)
-    // mutate('posts').then(() =>
-    //   wait(200).then(() => {
-    //     setRefreshing(false)
-    //     setLastRefreshingDate(new Date().toDateString())
-    //   }),
-    // )
-  }, [])
+  const { data }: { data?: GetPostBySlugQuery } = useSWR([
+    getPostBySlug,
+    slugParams,
+  ])
 
-  const { data }: { data?: GetPostBySlugQuery } = useSWR(
-    ['getPostBySlug', slug],
-    (query, slug) => fetcher(query, { slug }),
-  )
+  if (!data) {
+    return <Text>loading...</Text>
+  }
 
   return (
     <>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            title={lastRefreshingDate}
-          />
-        }
-      >
+      {data?.post && (
         <ArticleJsonLd
-          url="https://example.com/article"
-          title="Article headline"
-          images={[
-            'https://example.com/photos/1x1/photo.jpg',
-            'https://example.com/photos/4x3/photo.jpg',
-            'https://example.com/photos/16x9/photo.jpg',
-          ]}
-          datePublished="2015-02-05T08:00:00+08:00"
-          dateModified="2015-02-05T09:00:00+08:00"
-          authorName="Jane Blogs"
-          publisherName="Gary Meehan"
-          publisherLogo="https://www.example.com/photos/logo.jpg"
-          description="This is a mighty good description of this article."
+          title={data.post.title}
+          datePublished={data.post.date}
+          dateModified={data.post.modified}
+          authorName={data.post.author.name}
+          publisherName={data.post.author.name}
+          publisherLogo={data.post.author.avatar.url}
+          description={data.post.excerpt}
         />
-        {data && <RenderBlocks data={data} />}
-      </ScrollView>
+      )}
+      <Box>
+        <H1>{data.post.title}</H1>
+      </Box>
+
+      <Box>
+        <UniversalLink
+          routeName="author"
+          params={{ slug: data.post.author.slug }}
+          web={{
+            as: `/author/${data.post.author.slug}`,
+            path: `/author/${data.post.author.slug}`,
+          }}
+        >
+          <H5>{data.post.author.name}</H5>
+        </UniversalLink>
+      </Box>
+      <Box>
+        <H5>{data.post.date}</H5>
+      </Box>
+      <Box sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}>
+        <RenderBlocks content={data?.post.content} />
+      </Box>
+      <Box sx={{ position: 'absolute', bottom: 0 }}>
+        <Text>{data?.post.commentCount}</Text>
+      </Box>
     </>
   )
 }

@@ -1,8 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
 import Favicon from '../components/Favicon'
-import { Text } from 'src/components/Text'
-import { ThemeProvider } from 'src/utils/Styled'
+import { Text } from 'src/components/primitives/Text'
 import { ThemeProvider as ThemeProviderContext } from 'src/contexts/theme'
 import ErrorBoundary from 'react-error-boundary'
 import { createTheme } from 'src/themes/theme'
@@ -12,6 +11,12 @@ import { Header } from 'src/components/Header'
 import { Layout } from 'src/components/Layout'
 import { TopBar } from 'src/components/TopBar'
 import { loadFonts } from 'src/utils/Fonts'
+import { I18nInitializer } from 'src/contexts/I18n'
+import { GrowlProvider } from 'src/contexts/Growl'
+import { GrowlMessage } from 'src/components/Growl'
+import { SWRConfig } from 'swr'
+import { fetcher } from 'src/utils/Fetcher'
+import { ThemeProvider } from 'src/utils/native-styled'
 
 export default ({ Component, pageProps }: any): JSX.Element => {
   const themeColor = '#4630eb'
@@ -39,7 +44,26 @@ export default ({ Component, pageProps }: any): JSX.Element => {
 
   const [themeName, setThemeName] = useAsyncStorage('theme', 'dark')
   const theme = createTheme(themeName)
-  React.useEffect(() => loadFonts(), [])
+
+  const [isSticky, setSticky] = React.useState<boolean>(false)
+  const ref = React.useRef<any>(null)
+
+  const handleScroll = (): void => {
+    if (ref.current) {
+      // const { width, height, px, py, fx, fy } = ref.current.measure
+      ref.current.measure((width, height, px, py, fx, fy) => {
+        setSticky(fy <= 0)
+      })
+    }
+  }
+
+  React.useEffect(() => {
+    loadFonts()
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', () => handleScroll)
+    }
+  }, [])
 
   return (
     <>
@@ -53,19 +77,33 @@ export default ({ Component, pageProps }: any): JSX.Element => {
       <Favicon />
       <ErrorBoundary onError={myErrorHandler}>
         <ThemeProvider theme={theme}>
-          <ThemeProviderContext
+          <SWRConfig
             value={{
-              name: themeName,
-              setThemeName: setThemeName,
+              fetcher: (query, ...args) => fetcher(query, ...args),
             }}
           >
-            <TopBar />
-            <Layout>
-              <Header initialSettingsData={pageProps?.initialSettingsData} />
-              <Component {...pageProps} />
-            </Layout>
-            <Footer />
-          </ThemeProviderContext>
+            <ThemeProviderContext
+              value={{
+                name: themeName,
+                setThemeName: setThemeName,
+              }}
+            >
+              <I18nInitializer>
+                <GrowlProvider>
+                  <TopBar />
+                  <GrowlMessage />
+                  <Header
+                    ref={ref}
+                    sticky={isSticky}
+                    initialSettingsData={pageProps?.initialSettingsData}
+                  />
+                  <Component {...pageProps} />
+
+                  <Footer />
+                </GrowlProvider>
+              </I18nInitializer>
+            </ThemeProviderContext>
+          </SWRConfig>
         </ThemeProvider>
       </ErrorBoundary>
     </>

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Text } from 'src/components/Text'
+import { Text } from 'src/components/primitives/Text'
 import { Flex, Row } from 'src/components/Grid'
 
-export function Sidebar() {
+export function Sidebar(): React.ReactElement {
   return (
     <Flex>
       <Text>Sidebar</Text>

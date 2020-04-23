@@ -1,21 +1,9 @@
 import React from 'react'
 import { Home } from 'src/containers/Home'
-
 import { fetcher } from 'src/utils/Fetcher'
 import { GetPostsQuery, GetSettingsQuery } from 'src/generated/graphql'
-
-// export const getStaticPaths = async (): Promise<{
-//   paths?: string[]
-//   fallback: boolean
-// }> => {
-//   const data: GetPostsSlugQuery = await fetcher('getPostsSlug')
-//   const slugs = data.posts.edges.map(({ node: post }) => `post/${post.slug}`)
-
-//   return {
-//     paths: [{ params: { slugs } }],
-//     fallback: true,
-//   }
-// }
+import { getSettings } from 'src/graphql/settings'
+import { getPosts } from 'src/graphql/post'
 
 interface PropsIndex {
   initialPostsData?: GetPostsQuery
@@ -23,8 +11,10 @@ interface PropsIndex {
 }
 
 export const getStaticProps = async (): Promise<{ props: PropsIndex }> => {
-  const initialSettingsData: GetSettingsQuery = await fetcher('getSettings')
-  const initialPostsData: GetPostsQuery = await fetcher('getPosts')
+  const initialSettingsData: GetSettingsQuery = await fetcher(getSettings)
+  const initialPostsData: GetPostsQuery = await fetcher(getPosts, {
+    after: null,
+  })
   return { props: { initialPostsData, initialSettingsData } }
 }
 

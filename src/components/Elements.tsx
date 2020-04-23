@@ -1,31 +1,26 @@
 import React from 'react'
-import { Box } from 'src/components/Box'
-import { Responsive } from 'src/utils/Responsive'
-import {
-  Header as EHeader,
-  UL as EUL,
-  LI as ELI,
-  Main as EMain,
-  Aside as EAside,
-} from '@expo/html-elements'
+import { Box } from 'src/components/primitives/Box'
 
 export function HR(props) {
-  return <Responsive component={Box} bg="black" {...props} />
+  return <Box sx={{ bg: 'black' }} {...props} />
 }
 
 export function Header({ ...props }) {
-  return <Responsive component={EHeader} {...props} />
+  return <Box {...props} />
 }
 
 export function UL({ ...props }) {
-  return <Responsive component={EUL} {...props} />
+  return <Box {...props} />
 }
 export function LI({ ...props }) {
-  return <Responsive component={ELI} {...props} />
+  return <Box {...props} />
 }
 export function Main({ ...props }) {
-  return <Responsive component={EMain} {...props} />
+  return <Box {...props} />
 }
 export function Aside({ ...props }) {
-  return <Responsive component={EAside} {...props} />
+  return <Box {...props} />
+}
+export function Pre({ ...props }) {
+  return <Box {...props} />
 }

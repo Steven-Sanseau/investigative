@@ -1,9 +1,10 @@
 import { Link } from 'expo-next-react-navigation'
 import React from 'react'
 import { Linking, Platform } from 'react-native'
-import { Text } from 'src/components/Text'
+import { Text } from 'src/components/primitives/Text'
+import { BoxProps } from 'src/components/primitives/Box'
 
-interface PropsUniversalLink {
+interface PropsUniversalLink extends BoxProps {
   routeName: string
   children: any
   params?: Record<string, any>

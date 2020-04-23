@@ -1,32 +1,39 @@
-import React from 'react'
-import { Footer as EFooter } from '@expo/html-elements'
-import { styled } from 'src/utils/Styled'
-import { Responsive } from 'src/utils/Responsive'
-import { Text } from 'src/components/Text'
-import { Box } from 'src/components/Box'
+import React, { ReactElement } from 'react'
+import { Text } from 'src/components/primitives/Text'
+import { Box } from 'src/components/primitives/Box'
 import { Layout } from 'src/components/Layout'
+import { T, useI18n } from 'src/contexts/I18n'
 
-const WrappedFooterLinks = styled(Box)`
-  display: grid;
-  grid-auto-flow: column;
-`
-
-const FooterWrapper = ({ ...props }) => (
-  <Responsive component={EFooter} {...props} />
+interface WrappedFooterLinks {
+  sx?: any
+}
+const WrappedFooterLinks = ({
+  sx,
+  ...props
+}: WrappedFooterLinks): ReactElement => (
+  <Box sx={{ ...sx, display: 'grid', gridAutoFlow: 'column' }} {...props} />
 )
 
-export function Footer() {
+const FooterWrapper: React.FC<any> = ({ ...props }) => <Box {...props} />
+
+export function Footer(): ReactElement {
+  const { setLocale } = useI18n()
+  const changeLangue = React.useCallback(() => {
+    return setLocale('en')
+  }, [])
   return (
     <FooterWrapper bg="gray.1">
       <Layout>
         <WrappedFooterLinks
-          gridTemplateRows={{ xs: 'repeat(8, 32px)', lg: 'repeat(4, 32px)' }}
-          gridTemplateColumns={{
-            xs: 'repeat(2, 1fr)',
-            lg: 'repeat(4, 1fr)',
+          sx={{
+            gridTemplateRows: { xs: 'repeat(8, 32px)', lg: 'repeat(4, 32px)' },
+            gridTemplateColumns: {
+              xs: 'repeat(2, 1fr)',
+              lg: 'repeat(4, 1fr)',
+            },
+            borderStyle: 'solid',
+            borderColor: 'dark',
           }}
-          borderStyle="solid"
-          borderColor="dark"
         >
           <Text>Home</Text>
           <Text>Work</Text>
@@ -45,10 +52,16 @@ export function Footer() {
           <Text>Support</Text>
           <Text>Contact</Text>
         </WrappedFooterLinks>
-        <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end',
+          }}
+        >
           <Box>
-            <Text>Privacy Policy Terms of Use</Text>
-            <Text>© 2019 Jane Doe</Text>
+            <Text onPress={changeLangue}>Privacy Policy Terms of Use</Text>
+            <T id="footer.terms" />
           </Box>
         </Box>
       </Layout>

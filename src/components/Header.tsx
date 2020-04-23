@@ -3,10 +3,12 @@ import { HR, UL, LI } from 'src/components/Elements'
 import { H1 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import { Flex } from 'src/components/Grid'
-import { Header as HeaderWrapper } from 'src/components/Elements'
 import useSWR from 'swr'
-import { fetcher } from 'src/utils/Fetcher'
 import { GetSettingsQuery, MenuItem } from 'src/generated/graphql'
+import { getSettings } from 'src/graphql/settings'
+import { Box } from 'src/components/primitives/Box'
+import { Text } from 'src/components/primitives/Text'
+import { Layout } from 'src/components/Layout'
 
 const getUniversalUrl = (
   link: MenuItem,
@@ -59,58 +61,89 @@ const MenuLink: React.FC<PropsMenuLink> = ({ link }: PropsMenuLink) => {
       }}
     >
       <LI
-        listStyle="none"
-        mx={{ lg: 1, xl: 3 }}
-        fontFamily="heading"
-        textTransform="capitalize"
-        fontSize={2}
+        sx={{
+          listStyle: 'none',
+          mx: { lg: 1, xl: 3 },
+          fontFamily: 'heading',
+          textTransform: 'capitalize',
+          fontSize: 2,
+        }}
       >
-        {link.label}
+        <Text>{link.label}</Text>
       </LI>
     </UniversalLink>
   )
 }
 
-export function Header({
-  initialSettingsData,
-}: {
-  initialSettingsData?: any
-}): JSX.Element {
-  const { data }: { data?: GetSettingsQuery } = useSWR(
-    'getSettings',
-    (query) => fetcher(query),
-    {
-      initialData: initialSettingsData,
-    },
-  )
+const HeaderWrapper = Box
 
-  return (
-    <HeaderWrapper display="flex">
-      <Flex justifyContent="center" mx="auto">
-        <UniversalLink
-          routeName="home"
-          web={{
-            path: ``,
-          }}
-        >
-          <H1>{data?.settings?.title}</H1>
-        </UniversalLink>
-      </Flex>
-      <Flex>
-        <HR width="full" height="2px" />
-      </Flex>
-      <Flex width="full">
-        <UL display="flex" flexWrap="wrap" flexDirection="row">
-          {data?.menus?.nodes[0].menuItems?.nodes.map(
-            (link, i: React.ReactText) =>
-              link && (
-                //@ts-ignore
-                <MenuLink link={link} key={i} />
-              ),
-          )}
-        </UL>
-        <HR width="full" height="1px" bg="gray.1" />
-      </Flex>
-    </HeaderWrapper>
-  )
+interface HeaderProps {
+  initialSettingsData?: GetSettingsQuery
 }
+export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
+  ({ initialSettingsData }: HeaderProps, ref) => {
+    const { data }: { data?: GetSettingsQuery } = useSWR(getSettings, {
+      initialData: initialSettingsData,
+    })
+
+    return (
+      <Box ref={ref}>
+        <Layout>
+          <HeaderWrapper>
+            <Flex sx={{ justifyContent: 'center', mx: 'auto' }}>
+              <UniversalLink
+                routeName="home"
+                web={{
+                  path: ``,
+                }}
+              >
+                <H1>{data?.settings?.title}</H1>
+              </UniversalLink>
+            </Flex>
+            <Flex>
+              <HR sx={{ width: 'full', height: '2rpx' }} />
+            </Flex>
+            <Flex sx={{ width: 'full' }}>
+              <UL
+                sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}
+              >
+                <LI>
+                  <UniversalLink
+                    routeName="page"
+                    params={{ uri: 'about' }}
+                    web={{
+                      path: `/page/about`,
+                      as: `/page/about`,
+                    }}
+                  >
+                    <Text>About</Text>
+                  </UniversalLink>
+                </LI>
+                <LI>
+                  <UniversalLink
+                    routeName="category"
+                    params={{ uri: 'featured' }}
+                    web={{
+                      path: `/category/featured`,
+                      as: `/category/featured`,
+                    }}
+                  >
+                    <Text>Featured</Text>
+                  </UniversalLink>
+                </LI>
+                {data?.menus?.nodes[0].menuItems?.nodes.map(
+                  (link, i: React.ReactText) =>
+                    link && (
+                      //@ts-ignore
+                      <MenuLink link={link} key={i} />
+                    ),
+                )}
+              </UL>
+              <HR sx={{ width: 'full', height: '1rpx', bg: 'grayDark' }} />
+            </Flex>
+          </HeaderWrapper>
+        </Layout>
+      </Box>
+    )
+  },
+)
