@@ -1,10 +1,7 @@
 import React from 'react'
 import { PostList } from 'src/components/posts/List'
 import { CollapsibleHeader } from 'src/components/ScrollHeader'
-import { Flex } from 'src/components/Grid'
-import { Sidebar } from 'src/components/Sidebar'
-import { Box } from 'src/components/primitives/Box'
-import { Main, Aside } from 'src/components/Elements'
+import { Main } from 'src/components/Elements'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { GrowlMessage } from 'src/components/Growl'
 import { FeaturedPost } from 'src/components/posts/FeaturedPost'
@@ -13,7 +10,7 @@ import { mutate } from 'swr'
 import { wait } from 'src/utils/Fetcher'
 import { useGrowl } from 'src/contexts/Growl'
 import { useT } from 'src/contexts/I18n'
-import { getPosts } from 'src/graphql/posts'
+import { getPosts } from 'src/graphql/post'
 
 export const Home: React.FC = () => {
   const [refreshing, setRefreshing] = React.useState(false)

@@ -9,6 +9,10 @@ import { Text } from 'src/components/primitives/Text'
 import { Webview } from 'src/components/Webview'
 import Index from 'src/pages/index'
 import Post from 'src/pages/post/[slug]'
+import Page from 'src/pages/page/[uri]'
+import Category from 'src/pages/category/[slug]'
+import Author from 'src/pages/author/[slug]'
+import Menu from 'src/pages/menu'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -24,42 +28,11 @@ const TabLabel = (name) => ({ focused }) => (
 //   <TabBarIcon color={focused ? 'primary' : 'grayDark'} name={name} />
 // )
 
-export function PostStack() {
+export function MainStack() {
   return (
-    <Stack.Navigator headerMode="screen">
-      <Stack.Screen component={Post} name="post" />
-      <Stack.Screen component={Webview} name="webview" />
+    <Stack.Navigator headerMode="float">
+      <Stack.Screen component={Index} name="home" />
     </Stack.Navigator>
-  )
-}
-
-export function AuthorStack() {
-  return (
-    <Stack.Navigator headerMode="screen">
-      {/* <Stack.Screen component={MoreScreen} name="more" />
-      <Stack.Screen component={Tags} name="tags" />
-      <Stack.Screen component={Tag} name="tag" /> */}
-    </Stack.Navigator>
-  )
-}
-const MainStack = createStackNavigator()
-export function Main() {
-  return (
-    <MainStack.Navigator headerMode="float">
-      {createCollapsibleStack(
-        <MainStack.Screen
-          component={Index}
-          name="home"
-          options={{
-            headerStyle: { backgroundColor: 'gray' },
-            title: 'Home',
-          }}
-        />,
-      )}
-
-      <MainStack.Screen component={Post} name="post" />
-      <MainStack.Screen component={Webview} name="webview" />
-    </MainStack.Navigator>
   )
 }
 
@@ -68,7 +41,7 @@ export function MainTabs() {
     <Tab.Navigator>
       <Tab.Screen
         name="home"
-        component={Main}
+        component={MainStack}
         options={{
           // tabBarIcon: TabIcon('ios-today'),
           tabBarLabel: TabLabel('Home'),
@@ -80,7 +53,7 @@ export function MainTabs() {
           tabBarLabel: TabLabel('More'),
         }}
         name="more"
-        component={Main}
+        component={Menu}
       />
     </Tab.Navigator>
   )
@@ -91,6 +64,11 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="main" component={MainTabs} />
+        <Stack.Screen component={Post} name="post" />
+        <Stack.Screen component={Post} name="comment" />
+        <Stack.Screen component={Author} name="author" />
+        <Stack.Screen component={Category} name="category" />
+        <Stack.Screen component={Page} name="page" />
       </Stack.Navigator>
     </NavigationContainer>
   )

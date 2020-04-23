@@ -3,7 +3,7 @@ import { Home } from 'src/containers/Home'
 import { fetcher } from 'src/utils/Fetcher'
 import { GetPostsQuery, GetSettingsQuery } from 'src/generated/graphql'
 import { getSettings } from 'src/graphql/settings'
-import { getPosts } from 'src/graphql/posts'
+import { getPosts } from 'src/graphql/post'
 
 interface PropsIndex {
   initialPostsData?: GetPostsQuery

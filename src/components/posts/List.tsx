@@ -9,7 +9,7 @@ import useSWR, { useSWRPages } from 'swr'
 
 import { GetPostsQuery } from 'src/generated/graphql'
 import { Flex } from 'src/components/Grid'
-import { getPosts } from 'src/graphql/posts'
+import { getPosts } from 'src/graphql/post'
 import { RenderBlocks } from 'src/components/post/Blocks'
 import { LoadMore } from 'src/components/posts/LoadMore'
 
@@ -118,7 +118,6 @@ export const PostList: React.FC<PropsPostList> = ({
                 }}
               >
                 <UniversalLink
-                  key={i}
                   routeName={`post`}
                   params={{
                     slug: post.slug,
@@ -137,7 +136,20 @@ export const PostList: React.FC<PropsPostList> = ({
                     alignItems: 'baseline',
                   }}
                 >
-                  <Author>by {post.author.name}</Author>
+                  <UniversalLink
+                    routeName="author"
+                    params={{
+                      slug: post.author.slug,
+                      screen: 'post',
+                    }}
+                    web={{
+                      path: `/author/[slug]`,
+                      as: `/author/${post.author.slug}`,
+                    }}
+                    as={Box}
+                  >
+                    <Author>by {post.author.name}</Author>
+                  </UniversalLink>
                   {post?.date && (
                     <DatePost>
                       {formatRelative(parseISO(post.date), now)}

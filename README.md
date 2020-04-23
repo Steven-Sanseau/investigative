@@ -15,3 +15,7 @@ Run Expo app with
 Run Next dev with
 
 `yarn next`
+
+## Documentation
+
+(https://steste.gitbook.io/wordpress-jamstack/)https://steste.gitbook.io/wordpress-jamstack/

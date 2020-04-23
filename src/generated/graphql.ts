@@ -1194,6 +1194,8 @@ export enum OrderEnum {
 
 /** The status of the object. */
 export enum PostStatusEnum {
+  /** Objects with the acf-disabled status */
+  AcfDisabled = 'ACF_DISABLED',
   /** Objects with the auto-draft status */
   AutoDraft = 'AUTO_DRAFT',
   /** Objects with the draft status */
@@ -2059,6 +2061,11 @@ export type Comment = Node & {
    */
   karma?: Maybe<Scalars['Int']>
   /**
+   * Added to the GraphQL Schema because the ACF Field Group &quot;Comment like&quot; was assigned to Comments
+   * @deprecated
+   */
+  likes?: Maybe<Comment_Likes>
+  /**
    * Parent comment of current comment. This field is equivalent to the WP_Comment instance matching the WP_Comment-&gt;comment_parent ID.
    * @deprecated
    */
@@ -2667,6 +2674,21 @@ export type MediaItem = Node &
      */
     template?: Maybe<ContentTemplateUnion>
     /**
+     * Terms connected to the object
+     * @deprecated
+     */
+    termNames?: Maybe<Array<Maybe<Scalars['String']>>>
+    /**
+     * Terms connected to the object
+     * @deprecated
+     */
+    termSlugs?: Maybe<Array<Maybe<Scalars['String']>>>
+    /**
+     * Terms connected to the object
+     * @deprecated
+     */
+    terms?: Maybe<Array<Maybe<TermObjectUnion>>>
+    /**
      * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
      * @deprecated
      */
@@ -2710,6 +2732,21 @@ export type MediaItemSourceUrlArgs = {
 /** The mediaItem type */
 export type MediaItemSrcSetArgs = {
   size?: Maybe<MediaItemSizeEnum>
+}
+
+/** The mediaItem type */
+export type MediaItemTermNamesArgs = {
+  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>
+}
+
+/** The mediaItem type */
+export type MediaItemTermSlugsArgs = {
+  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>
+}
+
+/** The mediaItem type */
+export type MediaItemTermsArgs = {
+  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>
 }
 
 /** The mediaItem type */
@@ -3430,6 +3467,398 @@ export type FullWidthTemplateTemplate = ContentTemplate & {
   templateName?: Maybe<Scalars['String']>
 }
 
+export type TermObjectUnion = Category | Tag | PostFormat
+
+/** The tag type */
+export type Tag = Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'Tag'
+    /**
+     * The number of objects connected to the object
+     * @deprecated
+     */
+    count?: Maybe<Scalars['Int']>
+    /**
+     * Identifies the primary key from the database.
+     * @deprecated
+     */
+    databaseId: Scalars['Int']
+    /**
+     * The description of the object
+     * @deprecated
+     */
+    description?: Maybe<Scalars['String']>
+    /**
+     * The globally unique ID for the object
+     * @deprecated
+     */
+    id: Scalars['ID']
+    /**
+     * Whether the object is restricted from the current viewer
+     * @deprecated
+     */
+    isRestricted?: Maybe<Scalars['Boolean']>
+    /**
+     * The link to the term
+     * @deprecated
+     */
+    link?: Maybe<Scalars['String']>
+    /**
+     * The human friendly name of the object.
+     * @deprecated
+     */
+    name?: Maybe<Scalars['String']>
+    /**
+     * Connection between the tag type and the tag type
+     * @deprecated
+     */
+    posts?: Maybe<TagToPostConnection>
+    /**
+     * An alphanumeric identifier for the object unique to its type.
+     * @deprecated
+     */
+    slug?: Maybe<Scalars['String']>
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    tagId?: Maybe<Scalars['Int']>
+    /**
+     * Connection between the tag type and the tag type
+     * @deprecated
+     */
+    taxonomy?: Maybe<TagToTaxonomyConnection>
+    /**
+     * The ID of the term group that this term object belongs to
+     * @deprecated
+     */
+    termGroupId?: Maybe<Scalars['Int']>
+    /**
+     * The taxonomy ID that the object is associated with
+     * @deprecated
+     */
+    termTaxonomyId?: Maybe<Scalars['Int']>
+    /**
+     * The unique resource identifier path
+     * @deprecated
+     */
+    uri: Scalars['String']
+  }
+
+/** The tag type */
+export type TagPostsArgs = {
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  before?: Maybe<Scalars['String']>
+  where?: Maybe<TagToPostConnectionWhereArgs>
+}
+
+/** Arguments for filtering the TagToPostConnection connection */
+export type TagToPostConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: Maybe<Scalars['Int']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: Maybe<Scalars['String']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Category ID */
+  categoryId?: Maybe<Scalars['Int']>
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Use Category Slug */
+  categoryName?: Maybe<Scalars['String']>
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['String']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>
+  status?: Maybe<PostStatusEnum>
+  /** Tag Slug */
+  tag?: Maybe<Scalars['String']>
+  /** Use Tag ID */
+  tagId?: Maybe<Scalars['String']>
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of tag slugs, used to display objects from one tag OR another */
+  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Array of tag slugs, used to exclude objects in specified tags */
+  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>
+}
+
+/** Connection between the tag type and the tag type */
+export type TagToPostConnection = {
+  __typename?: 'TagToPostConnection'
+  /**
+   * Edges for the TagToPostConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<TagToPostConnectionEdge>>>
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Post>>>
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>
+}
+
+/** An edge in a connection */
+export type TagToPostConnectionEdge = {
+  __typename?: 'TagToPostConnectionEdge'
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Post>
+}
+
+/** Connection between the tag type and the tag type */
+export type TagToTaxonomyConnection = {
+  __typename?: 'TagToTaxonomyConnection'
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  node?: Maybe<Taxonomy>
+}
+
+/** The postFormat type */
+export type PostFormat = Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'PostFormat'
+    /**
+     * The number of objects connected to the object
+     * @deprecated
+     */
+    count?: Maybe<Scalars['Int']>
+    /**
+     * Identifies the primary key from the database.
+     * @deprecated
+     */
+    databaseId: Scalars['Int']
+    /**
+     * The description of the object
+     * @deprecated
+     */
+    description?: Maybe<Scalars['String']>
+    /**
+     * The globally unique ID for the object
+     * @deprecated
+     */
+    id: Scalars['ID']
+    /**
+     * Whether the object is restricted from the current viewer
+     * @deprecated
+     */
+    isRestricted?: Maybe<Scalars['Boolean']>
+    /**
+     * The link to the term
+     * @deprecated
+     */
+    link?: Maybe<Scalars['String']>
+    /**
+     * The human friendly name of the object.
+     * @deprecated
+     */
+    name?: Maybe<Scalars['String']>
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    postFormatId?: Maybe<Scalars['Int']>
+    /**
+     * Connection between the postFormat type and the postFormat type
+     * @deprecated
+     */
+    posts?: Maybe<PostFormatToPostConnection>
+    /**
+     * An alphanumeric identifier for the object unique to its type.
+     * @deprecated
+     */
+    slug?: Maybe<Scalars['String']>
+    /**
+     * Connection between the postFormat type and the postFormat type
+     * @deprecated
+     */
+    taxonomy?: Maybe<PostFormatToTaxonomyConnection>
+    /**
+     * The ID of the term group that this term object belongs to
+     * @deprecated
+     */
+    termGroupId?: Maybe<Scalars['Int']>
+    /**
+     * The taxonomy ID that the object is associated with
+     * @deprecated
+     */
+    termTaxonomyId?: Maybe<Scalars['Int']>
+    /**
+     * The unique resource identifier path
+     * @deprecated
+     */
+    uri: Scalars['String']
+  }
+
+/** The postFormat type */
+export type PostFormatPostsArgs = {
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  before?: Maybe<Scalars['String']>
+  where?: Maybe<PostFormatToPostConnectionWhereArgs>
+}
+
+/** Arguments for filtering the PostFormatToPostConnection connection */
+export type PostFormatToPostConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: Maybe<Scalars['Int']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: Maybe<Scalars['String']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Category ID */
+  categoryId?: Maybe<Scalars['Int']>
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Use Category Slug */
+  categoryName?: Maybe<Scalars['String']>
+  /** Array of category IDs, used to display objects from one category OR another */
+  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['String']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>
+  status?: Maybe<PostStatusEnum>
+  /** Tag Slug */
+  tag?: Maybe<Scalars['String']>
+  /** Use Tag ID */
+  tagId?: Maybe<Scalars['String']>
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of tag IDs, used to display objects from one tag OR another */
+  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
+  /** Array of tag slugs, used to display objects from one tag OR another */
+  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Array of tag slugs, used to exclude objects in specified tags */
+  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>
+}
+
+/** Connection between the postFormat type and the postFormat type */
+export type PostFormatToPostConnection = {
+  __typename?: 'PostFormatToPostConnection'
+  /**
+   * Edges for the PostFormatToPostConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<PostFormatToPostConnectionEdge>>>
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Post>>>
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>
+}
+
+/** An edge in a connection */
+export type PostFormatToPostConnectionEdge = {
+  __typename?: 'PostFormatToPostConnectionEdge'
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Post>
+}
+
+/** Connection between the postFormat type and the postFormat type */
+export type PostFormatToTaxonomyConnection = {
+  __typename?: 'PostFormatToTaxonomyConnection'
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  node?: Maybe<Taxonomy>
+}
+
 /** A node that can have revisions */
 export type NodeWithRevisions = {
   /** True if the node is a revision of another node */
@@ -3725,6 +4154,15 @@ export type PageToRevisionConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Page>
+}
+
+/** Field Group */
+export type Comment_Likes = {
+  __typename?: 'Comment_Likes'
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>
+  /** @deprecated  */
+  likes?: Maybe<Scalars['Float']>
 }
 
 /** Arguments for filtering the UserToMediaItemConnection connection */
@@ -4430,201 +4868,6 @@ export type PostToPostFormatConnectionEdge = {
   node?: Maybe<PostFormat>
 }
 
-/** The postFormat type */
-export type PostFormat = Node &
-  TermNode &
-  UniformResourceIdentifiable & {
-    __typename?: 'PostFormat'
-    /**
-     * The number of objects connected to the object
-     * @deprecated
-     */
-    count?: Maybe<Scalars['Int']>
-    /**
-     * Identifies the primary key from the database.
-     * @deprecated
-     */
-    databaseId: Scalars['Int']
-    /**
-     * The description of the object
-     * @deprecated
-     */
-    description?: Maybe<Scalars['String']>
-    /**
-     * The globally unique ID for the object
-     * @deprecated
-     */
-    id: Scalars['ID']
-    /**
-     * Whether the object is restricted from the current viewer
-     * @deprecated
-     */
-    isRestricted?: Maybe<Scalars['Boolean']>
-    /**
-     * The link to the term
-     * @deprecated
-     */
-    link?: Maybe<Scalars['String']>
-    /**
-     * The human friendly name of the object.
-     * @deprecated
-     */
-    name?: Maybe<Scalars['String']>
-    /**
-     * The id field matches the WP_Post-&gt;ID field.
-     * @deprecated Deprecated in favor of databaseId
-     */
-    postFormatId?: Maybe<Scalars['Int']>
-    /**
-     * Connection between the postFormat type and the postFormat type
-     * @deprecated
-     */
-    posts?: Maybe<PostFormatToPostConnection>
-    /**
-     * An alphanumeric identifier for the object unique to its type.
-     * @deprecated
-     */
-    slug?: Maybe<Scalars['String']>
-    /**
-     * Connection between the postFormat type and the postFormat type
-     * @deprecated
-     */
-    taxonomy?: Maybe<PostFormatToTaxonomyConnection>
-    /**
-     * The ID of the term group that this term object belongs to
-     * @deprecated
-     */
-    termGroupId?: Maybe<Scalars['Int']>
-    /**
-     * The taxonomy ID that the object is associated with
-     * @deprecated
-     */
-    termTaxonomyId?: Maybe<Scalars['Int']>
-    /**
-     * The unique resource identifier path
-     * @deprecated
-     */
-    uri: Scalars['String']
-  }
-
-/** The postFormat type */
-export type PostFormatPostsArgs = {
-  first?: Maybe<Scalars['Int']>
-  last?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  before?: Maybe<Scalars['String']>
-  where?: Maybe<PostFormatToPostConnectionWhereArgs>
-}
-
-/** Arguments for filtering the PostFormatToPostConnection connection */
-export type PostFormatToPostConnectionWhereArgs = {
-  /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>
-  /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>
-  /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>
-  /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>
-  /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>
-  /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>
-  /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>
-  /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>
-  /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['String']>
-  /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>
-  /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>
-  status?: Maybe<PostStatusEnum>
-  /** Tag Slug */
-  tag?: Maybe<Scalars['String']>
-  /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>
-  /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Title of the object */
-  title?: Maybe<Scalars['String']>
-}
-
-/** Connection between the postFormat type and the postFormat type */
-export type PostFormatToPostConnection = {
-  __typename?: 'PostFormatToPostConnection'
-  /**
-   * Edges for the PostFormatToPostConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<PostFormatToPostConnectionEdge>>>
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<Post>>>
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>
-}
-
-/** An edge in a connection */
-export type PostFormatToPostConnectionEdge = {
-  __typename?: 'PostFormatToPostConnectionEdge'
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<Post>
-}
-
-/** Connection between the postFormat type and the postFormat type */
-export type PostFormatToTaxonomyConnection = {
-  __typename?: 'PostFormatToTaxonomyConnection'
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  node?: Maybe<Taxonomy>
-}
-
 /** Arguments for filtering the postToRevisionConnection connection */
 export type PostToRevisionConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
@@ -4804,203 +5047,6 @@ export type PostToTagConnectionEdge = {
    */
   node?: Maybe<Tag>
 }
-
-/** The tag type */
-export type Tag = Node &
-  TermNode &
-  UniformResourceIdentifiable & {
-    __typename?: 'Tag'
-    /**
-     * The number of objects connected to the object
-     * @deprecated
-     */
-    count?: Maybe<Scalars['Int']>
-    /**
-     * Identifies the primary key from the database.
-     * @deprecated
-     */
-    databaseId: Scalars['Int']
-    /**
-     * The description of the object
-     * @deprecated
-     */
-    description?: Maybe<Scalars['String']>
-    /**
-     * The globally unique ID for the object
-     * @deprecated
-     */
-    id: Scalars['ID']
-    /**
-     * Whether the object is restricted from the current viewer
-     * @deprecated
-     */
-    isRestricted?: Maybe<Scalars['Boolean']>
-    /**
-     * The link to the term
-     * @deprecated
-     */
-    link?: Maybe<Scalars['String']>
-    /**
-     * The human friendly name of the object.
-     * @deprecated
-     */
-    name?: Maybe<Scalars['String']>
-    /**
-     * Connection between the tag type and the tag type
-     * @deprecated
-     */
-    posts?: Maybe<TagToPostConnection>
-    /**
-     * An alphanumeric identifier for the object unique to its type.
-     * @deprecated
-     */
-    slug?: Maybe<Scalars['String']>
-    /**
-     * The id field matches the WP_Post-&gt;ID field.
-     * @deprecated Deprecated in favor of databaseId
-     */
-    tagId?: Maybe<Scalars['Int']>
-    /**
-     * Connection between the tag type and the tag type
-     * @deprecated
-     */
-    taxonomy?: Maybe<TagToTaxonomyConnection>
-    /**
-     * The ID of the term group that this term object belongs to
-     * @deprecated
-     */
-    termGroupId?: Maybe<Scalars['Int']>
-    /**
-     * The taxonomy ID that the object is associated with
-     * @deprecated
-     */
-    termTaxonomyId?: Maybe<Scalars['Int']>
-    /**
-     * The unique resource identifier path
-     * @deprecated
-     */
-    uri: Scalars['String']
-  }
-
-/** The tag type */
-export type TagPostsArgs = {
-  first?: Maybe<Scalars['Int']>
-  last?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  before?: Maybe<Scalars['String']>
-  where?: Maybe<TagToPostConnectionWhereArgs>
-}
-
-/** Arguments for filtering the TagToPostConnection connection */
-export type TagToPostConnectionWhereArgs = {
-  /** The user that's connected as the author of the object. Use the userId for the author object. */
-  author?: Maybe<Scalars['Int']>
-  /** Find objects connected to author(s) in the array of author's userIds */
-  authorIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Find objects connected to the author by the author's nicename */
-  authorName?: Maybe<Scalars['String']>
-  /** Find objects NOT connected to author(s) in the array of author's userIds */
-  authorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Category ID */
-  categoryId?: Maybe<Scalars['Int']>
-  /** Array of category IDs, used to display objects from one category OR another */
-  categoryIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Use Category Slug */
-  categoryName?: Maybe<Scalars['String']>
-  /** Array of category IDs, used to display objects from one category OR another */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Filter the connection based on dates */
-  dateQuery?: Maybe<DateQueryInput>
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword?: Maybe<Scalars['Boolean']>
-  /** Specific ID of the object */
-  id?: Maybe<Scalars['Int']>
-  /** Array of IDs for the objects to retrieve */
-  in?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Get objects with a specific mimeType property */
-  mimeType?: Maybe<MimeTypeEnum>
-  /** Slug / post_name of the object */
-  name?: Maybe<Scalars['String']>
-  /** Specify objects to retrieve. Use slugs */
-  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent?: Maybe<Scalars['String']>
-  /** Specify objects whose parent is in an array */
-  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Specify posts whose parent is not in an array */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Show posts with a specific password. */
-  password?: Maybe<Scalars['String']>
-  /** Show Posts based on a keyword search */
-  search?: Maybe<Scalars['String']>
-  stati?: Maybe<Array<Maybe<PostStatusEnum>>>
-  status?: Maybe<PostStatusEnum>
-  /** Tag Slug */
-  tag?: Maybe<Scalars['String']>
-  /** Use Tag ID */
-  tagId?: Maybe<Scalars['String']>
-  /** Array of tag IDs, used to display objects from one tag OR another */
-  tagIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of tag IDs, used to display objects from one tag OR another */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
-  /** Array of tag slugs, used to display objects from one tag OR another */
-  tagSlugAnd?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Array of tag slugs, used to exclude objects in specified tags */
-  tagSlugIn?: Maybe<Array<Maybe<Scalars['String']>>>
-  /** Title of the object */
-  title?: Maybe<Scalars['String']>
-}
-
-/** Connection between the tag type and the tag type */
-export type TagToPostConnection = {
-  __typename?: 'TagToPostConnection'
-  /**
-   * Edges for the TagToPostConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<TagToPostConnectionEdge>>>
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<Post>>>
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>
-}
-
-/** An edge in a connection */
-export type TagToPostConnectionEdge = {
-  __typename?: 'TagToPostConnectionEdge'
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<Post>
-}
-
-/** Connection between the tag type and the tag type */
-export type TagToTaxonomyConnection = {
-  __typename?: 'TagToTaxonomyConnection'
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  node?: Maybe<Taxonomy>
-}
-
-export type TermObjectUnion = Category | Tag | PostFormat
 
 /** Connection between the category type and the category type */
 export type CategoryToTaxonomyConnection = {
@@ -8028,8 +8074,61 @@ export type UpdateUserPayload = {
   user?: Maybe<User>
 }
 
+export type GetCategoryBySlugQueryVariables = {
+  slug: Scalars['ID']
+  after?: Maybe<Scalars['String']>
+}
+
+export type GetCategoryBySlugQuery = { __typename?: 'RootQuery' } & {
+  category?: Maybe<
+    { __typename?: 'Category' } & Pick<Category, 'name'> & {
+        posts?: Maybe<
+          { __typename?: 'CategoryToPostConnection' } & {
+            edges?: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'CategoryToPostConnectionEdge' } & {
+                    node?: Maybe<
+                      { __typename?: 'Post' } & Pick<Post, 'slug' | 'title'>
+                    >
+                  }
+                >
+              >
+            >
+          }
+        >
+      }
+  >
+}
+
+export type GetCategoriesQueryVariables = {}
+
+export type GetCategoriesQuery = { __typename?: 'RootQuery' } & {
+  categories?: Maybe<
+    { __typename?: 'RootQueryToCategoryConnection' } & {
+      pageInfo?: Maybe<
+        { __typename?: 'WPPageInfo' } & Pick<
+          WpPageInfo,
+          'hasNextPage' | 'endCursor'
+        >
+      >
+      edges?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'RootQueryToCategoryConnectionEdge' } & {
+              node?: Maybe<
+                { __typename?: 'Category' } & Pick<Category, 'slug' | 'name'>
+              >
+            }
+          >
+        >
+      >
+    }
+  >
+}
+
 export type GetPageByUriQueryVariables = {
-  uri?: Maybe<Scalars['String']>
+  uri: Scalars['ID']
 }
 
 export type GetPageByUriQuery = { __typename?: 'RootQuery' } & {
@@ -8057,7 +8156,7 @@ export type GetPagesQuery = { __typename?: 'RootQuery' } & {
 }
 
 export type GetPostBySlugQueryVariables = {
-  slug?: Maybe<Scalars['String']>
+  slug: Scalars['ID']
 }
 
 export type GetPostBySlugQuery = { __typename?: 'RootQuery' } & {
@@ -8095,7 +8194,9 @@ export type GetFeaturedPostQuery = { __typename?: 'RootQuery' } & {
                   Post,
                   'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
                 > & {
-                    author?: Maybe<{ __typename?: 'User' } & Pick<User, 'name'>>
+                    author?: Maybe<
+                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                    >
                     categories?: Maybe<
                       { __typename?: 'PostToCategoryConnection' } & {
                         nodes?: Maybe<
@@ -8154,7 +8255,9 @@ export type GetPostsQuery = { __typename?: 'RootQuery' } & {
                   Post,
                   'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
                 > & {
-                    author?: Maybe<{ __typename?: 'User' } & Pick<User, 'name'>>
+                    author?: Maybe<
+                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                    >
                     categories?: Maybe<
                       { __typename?: 'PostToCategoryConnection' } & {
                         nodes?: Maybe<
@@ -8245,9 +8348,124 @@ export type GetSettingsQuery = { __typename?: 'RootQuery' } & {
   >
 }
 
+export type GetAuthorBySlugQueryVariables = {
+  slug: Scalars['ID']
+  after?: Maybe<Scalars['String']>
+}
+
+export type GetAuthorBySlugQuery = { __typename?: 'RootQuery' } & {
+  user?: Maybe<
+    { __typename?: 'User' } & Pick<
+      User,
+      | 'slug'
+      | 'email'
+      | 'name'
+      | 'firstName'
+      | 'lastName'
+      | 'isRestricted'
+      | 'description'
+    > & {
+        avatar?: Maybe<{ __typename?: 'Avatar' } & Pick<Avatar, 'url'>>
+        posts?: Maybe<
+          { __typename?: 'UserToPostConnection' } & {
+            edges?: Maybe<
+              Array<
+                Maybe<
+                  { __typename?: 'UserToPostConnectionEdge' } & {
+                    node?: Maybe<
+                      { __typename?: 'Post' } & Pick<Post, 'slug' | 'title'> & {
+                          categories?: Maybe<
+                            { __typename?: 'PostToCategoryConnection' } & {
+                              nodes?: Maybe<
+                                Array<
+                                  Maybe<
+                                    { __typename?: 'Category' } & Pick<
+                                      Category,
+                                      'name' | 'slug'
+                                    >
+                                  >
+                                >
+                              >
+                            }
+                          >
+                          featuredImage?: Maybe<
+                            { __typename?: 'MediaItem' } & Pick<
+                              MediaItem,
+                              'altText' | 'sourceUrl'
+                            >
+                          >
+                        }
+                    >
+                  }
+                >
+              >
+            >
+            pageInfo?: Maybe<
+              { __typename?: 'WPPageInfo' } & Pick<
+                WpPageInfo,
+                'hasNextPage' | 'endCursor'
+              >
+            >
+          }
+        >
+      }
+  >
+}
+
+export type GetAuthorsQueryVariables = {}
+
+export type GetAuthorsQuery = { __typename?: 'RootQuery' } & {
+  users?: Maybe<
+    { __typename?: 'RootQueryToUserConnection' } & {
+      edges?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'RootQueryToUserConnectionEdge' } & {
+              node?: Maybe<
+                { __typename?: 'User' } & Pick<User, 'slug' | 'name'>
+              >
+            }
+          >
+        >
+      >
+    }
+  >
+}
+
+export const GetCategoryBySlugDocument = gql`
+  query getCategoryBySlug($slug: ID!, $after: String) {
+    category: category(id: $slug, idType: SLUG) {
+      name
+      posts(after: $after, first: 8) {
+        edges {
+          node {
+            slug
+            title(format: RAW)
+          }
+        }
+      }
+    }
+  }
+`
+export const GetCategoriesDocument = gql`
+  query getCategories {
+    categories: categories(first: 100) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          slug
+          name
+        }
+      }
+    }
+  }
+`
 export const GetPageByUriDocument = gql`
-  query getPageByUri($uri: String) {
-    page: pageBy(uri: $uri) {
+  query getPageByUri($uri: ID!) {
+    page: page(id: $uri, idType: URI) {
       title(format: RENDERED)
       content
     }
@@ -8266,8 +8484,8 @@ export const GetPagesDocument = gql`
   }
 `
 export const GetPostBySlugDocument = gql`
-  query getPostBySlug($slug: String) {
-    post: postBy(slug: $slug) {
+  query getPostBySlug($slug: ID!) {
+    post: post(id: $slug, idType: SLUG) {
       title(format: RENDERED)
       excerpt(format: RENDERED)
       date
@@ -8295,6 +8513,7 @@ export const GetFeaturedPostDocument = gql`
           slug
           author {
             name
+            slug
           }
           date
           categories {
@@ -8333,6 +8552,7 @@ export const GetPostsDocument = gql`
           slug
           author {
             name
+            slug
           }
           date
           categories {
@@ -8394,6 +8614,56 @@ export const GetSettingsDocument = gql`
     }
   }
 `
+export const GetAuthorBySlugDocument = gql`
+  query getAuthorBySlug($slug: ID!, $after: String) {
+    user: user(idType: SLUG, id: $slug) {
+      slug
+      email
+      name
+      firstName
+      lastName
+      isRestricted
+      description
+      avatar {
+        url
+      }
+      posts(first: 8, after: $after) {
+        edges {
+          node {
+            slug
+            title(format: RAW)
+            categories {
+              nodes {
+                name
+                slug
+              }
+            }
+            featuredImage {
+              altText
+              sourceUrl(size: MEDIUM_LARGE)
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+`
+export const GetAuthorsDocument = gql`
+  query getAuthors {
+    users: users(first: 100) {
+      edges {
+        node {
+          slug
+          name
+        }
+      }
+    }
+  }
+`
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
 
@@ -8403,8 +8673,28 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
+    getCategoryBySlug(
+      variables: GetCategoryBySlugQueryVariables,
+    ): Promise<GetCategoryBySlugQuery> {
+      return withWrapper(() =>
+        client.request<GetCategoryBySlugQuery>(
+          print(GetCategoryBySlugDocument),
+          variables,
+        ),
+      )
+    },
+    getCategories(
+      variables?: GetCategoriesQueryVariables,
+    ): Promise<GetCategoriesQuery> {
+      return withWrapper(() =>
+        client.request<GetCategoriesQuery>(
+          print(GetCategoriesDocument),
+          variables,
+        ),
+      )
+    },
     getPageByUri(
-      variables?: GetPageByUriQueryVariables,
+      variables: GetPageByUriQueryVariables,
     ): Promise<GetPageByUriQuery> {
       return withWrapper(() =>
         client.request<GetPageByUriQuery>(
@@ -8419,7 +8709,7 @@ export function getSdk(
       )
     },
     getPostBySlug(
-      variables?: GetPostBySlugQueryVariables,
+      variables: GetPostBySlugQueryVariables,
     ): Promise<GetPostBySlugQuery> {
       return withWrapper(() =>
         client.request<GetPostBySlugQuery>(
@@ -8448,6 +8738,21 @@ export function getSdk(
     ): Promise<GetSettingsQuery> {
       return withWrapper(() =>
         client.request<GetSettingsQuery>(print(GetSettingsDocument), variables),
+      )
+    },
+    getAuthorBySlug(
+      variables: GetAuthorBySlugQueryVariables,
+    ): Promise<GetAuthorBySlugQuery> {
+      return withWrapper(() =>
+        client.request<GetAuthorBySlugQuery>(
+          print(GetAuthorBySlugDocument),
+          variables,
+        ),
+      )
+    },
+    getAuthors(variables?: GetAuthorsQueryVariables): Promise<GetAuthorsQuery> {
+      return withWrapper(() =>
+        client.request<GetAuthorsQuery>(print(GetAuthorsDocument), variables),
       )
     },
   }

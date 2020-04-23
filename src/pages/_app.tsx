@@ -91,15 +91,14 @@ export default ({ Component, pageProps }: any): JSX.Element => {
               <I18nInitializer>
                 <GrowlProvider>
                   <TopBar />
-                  <Layout>
-                    <GrowlMessage />
-                    <Header
-                      ref={ref}
-                      sticky={isSticky}
-                      initialSettingsData={pageProps?.initialSettingsData}
-                    />
-                    <Component {...pageProps} />
-                  </Layout>
+                  <GrowlMessage />
+                  <Header
+                    ref={ref}
+                    sticky={isSticky}
+                    initialSettingsData={pageProps?.initialSettingsData}
+                  />
+                  <Component {...pageProps} />
+
                   <Footer />
                 </GrowlProvider>
               </I18nInitializer>

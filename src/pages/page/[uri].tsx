@@ -1,12 +1,11 @@
 import { useRouting } from 'expo-next-react-navigation'
-import { ArticleJsonLd } from 'next-seo'
 import React from 'react'
 import { RenderBlocks } from 'src/components/post/Blocks'
 import useSWR from 'swr'
 import { GetPagesQuery, GetPageByUriQuery } from 'src/generated/graphql'
 import { Box } from 'src/components/primitives/Box'
 import { fetcher } from 'src/utils/Fetcher'
-import { getPages } from 'src/graphql/pages'
+import { getPages } from 'src/graphql/page'
 import { getPageByUri } from 'src/graphql/page'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { MenuList } from 'src/components/MenuList'
@@ -17,7 +16,7 @@ interface PageProps {
   initialPageData?: GetPageByUriQuery
 }
 
-type RouteParams = { pageId: string }
+type RouteParams = { uri: string }
 
 export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
   const data: GetPagesQuery = await fetcher(getPages)
@@ -33,17 +32,15 @@ export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps<
-  { data: unknown },
-  RouteParams
-> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<any, RouteParams> = async ({
+  params,
+}) => {
   const initialPageData: GetPageByUriQuery = await fetcher(getPageByUri, {
     uri: params.uri,
   })
   const initialPagesData: GetPagesQuery = await fetcher(getPages, {
     after: null,
   })
-  console.log('initialPageData', initialPageData)
   return { props: { initialPagesData, initialPageData } }
 }
 
@@ -67,7 +64,7 @@ const Page: React.FC<PageProps> = ({
   return (
     <>
       <Text sx={{ fontSize: 6, fontFamily: 'heading', mx: 'auto' }}>
-        {data?.page.title}
+        {data?.page?.title}
       </Text>
       <MenuList selector="uri" type="page" data={pagesList?.pages.edges} />
       <Box sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}>

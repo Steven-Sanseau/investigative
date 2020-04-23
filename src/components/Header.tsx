@@ -8,6 +8,7 @@ import { GetSettingsQuery, MenuItem } from 'src/generated/graphql'
 import { getSettings } from 'src/graphql/settings'
 import { Box } from 'src/components/primitives/Box'
 import { Text } from 'src/components/primitives/Text'
+import { Layout } from 'src/components/Layout'
 
 const getUniversalUrl = (
   link: MenuItem,
@@ -87,35 +88,61 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
 
     return (
       <Box ref={ref}>
-        <HeaderWrapper>
-          <Flex sx={{ justifyContent: 'center', mx: 'auto' }}>
-            <UniversalLink
-              routeName="home"
-              web={{
-                path: ``,
-              }}
-            >
-              <H1>{data?.settings?.title}</H1>
-            </UniversalLink>
-          </Flex>
-          <Flex>
-            <HR sx={{ width: 'full', height: '2rpx' }} />
-          </Flex>
-          <Flex sx={{ width: 'full' }}>
-            <UL
-              sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}
-            >
-              {data?.menus?.nodes[0].menuItems?.nodes.map(
-                (link, i: React.ReactText) =>
-                  link && (
-                    //@ts-ignore
-                    <MenuLink link={link} key={i} />
-                  ),
-              )}
-            </UL>
-            <HR sx={{ width: 'full', height: '1rpx', bg: 'grayDark' }} />
-          </Flex>
-        </HeaderWrapper>
+        <Layout>
+          <HeaderWrapper>
+            <Flex sx={{ justifyContent: 'center', mx: 'auto' }}>
+              <UniversalLink
+                routeName="home"
+                web={{
+                  path: ``,
+                }}
+              >
+                <H1>{data?.settings?.title}</H1>
+              </UniversalLink>
+            </Flex>
+            <Flex>
+              <HR sx={{ width: 'full', height: '2rpx' }} />
+            </Flex>
+            <Flex sx={{ width: 'full' }}>
+              <UL
+                sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}
+              >
+                <LI>
+                  <UniversalLink
+                    routeName="page"
+                    params={{ uri: 'about' }}
+                    web={{
+                      path: `/page/about`,
+                      as: `/page/about`,
+                    }}
+                  >
+                    <Text>About</Text>
+                  </UniversalLink>
+                </LI>
+                <LI>
+                  <UniversalLink
+                    routeName="category"
+                    params={{ uri: 'featured' }}
+                    web={{
+                      path: `/category/featured`,
+                      as: `/category/featured`,
+                    }}
+                  >
+                    <Text>Featured</Text>
+                  </UniversalLink>
+                </LI>
+                {data?.menus?.nodes[0].menuItems?.nodes.map(
+                  (link, i: React.ReactText) =>
+                    link && (
+                      //@ts-ignore
+                      <MenuLink link={link} key={i} />
+                    ),
+                )}
+              </UL>
+              <HR sx={{ width: 'full', height: '1rpx', bg: 'grayDark' }} />
+            </Flex>
+          </HeaderWrapper>
+        </Layout>
       </Box>
     )
   },

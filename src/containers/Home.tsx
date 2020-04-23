@@ -5,6 +5,7 @@ import { Main } from 'src/components/Elements'
 import { Box } from 'src/components/primitives/Box'
 import { GetPostsQuery, GetFeaturedPostQuery } from 'src/generated/graphql'
 import { FeaturedPost } from 'src/components/posts/FeaturedPost'
+import { Layout } from 'src/components/Layout'
 
 interface PropsHome {
   initialPostsData?: GetPostsQuery
@@ -19,7 +20,9 @@ export const Home: React.FC<PropsHome> = ({
       <Box>
         <Main>
           <FeaturedPost initialFeaturedPostData={initialFeaturedPostData} />
-          <PostList initialPostsData={initialPostsData} />
+          <Layout>
+            <PostList initialPostsData={initialPostsData} />
+          </Layout>
         </Main>
       </Box>
     </>

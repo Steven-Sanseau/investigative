@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { Box } from 'src/components/primitives/Box'
 import { Text } from 'src/components/primitives/Text'
 import { GetFeaturedPostQuery } from 'src/generated/graphql'
-import { getFeaturedPost } from 'src/graphql/posts'
+import { getFeaturedPost } from 'src/graphql/post'
 import useSWR from 'swr'
 import { RenderBlocks } from 'src/components/post/Blocks'
 import { Image } from 'src/components/primitives/Image'
@@ -31,6 +31,7 @@ export function FeaturedPost({
         width: 'full',
         height: '400hpx',
         justifyContent: 'flex-end',
+        bg: 'red',
       }}
     >
       <Image
