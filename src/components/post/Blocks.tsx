@@ -60,7 +60,7 @@ const transform = ({
   node: any
   wrapText: any
   key: any
-}): ReactElement => {
+}): ReactElement | string => {
   const getChildren = (node, wrapText = true): [ReactElement] => {
     return node.children?.map((child, key) =>
       transform({ node: child, wrapText, key }),
@@ -91,12 +91,19 @@ const transform = ({
 
   const childLess = ['img', 'hr']
 
+  const htmlDecode = (str): string =>
+    str.replace(/&#(\d+);/g, function (match, dec) {
+      return String.fromCharCode(dec)
+    })
+
   if (node.type === 'text') {
     if (wrapText) {
-      return <Text key={key}>{node.data.replace(/\n|\r/g, '')}</Text>
+      return (
+        <Text key={key}>{htmlDecode(node.data.replace(/\n|\r/g, ''))}</Text>
+      )
     }
 
-    return node.data.trim()
+    return htmlDecode(node.data.trim())
   }
   if (node.type === 'tag') {
     const Element = Elements[node.name]
