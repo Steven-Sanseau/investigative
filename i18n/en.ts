@@ -36,5 +36,10 @@ export default {
       noMore: 'End',
     },
   },
+  author: {
+    postList: {
+      writtenBy: 'Written by {{name}}:',
+    },
+  },
   loading: '...',
 }

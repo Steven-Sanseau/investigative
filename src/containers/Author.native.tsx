@@ -1,4 +1,6 @@
 import React from 'react'
+import { ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Main } from 'src/components/Elements'
 import { Layout } from 'src/components/Layout'
 import { RenderBlocks } from 'src/components/post/Blocks'
@@ -21,9 +23,9 @@ export const Author: React.FC<PropsAuthor> = ({
   data,
 }: PropsAuthor) => {
   return (
-    <>
-      <Main>
-        <Layout>
+    <SafeAreaView>
+      <ScrollView>
+        <Main>
           <H1>{data.user.name}</H1>
           <Box
             sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}
@@ -41,8 +43,8 @@ export const Author: React.FC<PropsAuthor> = ({
             query={getPostsByAuthorId}
             params={{ id: data.user.userId }}
           />
-        </Layout>
-      </Main>
-    </>
+        </Main>
+      </ScrollView>
+    </SafeAreaView>
   )
 }

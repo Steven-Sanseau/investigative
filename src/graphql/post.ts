@@ -94,3 +94,43 @@ export const getPosts = /* GraphQL */ `
     }
   }
 `
+
+export const getPostsByAuthorId = /* GraphQL */ `
+  query getPostsByAuthor($after: String, $id: [ID]) {
+    posts: posts(after: $after, first: 8, where: { authorIn: $id }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title(format: RENDERED)
+          slug
+          author {
+            name
+            slug
+          }
+          date
+          categories {
+            nodes {
+              slug
+              name
+            }
+          }
+          commentCount
+          excerpt(format: RENDERED)
+          thumbnail: featuredImage {
+            sourceUrl(size: POST_THUMBNAIL)
+          }
+          image: featuredImage {
+            altText
+            sourceUrl(size: LARGE)
+            caption(format: RAW)
+            description(format: RAW)
+          }
+        }
+      }
+    }
+  }
+`

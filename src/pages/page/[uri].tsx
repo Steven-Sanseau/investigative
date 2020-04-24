@@ -1,15 +1,15 @@
 import { useRouting } from 'expo-next-react-navigation'
-import React from 'react'
-import { RenderBlocks } from 'src/components/post/Blocks'
-import useSWR from 'swr'
-import { GetPagesQuery, GetPageByUriQuery } from 'src/generated/graphql'
-import { Box } from 'src/components/primitives/Box'
-import { fetcher } from 'src/utils/Fetcher'
-import { getPages } from 'src/graphql/page'
-import { getPageByUri } from 'src/graphql/page'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import React from 'react'
 import { MenuList } from 'src/components/MenuList'
+import { RenderBlocks } from 'src/components/post/Blocks'
+import { Box } from 'src/components/primitives/Box'
 import { Text } from 'src/components/primitives/Text'
+import { GetPageByUriQuery, GetPagesQuery } from 'src/generated/graphql'
+import { getPageByUri, getPages } from 'src/graphql/page'
+import { fetcher } from 'src/utils/Fetcher'
+import useSWR from 'swr'
+import { Page } from 'src/containers/Page'
 
 interface PageProps {
   initialPagesData?: GetPagesQuery
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<any, RouteParams> = async ({
   return { props: { initialPagesData, initialPageData } }
 }
 
-const Page: React.FC<PageProps> = ({
+const PageArticle: React.FC<PageProps> = ({
   initialPagesData,
   initialPageData,
 }: PageProps) => {
@@ -61,17 +61,7 @@ const Page: React.FC<PageProps> = ({
     { initialData: initialPageData },
   )
 
-  return (
-    <>
-      <Text sx={{ fontSize: 6, fontFamily: 'heading', mx: 'auto' }}>
-        {data?.page?.title}
-      </Text>
-      <MenuList selector="uri" type="page" data={pagesList?.pages.edges} />
-      <Box sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}>
-        <RenderBlocks content={data?.page?.content} />
-      </Box>
-    </>
-  )
+  return <Page />
 }
 
-export default Page
+export default PageArticle

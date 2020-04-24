@@ -8294,6 +8294,68 @@ export type GetPostsQuery = { __typename?: 'RootQuery' } & {
   >
 }
 
+export type GetPostsByAuthorQueryVariables = {
+  after?: Maybe<Scalars['String']>
+  id?: Maybe<Array<Maybe<Scalars['ID']>>>
+}
+
+export type GetPostsByAuthorQuery = { __typename?: 'RootQuery' } & {
+  posts?: Maybe<
+    { __typename?: 'RootQueryToPostConnection' } & {
+      pageInfo?: Maybe<
+        { __typename?: 'WPPageInfo' } & Pick<
+          WpPageInfo,
+          'hasNextPage' | 'endCursor'
+        >
+      >
+      edges?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'RootQueryToPostConnectionEdge' } & {
+              node?: Maybe<
+                { __typename?: 'Post' } & Pick<
+                  Post,
+                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
+                > & {
+                    author?: Maybe<
+                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                    >
+                    categories?: Maybe<
+                      { __typename?: 'PostToCategoryConnection' } & {
+                        nodes?: Maybe<
+                          Array<
+                            Maybe<
+                              { __typename?: 'Category' } & Pick<
+                                Category,
+                                'slug' | 'name'
+                              >
+                            >
+                          >
+                        >
+                      }
+                    >
+                    thumbnail?: Maybe<
+                      { __typename?: 'MediaItem' } & Pick<
+                        MediaItem,
+                        'sourceUrl'
+                      >
+                    >
+                    image?: Maybe<
+                      { __typename?: 'MediaItem' } & Pick<
+                        MediaItem,
+                        'altText' | 'sourceUrl' | 'caption' | 'description'
+                      >
+                    >
+                  }
+              >
+            }
+          >
+        >
+      >
+    }
+  >
+}
+
 export type GetSettingsQueryVariables = {}
 
 export type GetSettingsQuery = { __typename?: 'RootQuery' } & {
@@ -8350,7 +8412,6 @@ export type GetSettingsQuery = { __typename?: 'RootQuery' } & {
 
 export type GetAuthorBySlugQueryVariables = {
   slug: Scalars['ID']
-  after?: Maybe<Scalars['String']>
 }
 
 export type GetAuthorBySlugQuery = { __typename?: 'RootQuery' } & {
@@ -8358,57 +8419,14 @@ export type GetAuthorBySlugQuery = { __typename?: 'RootQuery' } & {
     { __typename?: 'User' } & Pick<
       User,
       | 'slug'
+      | 'userId'
       | 'email'
       | 'name'
       | 'firstName'
       | 'lastName'
       | 'isRestricted'
       | 'description'
-    > & {
-        avatar?: Maybe<{ __typename?: 'Avatar' } & Pick<Avatar, 'url'>>
-        posts?: Maybe<
-          { __typename?: 'UserToPostConnection' } & {
-            edges?: Maybe<
-              Array<
-                Maybe<
-                  { __typename?: 'UserToPostConnectionEdge' } & {
-                    node?: Maybe<
-                      { __typename?: 'Post' } & Pick<Post, 'slug' | 'title'> & {
-                          categories?: Maybe<
-                            { __typename?: 'PostToCategoryConnection' } & {
-                              nodes?: Maybe<
-                                Array<
-                                  Maybe<
-                                    { __typename?: 'Category' } & Pick<
-                                      Category,
-                                      'name' | 'slug'
-                                    >
-                                  >
-                                >
-                              >
-                            }
-                          >
-                          featuredImage?: Maybe<
-                            { __typename?: 'MediaItem' } & Pick<
-                              MediaItem,
-                              'altText' | 'sourceUrl'
-                            >
-                          >
-                        }
-                    >
-                  }
-                >
-              >
-            >
-            pageInfo?: Maybe<
-              { __typename?: 'WPPageInfo' } & Pick<
-                WpPageInfo,
-                'hasNextPage' | 'endCursor'
-              >
-            >
-          }
-        >
-      }
+    > & { avatar?: Maybe<{ __typename?: 'Avatar' } & Pick<Avatar, 'url'>> }
   >
 }
 
@@ -8422,7 +8440,7 @@ export type GetAuthorsQuery = { __typename?: 'RootQuery' } & {
           Maybe<
             { __typename?: 'RootQueryToUserConnectionEdge' } & {
               node?: Maybe<
-                { __typename?: 'User' } & Pick<User, 'slug' | 'name'>
+                { __typename?: 'User' } & Pick<User, 'slug' | 'name' | 'userId'>
               >
             }
           >
@@ -8577,6 +8595,45 @@ export const GetPostsDocument = gql`
     }
   }
 `
+export const GetPostsByAuthorDocument = gql`
+  query getPostsByAuthor($after: String, $id: [ID]) {
+    posts: posts(after: $after, first: 8, where: { authorIn: $id }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title(format: RENDERED)
+          slug
+          author {
+            name
+            slug
+          }
+          date
+          categories {
+            nodes {
+              slug
+              name
+            }
+          }
+          commentCount
+          excerpt(format: RENDERED)
+          thumbnail: featuredImage {
+            sourceUrl(size: POST_THUMBNAIL)
+          }
+          image: featuredImage {
+            altText
+            sourceUrl(size: LARGE)
+            caption(format: RAW)
+            description(format: RAW)
+          }
+        }
+      }
+    }
+  }
+`
 export const GetSettingsDocument = gql`
   query getSettings {
     settings: generalSettings {
@@ -8615,9 +8672,10 @@ export const GetSettingsDocument = gql`
   }
 `
 export const GetAuthorBySlugDocument = gql`
-  query getAuthorBySlug($slug: ID!, $after: String) {
+  query getAuthorBySlug($slug: ID!) {
     user: user(idType: SLUG, id: $slug) {
       slug
+      userId
       email
       name
       firstName
@@ -8626,28 +8684,6 @@ export const GetAuthorBySlugDocument = gql`
       description
       avatar {
         url
-      }
-      posts(first: 8, after: $after) {
-        edges {
-          node {
-            slug
-            title(format: RAW)
-            categories {
-              nodes {
-                name
-                slug
-              }
-            }
-            featuredImage {
-              altText
-              sourceUrl(size: MEDIUM_LARGE)
-            }
-          }
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
       }
     }
   }
@@ -8659,6 +8695,7 @@ export const GetAuthorsDocument = gql`
         node {
           slug
           name
+          userId
         }
       }
     }
@@ -8731,6 +8768,16 @@ export function getSdk(
     getPosts(variables?: GetPostsQueryVariables): Promise<GetPostsQuery> {
       return withWrapper(() =>
         client.request<GetPostsQuery>(print(GetPostsDocument), variables),
+      )
+    },
+    getPostsByAuthor(
+      variables?: GetPostsByAuthorQueryVariables,
+    ): Promise<GetPostsByAuthorQuery> {
+      return withWrapper(() =>
+        client.request<GetPostsByAuthorQuery>(
+          print(GetPostsByAuthorDocument),
+          variables,
+        ),
       )
     },
     getSettings(

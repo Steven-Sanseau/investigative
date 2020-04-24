@@ -1,7 +1,5 @@
 const plural = (count, values) => {
-  if (count === 0) return values['zero'] || values['other']
-  if (count === 1) return values['one'] || values['other']
-  return values['other']
+  if (count < 2) return values['one'] || values['other']
 }
 
 export default {
@@ -21,6 +19,11 @@ export default {
     posts: {
       loadMore: 'Plus',
       noMore: 'Fin',
+    },
+  },
+  author: {
+    postList: {
+      writtenBy: 'Articles écrits par {{name}}:',
     },
   },
   loading: '...',

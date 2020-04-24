@@ -1,17 +1,15 @@
 import { formatRelative, parseISO } from 'date-fns'
 import React, { ReactElement } from 'react'
+import { Flex } from 'src/components/Grid'
+import { RenderBlocks } from 'src/components/post/Blocks'
+import { LoadMore } from 'src/components/posts/LoadMore'
 import { Box } from 'src/components/primitives/Box'
 import { Image } from 'src/components/primitives/Image'
 import { Text } from 'src/components/primitives/Text'
 import { H2 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
-import useSWR, { useSWRPages } from 'swr'
-
 import { GetPostsQuery } from 'src/generated/graphql'
-import { Flex } from 'src/components/Grid'
-import { getPosts } from 'src/graphql/post'
-import { RenderBlocks } from 'src/components/post/Blocks'
-import { LoadMore } from 'src/components/posts/LoadMore'
+import useSWR, { useSWRPages } from 'swr'
 
 const Title = (props): ReactElement => (
   <H2
@@ -33,28 +31,31 @@ const Author = (props): ReactElement => (
   />
 )
 
-interface PropsPostList {
-  initialPostsData?: GetPostsQuery
+interface PostListProps {
+  initialData?: any
+  query: any
+  params?: any
 }
-
-const DatePost = Text
-
-export const PostList: React.FC<PropsPostList> = ({
-  initialPostsData,
-}: PropsPostList) => {
+export const PostList = ({
+  initialData,
+  query,
+  params,
+}: PostListProps): ReactElement => {
   const now = new Date()
 
   const { pages, isLoadingMore, isReachingEnd, loadMore } = useSWRPages(
     'index',
     ({ offset, withSWR }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const paginationParams = React.useMemo(() => ({ after: offset }), [
-        offset,
-      ])
+      const paginationParams = React.useMemo(
+        () => ({ after: offset, ...params }),
+        [offset, params],
+      )
+
       const { data }: { data?: GetPostsQuery } = withSWR(
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        useSWR([getPosts, paginationParams], {
-          initialData: offset ? null : initialPostsData,
+        useSWR([query, paginationParams], {
+          initialData: offset ? null : initialData,
         }),
       )
 
@@ -151,9 +152,7 @@ export const PostList: React.FC<PropsPostList> = ({
                     <Author>by {post.author.name}</Author>
                   </UniversalLink>
                   {post?.date && (
-                    <DatePost>
-                      {formatRelative(parseISO(post.date), now)}
-                    </DatePost>
+                    <Text>{formatRelative(parseISO(post.date), now)}</Text>
                   )}
                   <Text>{post.commentCount}</Text>
                 </Box>

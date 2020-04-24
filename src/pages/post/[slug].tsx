@@ -1,70 +1,58 @@
 import { useRouting } from 'expo-next-react-navigation'
-import { ArticleJsonLd } from 'next-seo'
 import React from 'react'
-import { RenderBlocks } from 'src/components/post/Blocks'
 import useSWR from 'swr'
-import { GetPostBySlugQuery } from 'src/generated/graphql'
-import { getPostBySlug } from 'src/graphql/post'
-import { Box } from 'src/components/primitives/Box'
-import { H1, H5, H2 } from 'src/components/Typography'
+import { GetPostBySlugQuery, GetPostsQuery } from 'src/generated/graphql'
+import { getPostBySlug, getPosts } from 'src/graphql/post'
 import { Text } from 'src/components/primitives/Text'
-import { UniversalLink } from 'src/components/UniversalLink'
+import { Post } from 'src/containers/Post'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { fetcher } from 'src/utils/Fetcher'
 
-const Post: React.FC = () => {
+interface PostProps {
+  initialPostData?: GetPostBySlugQuery
+}
+
+type RouteParams = { slug: string }
+
+export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
+  const data: GetPostsQuery = await fetcher(getPosts)
+  const paths = data.posts.edges.map(({ node: post }) => ({
+    params: {
+      slug: post.slug,
+    },
+  }))
+
+  return {
+    paths,
+    fallback: true,
+  }
+}
+
+export const getStaticProps: GetStaticProps<any, RouteParams> = async ({
+  params,
+}) => {
+  const initialPostData: GetPostBySlugQuery = await fetcher(getPostBySlug, {
+    slug: params.slug,
+  })
+
+  return { props: { initialPostData } }
+}
+
+const PostPage: React.FC<PostProps> = ({ initialPostData }: PostProps) => {
   const { getParam } = useRouting()
   const slug: string = getParam('slug')
-  console.log({ slug, params: getParam('screen') })
   const slugParams = React.useMemo(() => ({ slug }), [slug])
 
-  const { data }: { data?: GetPostBySlugQuery } = useSWR([
-    getPostBySlug,
-    slugParams,
-  ])
+  const { data }: { data?: GetPostBySlugQuery } = useSWR(
+    [getPostBySlug, slugParams],
+    { initialData: initialPostData },
+  )
 
   if (!data) {
     return <Text>loading...</Text>
   }
 
-  return (
-    <>
-      {data?.post && (
-        <ArticleJsonLd
-          title={data.post.title}
-          datePublished={data.post.date}
-          dateModified={data.post.modified}
-          authorName={data.post.author.name}
-          publisherName={data.post.author.name}
-          publisherLogo={data.post.author.avatar.url}
-          description={data.post.excerpt}
-        />
-      )}
-      <Box>
-        <H1>{data.post.title}</H1>
-      </Box>
-
-      <Box>
-        <UniversalLink
-          routeName="author"
-          params={{ slug: data.post.author.slug }}
-          web={{
-            as: `/author/${data.post.author.slug}`,
-            path: `/author/${data.post.author.slug}`,
-          }}
-        >
-          <H5>{data.post.author.name}</H5>
-        </UniversalLink>
-      </Box>
-      <Box>
-        <H5>{data.post.date}</H5>
-      </Box>
-      <Box sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}>
-        <RenderBlocks content={data?.post.content} />
-      </Box>
-      <Box sx={{ position: 'absolute', bottom: 0 }}>
-        <Text>{data?.post.commentCount}</Text>
-      </Box>
-    </>
-  )
+  return <Post data={data} />
 }
 
-export default Post
+export default PostPage

@@ -1,5 +1,5 @@
 import { Link } from 'expo-next-react-navigation'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import { Linking, Platform } from 'react-native'
 import { Text } from 'src/components/primitives/Text'
 import { BoxProps } from 'src/components/primitives/Box'
@@ -12,6 +12,7 @@ interface PropsUniversalLink extends BoxProps {
   web?: { as?: string; path?: string }
   as?: any
   onPress?: Function
+  style?: CSSProperties
 }
 export const UniversalLink: React.FC<PropsUniversalLink> = ({
   routeName,

@@ -1,14 +1,13 @@
-import React, { ReactChildren, ReactElement } from 'react'
-import { P, H1, H2, H3, H4, H5, H6 } from 'src/components/Typography'
-import { UL, LI, HR, Pre } from 'src/components/Elements'
-import { Text } from 'src/components/primitives/Text'
-import { GetPostBySlugQuery } from 'src/generated/graphql'
-import { Box } from 'src/components/primitives/Box'
 import { parseDOM } from 'htmlparser2'
-import { UniversalLink } from 'src/components/UniversalLink'
-import { Image } from 'src/components/primitives/Image'
-import { Webview } from 'src/components/Webview'
+import React, { ReactChildren, ReactElement } from 'react'
 import ErrorBoundary from 'react-error-boundary'
+import { HR, LI, Pre, UL } from 'src/components/Elements'
+import { Box } from 'src/components/primitives/Box'
+import { Image } from 'src/components/primitives/Image'
+import { Text } from 'src/components/primitives/Text'
+import { H1, H2, H3, H4, H5, H6, P } from 'src/components/Typography'
+import { UniversalLink } from 'src/components/UniversalLink'
+import { Webview } from 'src/components/Webview'
 
 interface LinkProps {
   href: string

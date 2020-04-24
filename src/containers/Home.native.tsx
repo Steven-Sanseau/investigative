@@ -45,7 +45,7 @@ export const Home: React.FC = () => {
         <GrowlMessage />
         <Main>
           <FeaturedPost />
-          <PostList />
+          <PostList query={getPosts} />
         </Main>
       </SafeAreaView>
     </CollapsibleHeader>
