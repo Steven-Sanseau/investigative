@@ -31,7 +31,7 @@ const Img: React.FC<ImageProps> = ({ src, alt }: ImageProps): ReactElement => {
       sx={{
         mx: { xs: 'auto', md: 0 },
         height: '300hpx',
-        width: 'full',
+        width: '100rpx',
       }}
       alt={alt}
     />
@@ -89,6 +89,8 @@ const transform = ({
     iframe: Iframe,
   }
 
+  const childLess = ['img', 'hr']
+
   if (node.type === 'text') {
     if (wrapText) {
       return <Text key={key}>{node.data.replace(/\n|\r/g, '')}</Text>
@@ -98,11 +100,19 @@ const transform = ({
   }
   if (node.type === 'tag') {
     const Element = Elements[node.name]
-    return Element ? (
+    if (!Element) {
+      return null
+    }
+
+    if (childLess.includes(node.name)) {
+      return <Element {...node.attribs} key={key} />
+    }
+
+    return (
       <Element {...node.attribs} key={key}>
         {getChildren(node)}
       </Element>
-    ) : null
+    )
   }
 
   return null

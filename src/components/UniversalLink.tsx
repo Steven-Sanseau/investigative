@@ -2,11 +2,10 @@ import { Link } from 'expo-next-react-navigation'
 import React, { CSSProperties } from 'react'
 import { Linking, Platform } from 'react-native'
 import { Text } from 'src/components/primitives/Text'
-import { BoxProps } from 'src/components/primitives/Box'
+import { Box } from 'src/components/primitives/Box'
 
-interface PropsUniversalLink extends BoxProps {
+type PropsUniversalLink = React.ComponentProps<typeof Box> & {
   routeName: string
-  children: any
   params?: Record<string, any>
   prefetch?: boolean
   web?: { as?: string; path?: string }

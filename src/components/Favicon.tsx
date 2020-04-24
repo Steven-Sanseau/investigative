@@ -2,7 +2,7 @@ import Head from 'next/head'
 import * as React from 'react'
 import { useColorScheme } from 'react-native-appearance'
 
-export default function Favicon() {
+export default function Favicon(): React.ReactElement {
   const scheme = useColorScheme()
   const isDark = scheme === 'dark'
   const folderName = isDark ? '/favicon-dark' : ''

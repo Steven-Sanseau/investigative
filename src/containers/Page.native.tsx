@@ -13,8 +13,8 @@ interface PageProps {
 }
 export const Page: React.FC<PageProps> = ({ pagesList, data }: PageProps) => {
   return (
-    <ScrollView>
-      <SafeAreaView>
+    <SafeAreaView>
+      <ScrollView>
         <Text sx={{ fontSize: 6, fontFamily: 'heading', mx: 'auto' }}>
           {data?.page?.title}
         </Text>
@@ -27,7 +27,7 @@ export const Page: React.FC<PageProps> = ({ pagesList, data }: PageProps) => {
         >
           <RenderBlocks content={data?.page?.content} />
         </Box>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   )
 }

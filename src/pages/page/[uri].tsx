@@ -61,7 +61,7 @@ const PageArticle: React.FC<PageProps> = ({
     { initialData: initialPageData },
   )
 
-  return <Page />
+  return <Page data={data} />
 }
 
 export default PageArticle

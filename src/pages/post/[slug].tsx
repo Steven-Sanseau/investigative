@@ -48,7 +48,7 @@ const PostPage: React.FC<PostProps> = ({ initialPostData }: PostProps) => {
     { initialData: initialPostData },
   )
 
-  if (!data) {
+  if (!data?.post) {
     return <Text>loading...</Text>
   }
 

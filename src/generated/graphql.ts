@@ -8176,6 +8176,12 @@ export type GetPostBySlugQuery = { __typename?: 'RootQuery' } & {
               avatar?: Maybe<{ __typename?: 'Avatar' } & Pick<Avatar, 'url'>>
             }
         >
+        featuredImage?: Maybe<
+          { __typename?: 'MediaItem' } & Pick<
+            MediaItem,
+            'altText' | 'sourceUrl' | 'caption' | 'description'
+          >
+        >
       }
   >
 }
@@ -8514,6 +8520,12 @@ export const GetPostBySlugDocument = gql`
         avatar {
           url
         }
+      }
+      featuredImage {
+        altText
+        sourceUrl(size: _2048X2048)
+        caption(format: RAW)
+        description(format: RAW)
       }
       content(format: RENDERED)
       commentCount

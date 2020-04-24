@@ -12,7 +12,12 @@ export const getPostBySlug = /* GraphQL */ `
           url
         }
       }
-
+      featuredImage {
+        altText
+        sourceUrl(size: _2048X2048)
+        caption(format: RAW)
+        description(format: RAW)
+      }
       content(format: RENDERED)
       commentCount
       commentStatus

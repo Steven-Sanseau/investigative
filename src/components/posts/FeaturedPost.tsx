@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react'
-import { Flex } from 'src/components/Grid'
-import { RenderBlocks } from 'src/components/post/Blocks'
 import { Box } from 'src/components/primitives/Box'
-import { Image } from 'src/components/primitives/Image'
 import { Text } from 'src/components/primitives/Text'
-import { UniversalLink } from 'src/components/UniversalLink'
 import { GetFeaturedPostQuery } from 'src/generated/graphql'
 import { getFeaturedPost } from 'src/graphql/post'
 import useSWR from 'swr'
+import { RenderBlocks } from 'src/components/post/Blocks'
+import { Image } from 'src/components/primitives/Image'
+import { UniversalLink } from 'src/components/UniversalLink'
+import { Flex } from 'src/components/Grid'
 
 interface FeaturedPostProps {
   initialFeaturedPostData?: GetFeaturedPostQuery

@@ -100,7 +100,6 @@ export const PostList = ({
                       xl: 260,
                     },
                   }}
-                  thumbnail={post.thumbnail.sourceUrl}
                   src={post.image.sourceUrl}
                 />
               </Box>
