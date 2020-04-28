@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 import { T } from 'src/contexts/I18n'
 import { Box } from 'src/components/primitives/Box'
-import { Text } from 'src/components/primitives/Text'
 
 interface LoadMoreProps {
   loadMore: () => void

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { Image as RNImage, ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Image as RNImage } from 'react-native'
 import { useStyling } from 'src/utils/native-styled'
 import { ThemedStyle } from 'src/utils/native-styled/ThemeContext'
 

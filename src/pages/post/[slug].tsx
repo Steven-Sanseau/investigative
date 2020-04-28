@@ -2,7 +2,7 @@ import { useRouting } from 'expo-next-react-navigation'
 import React from 'react'
 import useSWR from 'swr'
 import { GetPostBySlugQuery, GetPostsQuery } from 'src/generated/graphql'
-import { getPostBySlug, getPosts } from 'src/graphql/post'
+import { getAllPosts, getPostBySlug } from 'src/graphql/post'
 import { Text } from 'src/components/primitives/Text'
 import { Post } from 'src/containers/Post'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -15,7 +15,7 @@ interface PostProps {
 type RouteParams = { slug: string }
 
 export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
-  const data: GetPostsQuery = await fetcher(getPosts)
+  const data: GetPostsQuery = await fetcher(getAllPosts)
   const paths = data.posts.edges.map(({ node: post }) => ({
     params: {
       slug: post.slug,

@@ -8,3 +8,4 @@ storybook-static/
 .next/
 .now/
 web-build
+/out/

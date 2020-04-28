@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from 'src/components/primitives/Text'
 import { MenuList } from 'src/components/MenuList'
 import { RenderBlocks } from 'src/components/post/Blocks'
-import { GetPagesQuery, GetPageByUriQuery } from 'src/generated/graphql'
+import { GetPageByUriQuery, GetPagesQuery } from 'src/generated/graphql'
 import { Box } from 'src/components/primitives/Box'
 
 interface PageProps {

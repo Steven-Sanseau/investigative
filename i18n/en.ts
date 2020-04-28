@@ -41,5 +41,16 @@ export default {
       writtenBy: 'Written by {{name}}:',
     },
   },
+  comment: {
+    input: {
+      email: 'Email address',
+      name: 'Name',
+      content: 'Comment',
+    },
+    form: {
+      notSend: 'Comment failed to post',
+      success: 'Your comment has been posted',
+    },
+  },
   loading: '...',
 }

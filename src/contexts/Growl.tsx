@@ -38,7 +38,7 @@ export function GrowlProvider({
     (type, message) => {
       setGrowl({ type, message, open: true })
       clearTimeout(timeoutRef.current)
-      timeoutRef.current = setTimeout(hide, 1500)
+      timeoutRef.current = setTimeout(hide, 3000)
     },
     [hide],
   )

@@ -15,7 +15,6 @@ export const Text: React.FC<TextProps> = React.forwardRef<any, TextProps>(
   ({ sx, ...props }: TextProps, ref) => {
     const styling = useStyling()
     Text.displayName = 'Text'
-    const computedStyles = sx ? styling(sx) : null
-    return <TextRN ref={ref} style={computedStyles} {...props} />
+    return <TextRN ref={ref} style={styling(sx)} {...props} />
   },
 )

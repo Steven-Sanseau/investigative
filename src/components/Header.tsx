@@ -1,5 +1,5 @@
 import React from 'react'
-import { HR, UL, LI } from 'src/components/Elements'
+import { HR, LI, UL } from 'src/components/Elements'
 import { H1 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import { Flex } from 'src/components/Grid'

@@ -10,7 +10,7 @@ import {
   GetCategoryBySlugQuery,
 } from 'src/generated/graphql'
 
-import { getCategoryBySlug, getCategories } from 'src/graphql/category'
+import { getCategories, getCategoryBySlug } from 'src/graphql/category'
 
 interface CategoryPageProps {
   initialCategoriesData?: GetCategoriesQuery

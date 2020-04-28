@@ -26,5 +26,17 @@ export default {
       writtenBy: 'Articles écrits par {{name}}:',
     },
   },
+  comment: {
+    input: {
+      email: 'Adresse Email',
+      name: 'Nom',
+      content: 'Commentaire',
+    },
+    form: {
+      notSend:
+        'Un problème est survenue avec votre commentaire, veuillez réessayer',
+      success: 'Votre commentaire à bien été posté',
+    },
+  },
   loading: '...',
 }

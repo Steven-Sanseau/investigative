@@ -1,10 +1,6 @@
 import { useRouting } from 'expo-next-react-navigation'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
-import { MenuList } from 'src/components/MenuList'
-import { RenderBlocks } from 'src/components/post/Blocks'
-import { Box } from 'src/components/primitives/Box'
-import { Text } from 'src/components/primitives/Text'
 import { GetPageByUriQuery, GetPagesQuery } from 'src/generated/graphql'
 import { getPageByUri, getPages } from 'src/graphql/page'
 import { fetcher } from 'src/utils/Fetcher'
@@ -53,9 +49,9 @@ const PageArticle: React.FC<PageProps> = ({
 
   const pageIdParams = React.useMemo(() => ({ uri }), [uri])
 
-  const { data: pagesList }: { pagesList?: GetPagesQuery } = useSWR(getPages, {
-    initialData: initialPagesData,
-  })
+  // const { data: pagesList }: { pagesList?: GetPagesQuery } = useSWR(getPages, {
+  //   initialData: initialPagesData,
+  // })
   const { data }: { data?: GetPageByUriQuery } = useSWR(
     [getPageByUri, pageIdParams],
     { initialData: initialPageData },

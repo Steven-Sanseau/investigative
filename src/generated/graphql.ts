@@ -1,6 +1,7 @@
 import { GraphQLClient } from 'graphql-request'
 import { print } from 'graphql'
 import gql from 'graphql-tag'
+
 export type Maybe<T> = T | null
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -8074,6 +8075,362 @@ export type UpdateUserPayload = {
   user?: Maybe<User>
 }
 
+export interface IntrospectionResultData {
+  __schema: {
+    types: {
+      kind: string
+      name: string
+      possibleTypes: {
+        name: string
+      }[]
+    }[]
+  }
+}
+
+const result: IntrospectionResultData = {
+  __schema: {
+    types: [
+      {
+        kind: 'INTERFACE',
+        name: 'Node',
+        possibleTypes: [
+          {
+            name: 'Category',
+          },
+          {
+            name: 'Post',
+          },
+          {
+            name: 'User',
+          },
+          {
+            name: 'Comment',
+          },
+          {
+            name: 'CommentAuthor',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+          {
+            name: 'ContentType',
+          },
+          {
+            name: 'Taxonomy',
+          },
+          {
+            name: 'Tag',
+          },
+          {
+            name: 'PostFormat',
+          },
+          {
+            name: 'UserRole',
+          },
+          {
+            name: 'Menu',
+          },
+          {
+            name: 'MenuItem',
+          },
+          {
+            name: 'Plugin',
+          },
+          {
+            name: 'Theme',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'TermNode',
+        possibleTypes: [
+          {
+            name: 'Category',
+          },
+          {
+            name: 'Tag',
+          },
+          {
+            name: 'PostFormat',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'UniformResourceIdentifiable',
+        possibleTypes: [
+          {
+            name: 'Category',
+          },
+          {
+            name: 'Post',
+          },
+          {
+            name: 'User',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+          {
+            name: 'Tag',
+          },
+          {
+            name: 'PostFormat',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'ContentNode',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+        ],
+      },
+      {
+        kind: 'UNION',
+        name: 'CommentAuthorUnion',
+        possibleTypes: [
+          {
+            name: 'User',
+          },
+          {
+            name: 'CommentAuthor',
+          },
+        ],
+      },
+      {
+        kind: 'UNION',
+        name: 'PostObjectUnion',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithTitle',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithContentEditor',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithAuthor',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithFeaturedImage',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithComments',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'HierarchicalContentNode',
+        possibleTypes: [
+          {
+            name: 'Page',
+          },
+          {
+            name: 'MediaItem',
+          },
+        ],
+      },
+      {
+        kind: 'UNION',
+        name: 'ContentTemplateUnion',
+        possibleTypes: [
+          {
+            name: 'DefaultTemplate',
+          },
+          {
+            name: 'CoverTemplateTemplate',
+          },
+          {
+            name: 'FullWidthTemplateTemplate',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'ContentTemplate',
+        possibleTypes: [
+          {
+            name: 'DefaultTemplate',
+          },
+          {
+            name: 'CoverTemplateTemplate',
+          },
+          {
+            name: 'FullWidthTemplateTemplate',
+          },
+        ],
+      },
+      {
+        kind: 'UNION',
+        name: 'TermObjectUnion',
+        possibleTypes: [
+          {
+            name: 'Category',
+          },
+          {
+            name: 'Tag',
+          },
+          {
+            name: 'PostFormat',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithRevisions',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithPageAttributes',
+        possibleTypes: [
+          {
+            name: 'Page',
+          },
+        ],
+      },
+      {
+        kind: 'UNION',
+        name: 'ContentRevisionUnion',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithExcerpt',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'NodeWithTrackbacks',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+        ],
+      },
+      {
+        kind: 'UNION',
+        name: 'MenuItemObjectUnion',
+        possibleTypes: [
+          {
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+          {
+            name: 'Category',
+          },
+          {
+            name: 'Tag',
+          },
+          {
+            name: 'MenuItem',
+          },
+        ],
+      },
+    ],
+  },
+}
+export default result
+
 export type GetCategoryBySlugQueryVariables = {
   slug: Scalars['ID']
   after?: Maybe<Scalars['String']>
@@ -8127,6 +8484,72 @@ export type GetCategoriesQuery = { __typename?: 'RootQuery' } & {
   >
 }
 
+export type GetCommentsQueryVariables = {
+  postId: Scalars['ID']
+  after?: Maybe<Scalars['String']>
+}
+
+export type GetCommentsQuery = { __typename?: 'RootQuery' } & {
+  comments?: Maybe<
+    { __typename?: 'RootQueryToCommentConnection' } & {
+      pageInfo?: Maybe<
+        { __typename?: 'WPPageInfo' } & Pick<
+          WpPageInfo,
+          'hasNextPage' | 'endCursor'
+        >
+      >
+      nodes?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'Comment' } & Pick<
+              Comment,
+              'id' | 'date' | 'approved' | 'content'
+            > & {
+                author?: Maybe<
+                  | ({ __typename?: 'User' } & Pick<User, 'name'> & {
+                        avatar?: Maybe<
+                          { __typename?: 'Avatar' } & Pick<Avatar, 'url'>
+                        >
+                      })
+                  | ({ __typename?: 'CommentAuthor' } & Pick<
+                      CommentAuthor,
+                      'name'
+                    >)
+                >
+              }
+          >
+        >
+      >
+    }
+  >
+}
+
+export type Create_CommentMutationVariables = {
+  comment: CreateCommentInput
+}
+
+export type Create_CommentMutation = { __typename?: 'RootMutation' } & {
+  createComment?: Maybe<
+    { __typename?: 'CreateCommentPayload' } & {
+      comment?: Maybe<
+        { __typename?: 'Comment' } & Pick<
+          Comment,
+          'id' | 'date' | 'approved' | 'content'
+        > & {
+            author?: Maybe<
+              | ({ __typename?: 'User' } & Pick<User, 'name'> & {
+                    avatar?: Maybe<
+                      { __typename?: 'Avatar' } & Pick<Avatar, 'url'>
+                    >
+                  })
+              | ({ __typename?: 'CommentAuthor' } & Pick<CommentAuthor, 'name'>)
+            >
+          }
+      >
+    }
+  >
+}
+
 export type GetPageByUriQueryVariables = {
   uri: Scalars['ID']
 }
@@ -8163,6 +8586,8 @@ export type GetPostBySlugQuery = { __typename?: 'RootQuery' } & {
   post?: Maybe<
     { __typename?: 'Post' } & Pick<
       Post,
+      | 'slug'
+      | 'databaseId'
       | 'title'
       | 'excerpt'
       | 'date'
@@ -8291,6 +8716,26 @@ export type GetPostsQuery = { __typename?: 'RootQuery' } & {
                       >
                     >
                   }
+              >
+            }
+          >
+        >
+      >
+    }
+  >
+}
+
+export type GetAllPostsQueryVariables = {}
+
+export type GetAllPostsQuery = { __typename?: 'RootQuery' } & {
+  posts?: Maybe<
+    { __typename?: 'RootQueryToPostConnection' } & {
+      edges?: Maybe<
+        Array<
+          Maybe<
+            { __typename?: 'RootQueryToPostConnectionEdge' } & {
+              node?: Maybe<
+                { __typename?: 'Post' } & Pick<Post, 'title' | 'slug'>
               >
             }
           >
@@ -8487,6 +8932,58 @@ export const GetCategoriesDocument = gql`
     }
   }
 `
+export const GetCommentsDocument = gql`
+  query getComments($postId: ID!, $after: String) {
+    comments(where: { contentId: $postId }, after: $after, first: 8) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        date
+        approved
+        content(format: RENDERED)
+        date
+        author {
+          ... on CommentAuthor {
+            name
+          }
+          ... on User {
+            avatar {
+              url
+            }
+            name
+          }
+        }
+      }
+    }
+  }
+`
+export const Create_CommentDocument = gql`
+  mutation CREATE_COMMENT($comment: CreateCommentInput!) {
+    createComment(input: $comment) {
+      comment {
+        id
+        date
+        approved
+        content(format: RENDERED)
+        date
+        author {
+          ... on CommentAuthor {
+            name
+          }
+          ... on User {
+            avatar {
+              url
+            }
+            name
+          }
+        }
+      }
+    }
+  }
+`
 export const GetPageByUriDocument = gql`
   query getPageByUri($uri: ID!) {
     page: page(id: $uri, idType: URI) {
@@ -8510,6 +9007,8 @@ export const GetPagesDocument = gql`
 export const GetPostBySlugDocument = gql`
   query getPostBySlug($slug: ID!) {
     post: post(id: $slug, idType: SLUG) {
+      slug
+      databaseId
       title(format: RENDERED)
       excerpt(format: RENDERED)
       date
@@ -8602,6 +9101,18 @@ export const GetPostsDocument = gql`
             caption(format: RAW)
             description(format: RAW)
           }
+        }
+      }
+    }
+  }
+`
+export const GetAllPostsDocument = gql`
+  query getAllPosts {
+    posts: posts(first: 10000) {
+      edges {
+        node {
+          title(format: RENDERED)
+          slug
         }
       }
     }
@@ -8742,6 +9253,23 @@ export function getSdk(
         ),
       )
     },
+    getComments(
+      variables: GetCommentsQueryVariables,
+    ): Promise<GetCommentsQuery> {
+      return withWrapper(() =>
+        client.request<GetCommentsQuery>(print(GetCommentsDocument), variables),
+      )
+    },
+    CREATE_COMMENT(
+      variables: Create_CommentMutationVariables,
+    ): Promise<Create_CommentMutation> {
+      return withWrapper(() =>
+        client.request<Create_CommentMutation>(
+          print(Create_CommentDocument),
+          variables,
+        ),
+      )
+    },
     getPageByUri(
       variables: GetPageByUriQueryVariables,
     ): Promise<GetPageByUriQuery> {
@@ -8780,6 +9308,13 @@ export function getSdk(
     getPosts(variables?: GetPostsQueryVariables): Promise<GetPostsQuery> {
       return withWrapper(() =>
         client.request<GetPostsQuery>(print(GetPostsDocument), variables),
+      )
+    },
+    getAllPosts(
+      variables?: GetAllPostsQueryVariables,
+    ): Promise<GetAllPostsQuery> {
+      return withWrapper(() =>
+        client.request<GetAllPostsQuery>(print(GetAllPostsDocument), variables),
       )
     },
     getPostsByAuthor(

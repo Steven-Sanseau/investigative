@@ -49,7 +49,7 @@ export const PostList = ({
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const paginationParams = React.useMemo(
         () => ({ after: offset, ...params }),
-        [offset, params],
+        [offset],
       )
 
       const { data }: { data?: GetPostsQuery } = withSWR(

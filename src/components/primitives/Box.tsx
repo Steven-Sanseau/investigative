@@ -1,11 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useStyling } from 'src/utils/native-styled'
-import { ThemedStyle } from 'src/utils/native-styled/ThemeContext'
+import { SystemStyleObject } from '@theme-ui/css'
+
+export type SxStyleProp = SystemStyleObject
 
 export type BoxProps = React.ComponentProps<typeof View> & {
   href?: string
-  sx?: ThemedStyle
+  sx?: SystemStyleObject
   displayName?: string
   key?: string
 }

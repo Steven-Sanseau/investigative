@@ -1,6 +1,8 @@
 export const getPostBySlug = /* GraphQL */ `
   query getPostBySlug($slug: ID!) {
     post: post(id: $slug, idType: SLUG) {
+      slug
+      databaseId
       title(format: RENDERED)
       excerpt(format: RENDERED)
       date
@@ -24,6 +26,7 @@ export const getPostBySlug = /* GraphQL */ `
     }
   }
 `
+
 export const getFeaturedPost = /* GraphQL */ `
   query getFeaturedPost {
     featuredPost: posts {
@@ -94,6 +97,19 @@ export const getPosts = /* GraphQL */ `
             caption(format: RAW)
             description(format: RAW)
           }
+        }
+      }
+    }
+  }
+`
+
+export const getAllPosts = /* GraphQL */ `
+  query getAllPosts {
+    posts: posts(first: 10000) {
+      edges {
+        node {
+          title(format: RENDERED)
+          slug
         }
       }
     }
