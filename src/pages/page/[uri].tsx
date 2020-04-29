@@ -16,7 +16,7 @@ type RouteParams = { uri: string }
 
 export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
   const data: GetPagesQuery = await fetcher(getPages)
-  const paths = data.pages.edges.map(({ node: page }) => ({
+  const paths = data.pages.nodes.map((page) => ({
     params: {
       uri: page.uri,
     },

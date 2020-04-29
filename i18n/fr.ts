@@ -15,11 +15,10 @@ export default {
       refreshPosts: 'Mis a jour',
     },
   },
-  home: {
-    posts: {
-      loadMore: 'Plus',
-      noMore: 'Fin',
-    },
+  posts: {
+    loadMore: 'Plus',
+    noMore: 'Fin',
+    noResult: 'Aucun Article',
   },
   author: {
     postList: {
@@ -39,4 +38,12 @@ export default {
     },
   },
   loading: '...',
+  menu: {
+    button: 'Menu',
+    close: 'Fermer',
+    search: 'Recherche',
+    donate: 'Faire un don',
+    newsletter: 'Newsletter',
+    signin: 'Connexion',
+  },
 }

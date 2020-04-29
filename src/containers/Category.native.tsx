@@ -1,6 +1,5 @@
 import React from 'react'
 import { Main } from 'src/components/Elements'
-import { Layout } from 'src/components/Layout'
 import { PostList } from 'src/components/posts/List'
 import { H1 } from 'src/components/Typography'
 import {
@@ -8,6 +7,8 @@ import {
   GetPostsByCategoryIdQuery,
 } from 'src/generated/graphql'
 import { getPostsByCategoryId } from 'src/graphql/post'
+import { ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface CategoryPageProps {
   data: GetCategoryBySlugQuery
@@ -19,17 +20,17 @@ export const Category: React.FC<CategoryPageProps> = ({
   data,
 }: CategoryPageProps) => {
   return (
-    <>
-      <Main>
-        <Layout>
+    <SafeAreaView>
+      <ScrollView>
+        <Main>
           <H1>{data.category.name}</H1>
           <PostList
             initialData={initialPostsData}
             query={getPostsByCategoryId}
             params={{ id: data.category.databaseId }}
           />
-        </Layout>
-      </Main>
-    </>
+        </Main>
+      </ScrollView>
+    </SafeAreaView>
   )
 }

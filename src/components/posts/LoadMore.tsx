@@ -32,8 +32,8 @@ export const LoadMore = ({
         isLoadingMore
           ? 'loading'
           : isReachingEnd
-          ? 'home.posts.end'
-          : 'home.posts.loadMore'
+          ? 'posts.end'
+          : 'posts.loadMore'
       }
     />
   </Box>

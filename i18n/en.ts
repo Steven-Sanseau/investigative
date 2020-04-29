@@ -30,11 +30,10 @@ export default {
       refreshPosts: 'Updated',
     },
   },
-  home: {
-    posts: {
-      loadMore: 'More',
-      noMore: 'End',
-    },
+  posts: {
+    loadMore: 'More',
+    noMore: 'End',
+    noResult: 'No Post',
   },
   author: {
     postList: {
@@ -53,4 +52,12 @@ export default {
     },
   },
   loading: '...',
+  menu: {
+    button: 'Menu',
+    close: 'Close',
+    donate: 'Donate',
+    search: 'Search',
+    newsletter: 'Newsletter',
+    signin: 'Sign in',
+  },
 }

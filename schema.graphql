@@ -828,7 +828,7 @@ type Menu implements Node {
   isRestricted: Boolean
   "WP ID of the nav menu."
   menuId: Int
-  "Connection between the Menu type and the Menu type"
+  "Connection between the Search type and the Search type"
   menuItems(
     "Cursor used along with the \"first\" argument to reference where in the dataset to get data"
     after: String
@@ -902,7 +902,7 @@ type MenuItemToMenuItemConnectionEdge {
   node: MenuItem
 }
 
-"Connection between the Menu type and the Menu type"
+"Connection between the Search type and the Search type"
 type MenuToMenuItemConnection {
   "Edges for the MenuToMenuItemConnection connection"
   edges: [MenuToMenuItemConnectionEdge]

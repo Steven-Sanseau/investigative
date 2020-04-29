@@ -10,6 +10,8 @@ import { H2 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
 import { GetPostsQuery } from 'src/generated/graphql'
 import useSWR, { useSWRPages } from 'swr'
+import { T } from '../../contexts/I18n'
+import { ActivityIndicator } from 'react-native'
 
 const Title = (props): ReactElement => (
   <H2
@@ -42,14 +44,13 @@ export const PostList = ({
   params,
 }: PostListProps): ReactElement => {
   const now = new Date()
-
   const { pages, isLoadingMore, isReachingEnd, loadMore } = useSWRPages(
     'index',
     ({ offset, withSWR }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const paginationParams = React.useMemo(
         () => ({ after: offset, ...params }),
-        [offset],
+        [offset, params],
       )
 
       const { data }: { data?: GetPostsQuery } = withSWR(
@@ -60,10 +61,18 @@ export const PostList = ({
       )
 
       if (!data) {
-        return <></>
+        return <ActivityIndicator />
       }
 
-      return data.posts.edges.map(({ node: post }, i) => (
+      if (!data.posts) {
+        return (
+          <Text>
+            <T id="posts.noResult" />
+          </Text>
+        )
+      }
+
+      return data.posts?.edges?.map(({ node: post }, i) => (
         <Box sx={{ width: 'full' }} key={i}>
           <Flex
             sx={{
@@ -165,11 +174,11 @@ export const PostList = ({
       ))
     },
     ({ data }) => {
-      return data?.posts.pageInfo.hasNextPage
+      return data?.posts.pageInfo?.hasNextPage
         ? data.posts.pageInfo.endCursor
         : null
     },
-    [],
+    [params],
   )
 
   return (

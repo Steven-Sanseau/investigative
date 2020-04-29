@@ -155,3 +155,83 @@ export const getPostsByAuthorId = /* GraphQL */ `
     }
   }
 `
+
+export const getPostsByCategoryId = /* GraphQL */ `
+  query getPostsByCategoryId($after: String, $id: Int) {
+    posts: posts(after: $after, first: 8, where: { categoryId: $id }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title(format: RENDERED)
+          slug
+          author {
+            name
+            slug
+          }
+          date
+          categories {
+            nodes {
+              slug
+              name
+            }
+          }
+          commentCount
+          excerpt(format: RENDERED)
+          thumbnail: featuredImage {
+            sourceUrl(size: POST_THUMBNAIL)
+          }
+          image: featuredImage {
+            altText
+            sourceUrl(size: LARGE)
+            caption(format: RAW)
+            description(format: RAW)
+          }
+        }
+      }
+    }
+  }
+`
+
+export const searchPosts = /* GraphQL */ `
+  query searchPosts($after: String, $search: String) {
+    posts: posts(where: { search: $search }, after: $after, first: 8) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title(format: RENDERED)
+          slug
+          author {
+            name
+            slug
+          }
+          date
+          categories {
+            nodes {
+              slug
+              name
+            }
+          }
+          commentCount
+          excerpt(format: RENDERED)
+          thumbnail: featuredImage {
+            sourceUrl(size: POST_THUMBNAIL)
+          }
+          image: featuredImage {
+            altText
+            sourceUrl(size: LARGE)
+            caption(format: RAW)
+            description(format: RAW)
+          }
+        }
+      }
+    }
+  }
+`

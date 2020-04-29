@@ -33,8 +33,10 @@
     "react-native-web": "0.0.0-26873b469",
     "react-native-webview": "9.3.0",
     "react-navigation-collapsible": "^5.5.0",
+    "reakit": "^1.0.0-rc.2",
     "rosetta": "^1.0.0",
-    "swr": "^0.2.0"
+    "swr": "^0.2.0",
+    "use-debounce": "^3.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -8,7 +8,6 @@ import { createTheme } from 'src/themes/theme'
 import { useAsyncStorage } from 'src/utils/AsyncStorage'
 import { Footer } from 'src/components/Footer'
 import { Header } from 'src/components/Header'
-import { TopBar } from 'src/components/TopBar'
 import { loadFonts } from 'src/utils/Fonts'
 import { I18nInitializer } from 'src/contexts/I18n'
 import { GrowlProvider } from 'src/contexts/Growl'
@@ -49,10 +48,15 @@ export default ({ Component, pageProps }: any): JSX.Element => {
 
   const handleScroll = (): void => {
     if (ref.current) {
-      // const { width, height, px, py, fx, fy } = ref.current.measure
-      ref.current.measure((width, height, px, py, fx, fy) => {
-        setSticky(fy <= 0)
-      })
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop
+
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight
+
+      const scrolled = winScroll / height
+      setSticky(scrolled > 0.1)
     }
   }
 
@@ -89,7 +93,6 @@ export default ({ Component, pageProps }: any): JSX.Element => {
             >
               <I18nInitializer>
                 <GrowlProvider>
-                  <TopBar />
                   <GrowlMessage />
                   <Header
                     ref={ref}

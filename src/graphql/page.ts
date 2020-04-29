@@ -9,11 +9,9 @@ export const getPageByUri = /* GraphQL */ `
 export const getPages = /* GraphQL */ `
   query getPages {
     pages: pages(first: 10) {
-      edges {
-        node {
-          title(format: RENDERED)
-          uri
-        }
+      nodes {
+        title(format: RENDERED)
+        uri
       }
     }
   }
