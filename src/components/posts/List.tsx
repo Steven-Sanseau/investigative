@@ -26,8 +26,8 @@ const Author = (props): ReactElement => (
   <Text
     sx={{
       fontFamily: 'heading',
-      fontWeight: 'bold',
-      fontSize: '0',
+      fontWeight: '600',
+      fontSize: 1,
     }}
     {...props}
   />
@@ -47,6 +47,7 @@ export const PostList = ({
   const { pages, isLoadingMore, isReachingEnd, loadMore } = useSWRPages(
     'index',
     ({ offset, withSWR }) => {
+      // const { search, id } = params || {}
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const paginationParams = React.useMemo(
         () => ({ after: offset, ...params }),
@@ -72,8 +73,21 @@ export const PostList = ({
         )
       }
 
-      return data.posts?.edges?.map(({ node: post }, i) => (
-        <Box sx={{ width: 'full' }} key={i}>
+      return data.posts?.nodes?.map((post, i) => (
+        <Box
+          sx={{
+            width: {
+              xs: 'full',
+              sm: '11/12',
+              md: '10/12',
+              lg: '10/12',
+              xl: 'full',
+            },
+            mx: 'auto',
+          }}
+          key={i}
+        >
+          <Box sx={{ mt: 5 }} />
           <Flex
             sx={{
               flexWrap: 'wrap',
@@ -96,18 +110,12 @@ export const PostList = ({
                   sx={{
                     mx: {
                       xs: 'auto',
-                      md: 0,
                     },
                     height: {
-                      xs: 143,
-                      lg: 185,
-                      xl: 185,
+                      xs: 300,
+                      lg: 200,
                     },
-                    width: {
-                      xs: 'full',
-                      lg: 260,
-                      xl: 260,
-                    },
+                    width: 'full',
                   }}
                   src={post.image.sourceUrl}
                 />
@@ -117,13 +125,14 @@ export const PostList = ({
               sx={{
                 width: {
                   xs: 'full',
-                  lg: post?.image ? '2/3' : 'full',
+                  lg: post?.image ? '2/3' : '11/12',
                 },
               }}
             >
               <Flex
                 sx={{
                   alignItems: 'flex-start',
+                  pl: 4,
                 }}
               >
                 <UniversalLink
@@ -139,6 +148,7 @@ export const PostList = ({
                 >
                   <Title>{post.title}</Title>
                 </UniversalLink>
+                <Box sx={{ mt: 2 }} />
                 <Box
                   sx={{
                     flexDirection: 'row',
@@ -157,12 +167,35 @@ export const PostList = ({
                     }}
                     as={Box}
                   >
-                    <Author>by {post.author.name}</Author>
+                    <Author>
+                      <T
+                        id="posts.author"
+                        values={{ name: post.author.name }}
+                      />
+                    </Author>
                   </UniversalLink>
                   {post?.date && (
-                    <Text>{formatRelative(parseISO(post.date), now)}</Text>
+                    <Text
+                      sx={{
+                        ml: 2,
+                        fontFamily: 'heading',
+                        fontWeight: 400,
+                        fontSize: 0,
+                      }}
+                    >
+                      {formatRelative(parseISO(post.date), now)}
+                    </Text>
                   )}
-                  <Text>{post.commentCount}</Text>
+                  <Text
+                    sx={{
+                      ml: 2,
+                      fontFamily: 'heading',
+                      fontWeight: 400,
+                      fontSize: 0,
+                    }}
+                  >
+                    {post.commentCount}
+                  </Text>
                 </Box>
                 <Box>
                   <RenderBlocks content={post.excerpt} />

@@ -16,7 +16,7 @@ type RouteParams = { slug: string }
 
 export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
   const data: GetPostsQuery = await fetcher(getAllPosts)
-  const paths = data.posts.edges.map(({ node: post }) => ({
+  const paths = data.posts.nodes.map((post) => ({
     params: {
       slug: post.slug,
     },

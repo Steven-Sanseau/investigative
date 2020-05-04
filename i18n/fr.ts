@@ -16,6 +16,7 @@ export default {
     },
   },
   posts: {
+    author: 'par {{name}}',
     loadMore: 'Plus',
     noMore: 'Fin',
     noResult: 'Aucun Article',

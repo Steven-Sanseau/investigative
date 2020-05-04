@@ -30,7 +30,8 @@ export const Home: React.FC = () => {
         setLastRefreshingDate(new Date().toDateString())
       })
     })
-  }, [])
+  }, [growl, t, paginationParams])
+
   return (
     <CollapsibleHeader
       refreshControl={

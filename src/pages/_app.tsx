@@ -40,7 +40,7 @@ export default ({ Component, pageProps }: any): JSX.Element => {
     <Text>Error with APP: {error.message}</Text>
   )
 
-  const [themeName, setThemeName] = useAsyncStorage('theme', 'dark')
+  const [themeName, setThemeName] = useAsyncStorage('theme', 'light')
   const theme = createTheme(themeName)
 
   const [isSticky, setSticky] = React.useState<boolean>(false)

@@ -49,15 +49,15 @@ const PageArticle: React.FC<PageProps> = ({
 
   const pageIdParams = React.useMemo(() => ({ uri }), [uri])
 
-  // const { data: pagesList }: { pagesList?: GetPagesQuery } = useSWR(getPages, {
-  //   initialData: initialPagesData,
-  // })
+  const { data: pagesList }: { pagesList?: GetPagesQuery } = useSWR(getPages, {
+    initialData: initialPagesData,
+  })
   const { data }: { data?: GetPageByUriQuery } = useSWR(
     [getPageByUri, pageIdParams],
     { initialData: initialPageData },
   )
 
-  return <Page data={data} />
+  return <Page data={data} pagesList={pagesList} />
 }
 
 export default PageArticle

@@ -15,7 +15,7 @@ export const Page: React.FC<PageProps> = ({ pagesList, data }: PageProps) => {
       <Text sx={{ fontSize: 6, fontFamily: 'heading', mx: 'auto' }}>
         {data?.page?.title}
       </Text>
-      <MenuList selector="uri" type="page" data={pagesList?.pages.edges} />
+      <MenuList selector="uri" type="page" data={pagesList?.pages.nodes} />
       <Box
         sx={{
           width: { xs: '11/12', md: '7/12', xl: '1/2' },

@@ -9,17 +9,17 @@ import { useRouting } from 'expo-next-react-navigation'
 import { useDebounce } from 'use-debounce'
 import { Platform } from 'react-native'
 
-const Search = () => {
+const Search: React.FC = () => {
   const searchInputRef = React.useRef<any>(null)
 
   const { getParam, push } = useRouting()
   const query: string = getParam('query')
   const [searchTerms, setSearchTerms] = React.useState<string>(query)
-  const [searchTermsDebounced] = useDebounce(searchTerms, 300)
+  const [searchTermsDebounce] = useDebounce(searchTerms, 300)
 
   const searchParams = React.useMemo(
-    () => ({ search: searchTermsDebounced, after: null }),
-    [searchTermsDebounced],
+    () => ({ search: searchTermsDebounce, after: null }),
+    [searchTermsDebounce],
   )
 
   const { data }: { data?: SearchPostsQuery } = useSWR([
@@ -27,7 +27,7 @@ const Search = () => {
     searchParams,
   ])
 
-  const handleSearch = (value) => {
+  const handleSearch = (value): void => {
     setSearchTerms(value)
     if (Platform.OS === 'web') {
       push({ routeName: 'search', web: { as: `/search?query=${value}` } })
@@ -44,7 +44,7 @@ const Search = () => {
         value={searchTerms}
         onChangeText={handleSearch}
       />
-      <PostList query={searchPosts} params={searchParams} />
+      <PostList initialData={data} query={searchPosts} params={searchParams} />
     </Box>
   )
 }

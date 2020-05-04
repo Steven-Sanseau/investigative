@@ -1,8 +1,8 @@
 import React from 'react'
 import { LI } from 'src/components/Elements'
-import { H3 } from 'src/components/Typography'
+import { H3, H5 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
-import { Flex } from 'src/components/Grid'
+import { Flex, Row } from 'src/components/Grid'
 import useSWR from 'swr'
 import { GetSettingsQuery } from 'src/generated/graphql'
 import { getSettings } from 'src/graphql/settings'
@@ -12,6 +12,7 @@ import { Layout } from 'src/components/Layout'
 import { Dialog, DialogBackdrop, useDialogState } from 'reakit/Dialog'
 import { HeaderMenu } from './HeaderMenu'
 import { T } from '../contexts/I18n'
+import { Breadcrumb } from 'src/components/Breadcrumb'
 
 // const getUniversalUrl = (
 //   link: MenuItem,
@@ -95,7 +96,7 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
       <Box
         sx={{
           zIndex: 100,
-          height: 100,
+          height: { xs: 150, sm: 150, md: 100 },
           position: 'relative',
           display: 'flex',
         }}
@@ -110,18 +111,25 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
               bg: 'white',
             }}
           >
-            <Flex
+            <Row
               sx={{
                 width: 'full',
-                flexDirection: 'row',
-                height: sticky ? 50 : 100,
-                boxShadow: sticky ? 'rgba(0, 0, 0, 0.15) 0px 1px 4px 0px' : '',
+                height: sticky
+                  ? { xs: 100, sm: 100, md: 50 }
+                  : { xs: 150, sm: 150, md: 100 },
+                boxShadow: sticky ? 'xs' : 'none',
                 transitionDuration: '250ms',
                 transitionProperty: 'all',
                 transitionTimingFunction: 'ease-in-out',
+                flexWrap: 'wrap',
               }}
             >
-              <Box sx={{ width: '2/12' }}>
+              <Box
+                sx={{
+                  width: { xs: '1/2', sm: '1/2', md: '3/12' },
+                  order: 1,
+                }}
+              >
                 <Box
                   sx={{
                     alignContent: 'flex-start',
@@ -130,32 +138,33 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
                 >
                   <Box
                     sx={{
-                      justifyContent: 'center',
+                      justifyContent: { xs: 'flex-start', sm: 'center' },
                       alignItems: 'baseline',
                       flexDirection: 'row',
+                      mt: 2,
                     }}
                   >
-                    {/*<DialogDisclosure {...dialog}>*/}
-                    <H3 onPress={dialog.show}>
-                      <T id="menu.button" />
-                    </H3>
-                    {/*</DialogDisclosure>*/}
-                    <H3>/</H3>
-                    <UniversalLink
-                      routeName="search"
-                      web={{ as: '/search', path: '/search' }}
-                    >
-                      <H3>
-                        <T id="menu.search" />
+                    <Breadcrumb Separator={<H3 sx={{ mx: 1 }}>/</H3>}>
+                      <H3 onPress={dialog.show}>
+                        <T id="menu.button" />
                       </H3>
-                    </UniversalLink>
+                      <UniversalLink
+                        routeName="search"
+                        web={{ as: '/search', path: '/search' }}
+                      >
+                        <H3>
+                          <T id="menu.search" />
+                        </H3>
+                      </UniversalLink>
+                    </Breadcrumb>
                   </Box>
                 </Box>
               </Box>
               <Box
                 sx={{
-                  width: '8/12',
+                  width: { xs: 'full', sm: 'full', md: '6/12' },
                   flexGrow: 1,
+                  order: { xs: 3, sm: 3, md: 2, xl: 2 },
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
@@ -181,22 +190,27 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
               </Box>
               <Box
                 sx={{
-                  width: '2/12',
+                  width: { xs: '1/2', sm: '1/2', md: '3/12' },
                   alignItems: 'flex-start',
+                  justifyContent: 'flex-end',
+                  mt: 2,
+                  order: { xs: 2, sm: 2, md: 3, xl: 3 },
                   flexDirection: 'row',
                 }}
               >
-                <H3 sx={{}}>
-                  <T id="menu.donate" />
-                </H3>
-                <H3 sx={{}}>
-                  <T id="menu.newsletter" />
-                </H3>
-                <H3 sx={{}}>
-                  <T id="menu.signin" />
-                </H3>
+                <Breadcrumb Separator={<H5 sx={{ mx: 1 }}>/</H5>}>
+                  <H5 sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <T id="menu.donate" />
+                  </H5>
+                  <H5>
+                    <T id="menu.newsletter" />
+                  </H5>
+                  <H5>
+                    <T id="menu.signin" />
+                  </H5>
+                </Breadcrumb>
               </Box>
-            </Flex>
+            </Row>
           </Box>
         </Layout>
         <DialogBackdrop {...dialog} aria-label="Search">

@@ -44,7 +44,7 @@ export const H3: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
       sx={{
         color: 'grayDark',
         fontFamily: 'heading',
-        fontSize: 3,
+        fontSize: { xs: 2, md: 3 },
         fontWeight: '700',
         ...sx,
       }}
@@ -63,7 +63,6 @@ export const H4: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
         fontFamily: 'heading',
         fontSize: 2,
         fontWeight: '700',
-        textTransform: 'uppercase',
         ...sx,
       }}
       {...props}
@@ -78,8 +77,8 @@ export const H5: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
       sx={{
         color: 'grayDark',
         fontFamily: 'heading',
-        fontSize: 1,
-        fontWeight: '700',
+        fontSize: { xs: 1, md: 2 },
+        fontWeight: '300',
         ...sx,
       }}
       {...props}

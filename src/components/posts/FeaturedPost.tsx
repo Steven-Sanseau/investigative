@@ -23,7 +23,7 @@ export function FeaturedPost({
     return <></>
   }
 
-  const { node: post } = data.featuredPost.edges[0]
+  const post = data.featuredPost.nodes[0]
 
   return (
     <Flex

@@ -1,7 +1,6 @@
 import { GraphQLClient } from 'graphql-request'
 import { print } from 'graphql'
 import gql from 'graphql-tag'
-
 export type Maybe<T> = T | null
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -766,7 +765,7 @@ export type Category = Node &
      * Added to the GraphQL Schema because the ACF Field Group &quot;Categoy Show Menu&quot; was assigned to the &quot;category&quot; taxonomy
      * @deprecated
      */
-    show_menu?: Maybe<Category_ShowMenu>
+    showMenu?: Maybe<Category_Showmenu>
     /**
      * An alphanumeric identifier for the object unique to its type.
      * @deprecated
@@ -1906,7 +1905,7 @@ export type UserToCommentConnectionWhereArgs = {
   commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of IDs of users whose unapproved comments will be returned by the
-   *              query regardless of status.
+   * 							query regardless of status.
    */
   commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Include comments of a given type. */
@@ -1923,17 +1922,17 @@ export type UserToCommentConnectionWhereArgs = {
   contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Limit results to those affiliated with a given content object
-   *              ID.
+   * 							ID.
    */
   contentId?: Maybe<Scalars['ID']>
   /**
    * Array of content object IDs to include affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of content object IDs to exclude affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Content object name to retrieve affiliated comments for. */
@@ -1942,7 +1941,7 @@ export type UserToCommentConnectionWhereArgs = {
   contentParent?: Maybe<Scalars['Int']>
   /**
    * Array of content object statuses to retrieve affiliated comments for.
-   *              Pass 'any' to match any value.
+   * 							Pass 'any' to match any value.
    */
   contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
@@ -1961,7 +1960,7 @@ export type UserToCommentConnectionWhereArgs = {
   parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of parent IDs of comments *not* to retrieve children
-   *              for.
+   * 							for.
    */
   parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Search term(s) to retrieve matching comments for. */
@@ -2182,7 +2181,7 @@ export type CommentToCommentConnectionWhereArgs = {
   commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of IDs of users whose unapproved comments will be returned by the
-   *              query regardless of status.
+   * 							query regardless of status.
    */
   commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Include comments of a given type. */
@@ -2199,17 +2198,17 @@ export type CommentToCommentConnectionWhereArgs = {
   contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Limit results to those affiliated with a given content object
-   *              ID.
+   * 							ID.
    */
   contentId?: Maybe<Scalars['ID']>
   /**
    * Array of content object IDs to include affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of content object IDs to exclude affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Content object name to retrieve affiliated comments for. */
@@ -2218,7 +2217,7 @@ export type CommentToCommentConnectionWhereArgs = {
   contentParent?: Maybe<Scalars['Int']>
   /**
    * Array of content object statuses to retrieve affiliated comments for.
-   *              Pass 'any' to match any value.
+   * 							Pass 'any' to match any value.
    */
   contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
@@ -2237,7 +2236,7 @@ export type CommentToCommentConnectionWhereArgs = {
   parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of parent IDs of comments *not* to retrieve children
-   *              for.
+   * 							for.
    */
   parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Search term(s) to retrieve matching comments for. */
@@ -2438,6 +2437,8 @@ export type Page = Node &
      * @deprecated
      */
     revisions?: Maybe<PageToRevisionConnection>
+    /** @deprecated  */
+    showMenu?: Maybe<Page_Showmenu>
     /**
      * The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
      * @deprecated
@@ -2827,7 +2828,7 @@ export type MediaItemToCommentConnectionWhereArgs = {
   commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of IDs of users whose unapproved comments will be returned by the
-   *              query regardless of status.
+   * 							query regardless of status.
    */
   commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Include comments of a given type. */
@@ -2844,17 +2845,17 @@ export type MediaItemToCommentConnectionWhereArgs = {
   contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Limit results to those affiliated with a given content object
-   *              ID.
+   * 							ID.
    */
   contentId?: Maybe<Scalars['ID']>
   /**
    * Array of content object IDs to include affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of content object IDs to exclude affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Content object name to retrieve affiliated comments for. */
@@ -2863,7 +2864,7 @@ export type MediaItemToCommentConnectionWhereArgs = {
   contentParent?: Maybe<Scalars['Int']>
   /**
    * Array of content object statuses to retrieve affiliated comments for.
-   *              Pass 'any' to match any value.
+   * 							Pass 'any' to match any value.
    */
   contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
@@ -2882,7 +2883,7 @@ export type MediaItemToCommentConnectionWhereArgs = {
   parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of parent IDs of comments *not* to retrieve children
-   *              for.
+   * 							for.
    */
   parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Search term(s) to retrieve matching comments for. */
@@ -4011,7 +4012,7 @@ export type PageToCommentConnectionWhereArgs = {
   commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of IDs of users whose unapproved comments will be returned by the
-   *              query regardless of status.
+   * 							query regardless of status.
    */
   commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Include comments of a given type. */
@@ -4028,17 +4029,17 @@ export type PageToCommentConnectionWhereArgs = {
   contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Limit results to those affiliated with a given content object
-   *              ID.
+   * 							ID.
    */
   contentId?: Maybe<Scalars['ID']>
   /**
    * Array of content object IDs to include affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of content object IDs to exclude affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Content object name to retrieve affiliated comments for. */
@@ -4047,7 +4048,7 @@ export type PageToCommentConnectionWhereArgs = {
   contentParent?: Maybe<Scalars['Int']>
   /**
    * Array of content object statuses to retrieve affiliated comments for.
-   *              Pass 'any' to match any value.
+   * 							Pass 'any' to match any value.
    */
   contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
@@ -4066,7 +4067,7 @@ export type PageToCommentConnectionWhereArgs = {
   parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of parent IDs of comments *not* to retrieve children
-   *              for.
+   * 							for.
    */
   parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Search term(s) to retrieve matching comments for. */
@@ -4199,6 +4200,17 @@ export type PageToRevisionConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Page>
+}
+
+/** Field Group */
+export type Page_Showmenu = {
+  __typename?: 'Page_Showmenu'
+  /** @deprecated  */
+  fieldGroupName?: Maybe<Scalars['String']>
+  /** @deprecated  */
+  showfooter?: Maybe<Scalars['Boolean']>
+  /** @deprecated  */
+  showheader?: Maybe<Scalars['Boolean']>
 }
 
 /** Field Group */
@@ -4721,7 +4733,7 @@ export type PostToCommentConnectionWhereArgs = {
   commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of IDs of users whose unapproved comments will be returned by the
-   *              query regardless of status.
+   * 							query regardless of status.
    */
   commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Include comments of a given type. */
@@ -4738,17 +4750,17 @@ export type PostToCommentConnectionWhereArgs = {
   contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Limit results to those affiliated with a given content object
-   *              ID.
+   * 							ID.
    */
   contentId?: Maybe<Scalars['ID']>
   /**
    * Array of content object IDs to include affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of content object IDs to exclude affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Content object name to retrieve affiliated comments for. */
@@ -4757,7 +4769,7 @@ export type PostToCommentConnectionWhereArgs = {
   contentParent?: Maybe<Scalars['Int']>
   /**
    * Array of content object statuses to retrieve affiliated comments for.
-   *              Pass 'any' to match any value.
+   * 							Pass 'any' to match any value.
    */
   contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
@@ -4776,7 +4788,7 @@ export type PostToCommentConnectionWhereArgs = {
   parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of parent IDs of comments *not* to retrieve children
-   *              for.
+   * 							for.
    */
   parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Search term(s) to retrieve matching comments for. */
@@ -5094,14 +5106,14 @@ export type PostToTagConnectionEdge = {
 }
 
 /** Field Group */
-export type Category_ShowMenu = {
-  __typename?: 'Category_ShowMenu'
+export type Category_Showmenu = {
+  __typename?: 'Category_Showmenu'
   /** @deprecated  */
   fieldGroupName?: Maybe<Scalars['String']>
   /** @deprecated  */
-  showFooterMenu?: Maybe<Scalars['Boolean']>
+  showfooter?: Maybe<Scalars['Boolean']>
   /** @deprecated  */
-  showHeaderMenu?: Maybe<Scalars['Boolean']>
+  showheader?: Maybe<Scalars['Boolean']>
 }
 
 /** Connection between the category type and the Taxonomy type */
@@ -5142,7 +5154,7 @@ export type RootQueryToCommentConnectionWhereArgs = {
   commentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of IDs of users whose unapproved comments will be returned by the
-   *              query regardless of status.
+   * 							query regardless of status.
    */
   commentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Include comments of a given type. */
@@ -5159,17 +5171,17 @@ export type RootQueryToCommentConnectionWhereArgs = {
   contentAuthorNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Limit results to those affiliated with a given content object
-   *              ID.
+   * 							ID.
    */
   contentId?: Maybe<Scalars['ID']>
   /**
    * Array of content object IDs to include affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of content object IDs to exclude affiliated comments
-   *              for.
+   * 							for.
    */
   contentIdNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Content object name to retrieve affiliated comments for. */
@@ -5178,7 +5190,7 @@ export type RootQueryToCommentConnectionWhereArgs = {
   contentParent?: Maybe<Scalars['Int']>
   /**
    * Array of content object statuses to retrieve affiliated comments for.
-   *              Pass 'any' to match any value.
+   * 							Pass 'any' to match any value.
    */
   contentStatus?: Maybe<Array<Maybe<PostStatusEnum>>>
   /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
@@ -5197,7 +5209,7 @@ export type RootQueryToCommentConnectionWhereArgs = {
   parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /**
    * Array of parent IDs of comments *not* to retrieve children
-   *              for.
+   * 							for.
    */
   parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>
   /** Search term(s) to retrieve matching comments for. */
@@ -7526,7 +7538,7 @@ export type CreateUserInput = {
   displayName?: Maybe<Scalars['String']>
   /** A string containing the user's email address. */
   email?: Maybe<Scalars['String']>
-  /**  The user's first name. */
+  /** 	The user's first name. */
   firstName?: Maybe<Scalars['String']>
   /** User's Jabber account. */
   jabber?: Maybe<Scalars['String']>
@@ -7830,7 +7842,7 @@ export type RegisterUserInput = {
   displayName?: Maybe<Scalars['String']>
   /** A string containing the user's email address. */
   email?: Maybe<Scalars['String']>
-  /**  The user's first name. */
+  /** 	The user's first name. */
   firstName?: Maybe<Scalars['String']>
   /** User's Jabber account. */
   jabber?: Maybe<Scalars['String']>
@@ -8171,7 +8183,7 @@ export type UpdateUserInput = {
   displayName?: Maybe<Scalars['String']>
   /** A string containing the user's email address. */
   email?: Maybe<Scalars['String']>
-  /**  The user's first name. */
+  /** 	The user's first name. */
   firstName?: Maybe<Scalars['String']>
   /** The ID of the user */
   id: Scalars['ID']
@@ -8223,7 +8235,6 @@ export interface IntrospectionResultData {
     }[]
   }
 }
-
 const result: IntrospectionResultData = {
   __schema: {
     types: [
@@ -8610,10 +8621,10 @@ export type GetCategoriesQuery = { __typename?: 'RootQuery' } & {
                     'color'
                   >
                 >
-                show_menu?: Maybe<
-                  { __typename?: 'Category_ShowMenu' } & Pick<
-                    Category_ShowMenu,
-                    'showHeaderMenu' | 'showFooterMenu'
+                showMenu?: Maybe<
+                  { __typename?: 'Category_Showmenu' } & Pick<
+                    Category_Showmenu,
+                    'showheader' | 'showfooter'
                   >
                 >
               }
@@ -8748,47 +8759,40 @@ export type GetFeaturedPostQueryVariables = {}
 export type GetFeaturedPostQuery = { __typename?: 'RootQuery' } & {
   featuredPost?: Maybe<
     { __typename?: 'RootQueryToPostConnection' } & {
-      edges?: Maybe<
+      nodes?: Maybe<
         Array<
           Maybe<
-            { __typename?: 'RootQueryToPostConnectionEdge' } & {
-              node?: Maybe<
-                { __typename?: 'Post' } & Pick<
-                  Post,
-                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
-                > & {
-                    author?: Maybe<
-                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
-                    >
-                    categories?: Maybe<
-                      { __typename?: 'PostToCategoryConnection' } & {
-                        nodes?: Maybe<
-                          Array<
-                            Maybe<
-                              { __typename?: 'Category' } & Pick<
-                                Category,
-                                'slug' | 'name'
-                              >
-                            >
+            { __typename?: 'Post' } & Pick<
+              Post,
+              'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
+            > & {
+                author?: Maybe<
+                  { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                >
+                categories?: Maybe<
+                  { __typename?: 'PostToCategoryConnection' } & {
+                    nodes?: Maybe<
+                      Array<
+                        Maybe<
+                          { __typename?: 'Category' } & Pick<
+                            Category,
+                            'slug' | 'name'
                           >
                         >
-                      }
-                    >
-                    thumbnail?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'sourceUrl'
-                      >
-                    >
-                    image?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'altText' | 'sourceUrl' | 'caption' | 'description'
                       >
                     >
                   }
-              >
-            }
+                >
+                thumbnail?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl'>
+                >
+                image?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<
+                    MediaItem,
+                    'altText' | 'sourceUrl' | 'caption' | 'description'
+                  >
+                >
+              }
           >
         >
       >
@@ -8809,47 +8813,40 @@ export type GetPostsQuery = { __typename?: 'RootQuery' } & {
           'hasNextPage' | 'endCursor'
         >
       >
-      edges?: Maybe<
+      nodes?: Maybe<
         Array<
           Maybe<
-            { __typename?: 'RootQueryToPostConnectionEdge' } & {
-              node?: Maybe<
-                { __typename?: 'Post' } & Pick<
-                  Post,
-                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
-                > & {
-                    author?: Maybe<
-                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
-                    >
-                    categories?: Maybe<
-                      { __typename?: 'PostToCategoryConnection' } & {
-                        nodes?: Maybe<
-                          Array<
-                            Maybe<
-                              { __typename?: 'Category' } & Pick<
-                                Category,
-                                'slug' | 'name'
-                              >
-                            >
+            { __typename?: 'Post' } & Pick<
+              Post,
+              'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
+            > & {
+                author?: Maybe<
+                  { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                >
+                categories?: Maybe<
+                  { __typename?: 'PostToCategoryConnection' } & {
+                    nodes?: Maybe<
+                      Array<
+                        Maybe<
+                          { __typename?: 'Category' } & Pick<
+                            Category,
+                            'slug' | 'name'
                           >
                         >
-                      }
-                    >
-                    thumbnail?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'sourceUrl'
-                      >
-                    >
-                    image?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'altText' | 'sourceUrl' | 'caption' | 'description'
                       >
                     >
                   }
-              >
-            }
+                >
+                thumbnail?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl'>
+                >
+                image?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<
+                    MediaItem,
+                    'altText' | 'sourceUrl' | 'caption' | 'description'
+                  >
+                >
+              }
           >
         >
       >
@@ -8862,16 +8859,8 @@ export type GetAllPostsQueryVariables = {}
 export type GetAllPostsQuery = { __typename?: 'RootQuery' } & {
   posts?: Maybe<
     { __typename?: 'RootQueryToPostConnection' } & {
-      edges?: Maybe<
-        Array<
-          Maybe<
-            { __typename?: 'RootQueryToPostConnectionEdge' } & {
-              node?: Maybe<
-                { __typename?: 'Post' } & Pick<Post, 'title' | 'slug'>
-              >
-            }
-          >
-        >
+      nodes?: Maybe<
+        Array<Maybe<{ __typename?: 'Post' } & Pick<Post, 'title' | 'slug'>>>
       >
     }
   >
@@ -8891,47 +8880,40 @@ export type GetPostsByAuthorQuery = { __typename?: 'RootQuery' } & {
           'hasNextPage' | 'endCursor'
         >
       >
-      edges?: Maybe<
+      nodes?: Maybe<
         Array<
           Maybe<
-            { __typename?: 'RootQueryToPostConnectionEdge' } & {
-              node?: Maybe<
-                { __typename?: 'Post' } & Pick<
-                  Post,
-                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
-                > & {
-                    author?: Maybe<
-                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
-                    >
-                    categories?: Maybe<
-                      { __typename?: 'PostToCategoryConnection' } & {
-                        nodes?: Maybe<
-                          Array<
-                            Maybe<
-                              { __typename?: 'Category' } & Pick<
-                                Category,
-                                'slug' | 'name'
-                              >
-                            >
+            { __typename?: 'Post' } & Pick<
+              Post,
+              'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
+            > & {
+                author?: Maybe<
+                  { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                >
+                categories?: Maybe<
+                  { __typename?: 'PostToCategoryConnection' } & {
+                    nodes?: Maybe<
+                      Array<
+                        Maybe<
+                          { __typename?: 'Category' } & Pick<
+                            Category,
+                            'slug' | 'name'
                           >
                         >
-                      }
-                    >
-                    thumbnail?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'sourceUrl'
-                      >
-                    >
-                    image?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'altText' | 'sourceUrl' | 'caption' | 'description'
                       >
                     >
                   }
-              >
-            }
+                >
+                thumbnail?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl'>
+                >
+                image?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<
+                    MediaItem,
+                    'altText' | 'sourceUrl' | 'caption' | 'description'
+                  >
+                >
+              }
           >
         >
       >
@@ -8953,47 +8935,40 @@ export type GetPostsByCategoryIdQuery = { __typename?: 'RootQuery' } & {
           'hasNextPage' | 'endCursor'
         >
       >
-      edges?: Maybe<
+      nodes?: Maybe<
         Array<
           Maybe<
-            { __typename?: 'RootQueryToPostConnectionEdge' } & {
-              node?: Maybe<
-                { __typename?: 'Post' } & Pick<
-                  Post,
-                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
-                > & {
-                    author?: Maybe<
-                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
-                    >
-                    categories?: Maybe<
-                      { __typename?: 'PostToCategoryConnection' } & {
-                        nodes?: Maybe<
-                          Array<
-                            Maybe<
-                              { __typename?: 'Category' } & Pick<
-                                Category,
-                                'slug' | 'name'
-                              >
-                            >
+            { __typename?: 'Post' } & Pick<
+              Post,
+              'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
+            > & {
+                author?: Maybe<
+                  { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                >
+                categories?: Maybe<
+                  { __typename?: 'PostToCategoryConnection' } & {
+                    nodes?: Maybe<
+                      Array<
+                        Maybe<
+                          { __typename?: 'Category' } & Pick<
+                            Category,
+                            'slug' | 'name'
                           >
                         >
-                      }
-                    >
-                    thumbnail?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'sourceUrl'
-                      >
-                    >
-                    image?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'altText' | 'sourceUrl' | 'caption' | 'description'
                       >
                     >
                   }
-              >
-            }
+                >
+                thumbnail?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl'>
+                >
+                image?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<
+                    MediaItem,
+                    'altText' | 'sourceUrl' | 'caption' | 'description'
+                  >
+                >
+              }
           >
         >
       >
@@ -9015,47 +8990,40 @@ export type SearchPostsQuery = { __typename?: 'RootQuery' } & {
           'hasNextPage' | 'endCursor'
         >
       >
-      edges?: Maybe<
+      nodes?: Maybe<
         Array<
           Maybe<
-            { __typename?: 'RootQueryToPostConnectionEdge' } & {
-              node?: Maybe<
-                { __typename?: 'Post' } & Pick<
-                  Post,
-                  'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
-                > & {
-                    author?: Maybe<
-                      { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
-                    >
-                    categories?: Maybe<
-                      { __typename?: 'PostToCategoryConnection' } & {
-                        nodes?: Maybe<
-                          Array<
-                            Maybe<
-                              { __typename?: 'Category' } & Pick<
-                                Category,
-                                'slug' | 'name'
-                              >
-                            >
+            { __typename?: 'Post' } & Pick<
+              Post,
+              'id' | 'title' | 'slug' | 'date' | 'commentCount' | 'excerpt'
+            > & {
+                author?: Maybe<
+                  { __typename?: 'User' } & Pick<User, 'name' | 'slug'>
+                >
+                categories?: Maybe<
+                  { __typename?: 'PostToCategoryConnection' } & {
+                    nodes?: Maybe<
+                      Array<
+                        Maybe<
+                          { __typename?: 'Category' } & Pick<
+                            Category,
+                            'slug' | 'name'
                           >
                         >
-                      }
-                    >
-                    thumbnail?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'sourceUrl'
-                      >
-                    >
-                    image?: Maybe<
-                      { __typename?: 'MediaItem' } & Pick<
-                        MediaItem,
-                        'altText' | 'sourceUrl' | 'caption' | 'description'
                       >
                     >
                   }
-              >
-            }
+                >
+                thumbnail?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl'>
+                >
+                image?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<
+                    MediaItem,
+                    'altText' | 'sourceUrl' | 'caption' | 'description'
+                  >
+                >
+              }
           >
         >
       >
@@ -9133,9 +9101,7 @@ export type GetAuthorBySlugQuery = { __typename?: 'RootQuery' } & {
       | 'lastName'
       | 'isRestricted'
       | 'description'
-    > & {
-        avatar?: Maybe<{ __typename?: 'Avatar' } & Pick<Avatar, 'url'>>
-      }
+    > & { avatar?: Maybe<{ __typename?: 'Avatar' } & Pick<Avatar, 'url'>> }
   >
 }
 
@@ -9144,14 +9110,10 @@ export type GetAuthorsQueryVariables = {}
 export type GetAuthorsQuery = { __typename?: 'RootQuery' } & {
   users?: Maybe<
     { __typename?: 'RootQueryToUserConnection' } & {
-      edges?: Maybe<
+      nodes?: Maybe<
         Array<
           Maybe<
-            { __typename?: 'RootQueryToUserConnectionEdge' } & {
-              node?: Maybe<
-                { __typename?: 'User' } & Pick<User, 'slug' | 'name' | 'userId'>
-              >
-            }
+            { __typename?: 'User' } & Pick<User, 'slug' | 'name' | 'userId'>
           >
         >
       >
@@ -9175,7 +9137,7 @@ export const GetCategoryBySlugDocument = gql`
 `
 export const GetCategoriesDocument = gql`
   query getCategories {
-    categories: categories(first: 100) {
+    categories: categories(first: 100, where: { childless: false }) {
       pageInfo {
         hasNextPage
         endCursor
@@ -9186,9 +9148,9 @@ export const GetCategoriesDocument = gql`
         color {
           color
         }
-        show_menu {
-          showHeaderMenu
-          showFooterMenu
+        showMenu {
+          showheader
+          showfooter
         }
       }
     }
@@ -9295,33 +9257,31 @@ export const GetPostBySlugDocument = gql`
 export const GetFeaturedPostDocument = gql`
   query getFeaturedPost {
     featuredPost: posts {
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: _2048X2048)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: _2048X2048)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -9334,33 +9294,31 @@ export const GetPostsDocument = gql`
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -9369,11 +9327,9 @@ export const GetPostsDocument = gql`
 export const GetAllPostsDocument = gql`
   query getAllPosts {
     posts: posts(first: 10000) {
-      edges {
-        node {
-          title(format: RENDERED)
-          slug
-        }
+      nodes {
+        title(format: RENDERED)
+        slug
       }
     }
   }
@@ -9385,33 +9341,31 @@ export const GetPostsByAuthorDocument = gql`
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -9424,33 +9378,31 @@ export const GetPostsByCategoryIdDocument = gql`
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -9463,33 +9415,31 @@ export const SearchPostsDocument = gql`
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -9552,12 +9502,10 @@ export const GetAuthorBySlugDocument = gql`
 export const GetAuthorsDocument = gql`
   query getAuthors {
     users: users(first: 100) {
-      edges {
-        node {
-          slug
-          name
-          userId
-        }
+      nodes {
+        slug
+        name
+        userId
       }
     }
   }
@@ -9566,7 +9514,6 @@ export const GetAuthorsDocument = gql`
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>
 
 const defaultWrapper: SdkFunctionWrapper = (sdkFunction) => sdkFunction()
-
 export function getSdk(
   client: GraphQLClient,
   withWrapper: SdkFunctionWrapper = defaultWrapper,
@@ -9707,5 +9654,4 @@ export function getSdk(
     },
   }
 }
-
 export type Sdk = ReturnType<typeof getSdk>

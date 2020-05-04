@@ -8,7 +8,7 @@ export type Ref = React.RefObject<Text>
 
 export type TextProps = React.ComponentProps<typeof TextRN> & {
   href?: string
-  sx?: ThemedStyle
+  sx?: any
   key?: string
 }
 export const Text: React.FC<TextProps> = React.forwardRef<any, TextProps>(

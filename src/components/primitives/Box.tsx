@@ -1,13 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useStyling } from 'src/utils/native-styled'
-import { SystemStyleObject } from '@theme-ui/css'
-
-export type SxStyleProp = SystemStyleObject
 
 export type BoxProps = React.ComponentProps<typeof View> & {
   href?: string
-  sx?: SystemStyleObject
+  sx?: any
   displayName?: string
   key?: string
 }

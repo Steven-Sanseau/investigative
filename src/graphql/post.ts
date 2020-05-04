@@ -30,33 +30,31 @@ export const getPostBySlug = /* GraphQL */ `
 export const getFeaturedPost = /* GraphQL */ `
   query getFeaturedPost {
     featuredPost: posts {
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: _2048X2048)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: _2048X2048)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -70,33 +68,31 @@ export const getPosts = /* GraphQL */ `
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -106,11 +102,9 @@ export const getPosts = /* GraphQL */ `
 export const getAllPosts = /* GraphQL */ `
   query getAllPosts {
     posts: posts(first: 10000) {
-      edges {
-        node {
-          title(format: RENDERED)
-          slug
-        }
+      nodes {
+        title(format: RENDERED)
+        slug
       }
     }
   }
@@ -123,33 +117,31 @@ export const getPostsByAuthorId = /* GraphQL */ `
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -163,33 +155,31 @@ export const getPostsByCategoryId = /* GraphQL */ `
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -203,33 +193,32 @@ export const searchPosts = /* GraphQL */ `
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }

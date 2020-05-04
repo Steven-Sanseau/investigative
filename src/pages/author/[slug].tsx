@@ -24,7 +24,7 @@ type RouteParams = { slug: string }
 export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
   const data: GetAuthorsQuery = await fetcher(getAuthors)
 
-  const paths = data.users.edges.map(({ node: user }) => ({
+  const paths = data.users.nodes.map((user) => ({
     params: {
       slug: user.slug,
     },

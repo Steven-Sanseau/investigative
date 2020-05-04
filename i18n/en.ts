@@ -31,6 +31,7 @@ export default {
     },
   },
   posts: {
+    author: 'by {{name}}',
     loadMore: 'More',
     noMore: 'End',
     noResult: 'No Post',

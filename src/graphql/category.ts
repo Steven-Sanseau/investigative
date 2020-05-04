@@ -26,9 +26,9 @@ export const getCategories = /* GraphQL */ `
         color {
           color
         }
-        show_menu {
-          showHeaderMenu
-          showFooterMenu
+        showMenu {
+          showheader
+          showfooter
         }
       }
     }

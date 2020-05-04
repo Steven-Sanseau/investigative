@@ -1,23 +1,18 @@
 import React from 'react'
 import { TextInput } from 'react-native'
 import { useStyling } from 'src/utils/native-styled'
-import { SystemStyleObject } from '@theme-ui/css'
-
-export type SxStyleProp = SystemStyleObject
 
 export type InputProps = React.ComponentProps<typeof TextInput> & {
   href?: string
-  sx?: SystemStyleObject
+  sx?: any
   displayName?: string
   key?: string
 }
 
-export type Ref = React.RefObject<TextInput>
-
 export const Input: React.FC<InputProps> = React.forwardRef<any, InputProps>(
   (
     { sx, displayName, ...props }: React.PropsWithChildren<InputProps>,
-    ref,
+    ref: any,
   ): any => {
     const styling = useStyling()
     Input.displayName = displayName || 'Input'

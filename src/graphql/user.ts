@@ -18,12 +18,10 @@ export const getAuthorBySlug = /* GraphQL */ `
 export const getAuthors = /* GraphQL */ `
   query getAuthors {
     users: users(first: 100) {
-      edges {
-        node {
-          slug
-          name
-          userId
-        }
+      nodes {
+        slug
+        name
+        userId
       }
     }
   }

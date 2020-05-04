@@ -15,11 +15,10 @@ export const coreTheme = {
     xl: 1280,
   },
   colors: {
-    black: '#212121',
-    white: '#ffffff',
-    primary: '#212121',
-    grayDark: '#212121',
-    gray: ['#e8e8e8'],
+    black: '#FFFFF',
+    white: '#FFFFFF',
+    primary: '#272932',
+    grayDark: '#272932',
   },
   fonts: {
     serif: 'Source Serif Pro',
@@ -57,6 +56,7 @@ export const coreTheme = {
     body: '1.625',
     heading: '1.25',
   },
+  spaces: [1, 4, 8, 16, 32, 64, 128, 256, 512],
   sizes: {
     '0': 0,
     '1': 4,
@@ -110,5 +110,9 @@ export const coreTheme = {
     full: '100%',
     screenHeight: '100vh',
     screenWidth: '100vw',
+  },
+  shadow: {
+    xs: 'rgba(0, 0, 0, 0.15) 0px 1px 4px 0px',
+    none: 'none',
   },
 }
