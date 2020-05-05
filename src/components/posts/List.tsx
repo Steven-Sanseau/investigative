@@ -1,17 +1,17 @@
 import { formatRelative, parseISO } from 'date-fns'
 import React, { ReactElement } from 'react'
+import { Flex } from 'src/components/Grid'
+import { RenderBlocks } from 'src/components/post/Blocks'
+import { LoadMore } from 'src/components/posts/LoadMore'
 import { Box } from 'src/components/primitives/Box'
 import { Image } from 'src/components/primitives/Image'
 import { Text } from 'src/components/primitives/Text'
 import { H2 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
-import useSWR, { useSWRPages } from 'swr'
-
 import { GetPostsQuery } from 'src/generated/graphql'
-import { Flex } from 'src/components/Grid'
-import { getPosts } from 'src/graphql/post'
-import { RenderBlocks } from 'src/components/post/Blocks'
-import { LoadMore } from 'src/components/posts/LoadMore'
+import useSWR, { useSWRPages } from 'swr'
+import { T } from '../../contexts/I18n'
+import { ActivityIndicator } from 'react-native'
 
 const Title = (props): ReactElement => (
   <H2
@@ -26,44 +26,70 @@ const Author = (props): ReactElement => (
   <Text
     sx={{
       fontFamily: 'heading',
-      fontWeight: 'bold',
-      fontSize: '0',
+      fontWeight: '600',
+      fontSize: 1,
+      color: 'grayDark',
     }}
     {...props}
   />
 )
 
-interface PropsPostList {
-  initialPostsData?: GetPostsQuery
+interface PostListProps {
+  initialData?: any
+  query: any
+  params?: any
 }
-
-const DatePost = Text
-
-export const PostList: React.FC<PropsPostList> = ({
-  initialPostsData,
-}: PropsPostList) => {
+export const PostList = ({
+  initialData,
+  query,
+  params,
+}: PostListProps): ReactElement => {
   const now = new Date()
-
   const { pages, isLoadingMore, isReachingEnd, loadMore } = useSWRPages(
     'index',
     ({ offset, withSWR }) => {
+      // const { search, id } = params || {}
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const paginationParams = React.useMemo(() => ({ after: offset }), [
-        offset,
-      ])
+      const paginationParams = React.useMemo(
+        () => ({ after: offset, ...params }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [offset, params],
+      )
+
       const { data }: { data?: GetPostsQuery } = withSWR(
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        useSWR([getPosts, paginationParams], {
-          initialData: offset ? null : initialPostsData,
+        useSWR([query, paginationParams], {
+          initialData: offset ? null : initialData,
         }),
       )
 
       if (!data) {
-        return <></>
+        return <ActivityIndicator />
       }
 
-      return data.posts.edges.map(({ node: post }, i) => (
-        <Box sx={{ width: 'full' }} key={i}>
+      if (!data.posts) {
+        return (
+          <Text>
+            <T id="posts.noResult" />
+          </Text>
+        )
+      }
+
+      return data.posts?.nodes?.map((post, i) => (
+        <Box
+          sx={{
+            width: {
+              xs: 'full',
+              sm: '11/12',
+              md: '10/12',
+              lg: '10/12',
+              xl: 'full',
+            },
+            mx: 'auto',
+          }}
+          key={i}
+        >
+          <Box sx={{ mt: 5 }} />
           <Flex
             sx={{
               flexWrap: 'wrap',
@@ -86,21 +112,14 @@ export const PostList: React.FC<PropsPostList> = ({
                   sx={{
                     mx: {
                       xs: 'auto',
-                      md: 0,
                     },
                     height: {
-                      xs: 143,
-                      lg: 185,
-                      xl: 185,
+                      xs: 300,
+                      lg: 200,
                     },
-                    width: {
-                      xs: 'full',
-                      lg: 260,
-                      xl: 260,
-                    },
+                    width: 'full',
                   }}
-                  thumbnail={post.thumbnail.sourceUrl}
-                  src={post.image.sourceUrl}
+                  source={{ uri: post.image.sourceUrl }}
                 />
               </Box>
             )}
@@ -108,13 +127,14 @@ export const PostList: React.FC<PropsPostList> = ({
               sx={{
                 width: {
                   xs: 'full',
-                  lg: post?.image ? '2/3' : 'full',
+                  lg: post?.image ? '2/3' : '11/12',
                 },
               }}
             >
               <Flex
                 sx={{
                   alignItems: 'flex-start',
+                  pl: 4,
                 }}
               >
                 <UniversalLink
@@ -130,6 +150,7 @@ export const PostList: React.FC<PropsPostList> = ({
                 >
                   <Title>{post.title}</Title>
                 </UniversalLink>
+                <Box sx={{ mt: 2 }} />
                 <Box
                   sx={{
                     flexDirection: 'row',
@@ -148,14 +169,35 @@ export const PostList: React.FC<PropsPostList> = ({
                     }}
                     as={Box}
                   >
-                    <Author>by {post.author.name}</Author>
+                    <Author>
+                      <T
+                        id="posts.author"
+                        values={{ name: post.author.name }}
+                      />
+                    </Author>
                   </UniversalLink>
-                  {post?.date && (
-                    <DatePost>
-                      {formatRelative(parseISO(post.date), now)}
-                    </DatePost>
-                  )}
-                  <Text>{post.commentCount}</Text>
+
+                  <Text
+                    sx={{
+                      ml: 2,
+                      fontFamily: 'heading',
+                      fontWeight: '400',
+                      fontSize: 0,
+                    }}
+                  >
+                    {formatRelative(parseISO(post.date), now)}
+                  </Text>
+
+                  <Text
+                    sx={{
+                      ml: 2,
+                      fontFamily: 'heading',
+                      fontWeight: '400',
+                      fontSize: 0,
+                    }}
+                  >
+                    {post.commentCount}
+                  </Text>
                 </Box>
                 <Box>
                   <RenderBlocks content={post.excerpt} />
@@ -167,11 +209,11 @@ export const PostList: React.FC<PropsPostList> = ({
       ))
     },
     ({ data }) => {
-      return data?.posts.pageInfo.hasNextPage
+      return data?.posts.pageInfo?.hasNextPage
         ? data.posts.pageInfo.endCursor
         : null
     },
-    [],
+    [params],
   )
 
   return (

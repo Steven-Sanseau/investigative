@@ -23,7 +23,7 @@ export function FeaturedPost({
     return <></>
   }
 
-  const { node: post } = data.featuredPost.edges[0]
+  const post = data.featuredPost.nodes[0]
 
   return (
     <Flex
@@ -31,11 +31,10 @@ export function FeaturedPost({
         width: 'full',
         height: '400hpx',
         justifyContent: 'flex-end',
-        bg: 'red',
       }}
     >
       <Image
-        src={post.image.sourceUrl}
+        source={{ uri: post.image.sourceUrl }}
         alt={post.image.altText}
         sx={{
           position: 'absolute',
@@ -72,10 +71,10 @@ export function FeaturedPost({
             {post.title}
           </Text>
         </UniversalLink>
-        <Text sx={{ fontFamily: 'serif', fontSize: 3 }}>
+        <Text sx={{ fontFamily: 'serif', fontSize: 3, color: 'white' }}>
           <RenderBlocks content={post.excerpt} />
         </Text>
-        <Text sx={{ fontFamily: 'serif', fontSize: 3 }}>
+        <Text sx={{ fontFamily: 'serif', fontSize: 3, color: 'white' }}>
           {post.author.name}
         </Text>
       </Box>

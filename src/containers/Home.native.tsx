@@ -30,7 +30,8 @@ export const Home: React.FC = () => {
         setLastRefreshingDate(new Date().toDateString())
       })
     })
-  }, [])
+  }, [growl, t, paginationParams])
+
   return (
     <CollapsibleHeader
       refreshControl={
@@ -45,7 +46,7 @@ export const Home: React.FC = () => {
         <GrowlMessage />
         <Main>
           <FeaturedPost />
-          <PostList />
+          <PostList query={getPosts} />
         </Main>
       </SafeAreaView>
     </CollapsibleHeader>

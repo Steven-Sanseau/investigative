@@ -50,6 +50,9 @@ module.exports = withPlugins([
     withExpo,
     {
       projectRoot: __dirname,
+      experimental: {
+        reactRefresh: true,
+      },
       typescript: {
         ignoreDevErrors: true,
         // !! WARN !!

@@ -1,29 +1,12 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useStyling } from 'src/utils/native-styled'
-import { ThemedStyle } from 'src/utils/native-styled/ThemeContext'
-// import { Responsive } from '../utils/Responsive'
-// import {
-//   ColorProps,
-//   SpaceProps,
-//   BackgroundProps,
-//   FlexboxProps,
-//   LayoutProps,
-// } from 'styled-system'
 
-// export interface PropsBox
-//   extends ColorProps,
-//     SpaceProps,
-//     LayoutProps,
-//     BackgroundProps,
-//     FlexboxProps {
-//   ref: any
-// }
-
-export interface BoxProps {
-  sx?: ThemedStyle
-  ref?: any
+export type BoxProps = React.ComponentProps<typeof View> & {
+  href?: string
+  sx?: any
   displayName?: string
+  key?: string
 }
 
 export type Ref = React.RefObject<View>

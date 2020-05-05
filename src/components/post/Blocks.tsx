@@ -1,14 +1,13 @@
-import React, { ReactChildren, ReactElement } from 'react'
-import { P, H1, H2, H3, H4, H5, H6 } from 'src/components/Typography'
-import { UL, LI, HR, Pre } from 'src/components/Elements'
-import { Text } from 'src/components/primitives/Text'
-import { GetPostBySlugQuery } from 'src/generated/graphql'
-import { Box } from 'src/components/primitives/Box'
 import { parseDOM } from 'htmlparser2'
-import { UniversalLink } from 'src/components/UniversalLink'
-import { Image } from 'src/components/primitives/Image'
-import { Webview } from 'src/components/Webview'
+import React, { ReactChildren, ReactElement } from 'react'
 import ErrorBoundary from 'react-error-boundary'
+import { HR, LI, Pre, UL } from 'src/components/Elements'
+import { Box } from 'src/components/primitives/Box'
+import { Image } from 'src/components/primitives/Image'
+import { Text } from 'src/components/primitives/Text'
+import { H1, H2, H3, H4, H5, H6, P } from 'src/components/Typography'
+import { UniversalLink } from 'src/components/UniversalLink'
+import { Webview } from 'src/components/Webview'
 
 interface LinkProps {
   href: string
@@ -28,11 +27,11 @@ interface ImageProps {
 const Img: React.FC<ImageProps> = ({ src, alt }: ImageProps): ReactElement => {
   return (
     <Image
-      src={src}
+      source={{ uri: src }}
       sx={{
         mx: { xs: 'auto', md: 0 },
         height: '300hpx',
-        width: 'full',
+        width: '100rpx',
       }}
       alt={alt}
     />
@@ -44,7 +43,6 @@ interface IframeProps {
 }
 const Iframe: React.FC<IframeProps> = ({
   src,
-  ...props
 }: React.PropsWithChildren<IframeProps>) => {
   return (
     <Box sx={{ width: 'full', mx: { xs: 'auto', md: 0 } }}>
@@ -61,7 +59,7 @@ const transform = ({
   node: any
   wrapText: any
   key: any
-}): ReactElement => {
+}): ReactElement | string => {
   const getChildren = (node, wrapText = true): [ReactElement] => {
     return node.children?.map((child, key) =>
       transform({ node: child, wrapText, key }),
@@ -90,20 +88,37 @@ const transform = ({
     iframe: Iframe,
   }
 
+  const childLess = ['img', 'hr']
+
+  const htmlDecode = (str): string =>
+    str.replace(/&#(\d+);/g, function (match, dec) {
+      return String.fromCharCode(dec)
+    })
+
   if (node.type === 'text') {
     if (wrapText) {
-      return <Text key={key}>{node.data.replace(/\n|\r/g, '')}</Text>
+      return (
+        <Text key={key}>{htmlDecode(node.data.replace(/\n|\r/g, ''))}</Text>
+      )
     }
 
-    return node.data.trim()
+    return htmlDecode(node.data.trim())
   }
   if (node.type === 'tag') {
     const Element = Elements[node.name]
-    return Element ? (
+    if (!Element) {
+      return null
+    }
+
+    if (childLess.includes(node.name)) {
+      return <Element {...node.attribs} key={key} />
+    }
+
+    return (
       <Element {...node.attribs} key={key}>
         {getChildren(node)}
       </Element>
-    ) : null
+    )
   }
 
   return null

@@ -47,3 +47,4 @@ out/
 .vscode/
 models.json
 investigative.code-workspace
+.idea

@@ -8,8 +8,6 @@ import { createTheme } from 'src/themes/theme'
 import { useAsyncStorage } from 'src/utils/AsyncStorage'
 import { Footer } from 'src/components/Footer'
 import { Header } from 'src/components/Header'
-import { Layout } from 'src/components/Layout'
-import { TopBar } from 'src/components/TopBar'
 import { loadFonts } from 'src/utils/Fonts'
 import { I18nInitializer } from 'src/contexts/I18n'
 import { GrowlProvider } from 'src/contexts/Growl'
@@ -17,6 +15,7 @@ import { GrowlMessage } from 'src/components/Growl'
 import { SWRConfig } from 'swr'
 import { fetcher } from 'src/utils/Fetcher'
 import { ThemeProvider } from 'src/utils/native-styled'
+import { Box } from 'src/components/primitives/Box'
 
 export default ({ Component, pageProps }: any): JSX.Element => {
   const themeColor = '#4630eb'
@@ -42,7 +41,7 @@ export default ({ Component, pageProps }: any): JSX.Element => {
     <Text>Error with APP: {error.message}</Text>
   )
 
-  const [themeName, setThemeName] = useAsyncStorage('theme', 'dark')
+  const [themeName, setThemeName] = useAsyncStorage('theme', 'light')
   const theme = createTheme(themeName)
 
   const [isSticky, setSticky] = React.useState<boolean>(false)
@@ -50,10 +49,15 @@ export default ({ Component, pageProps }: any): JSX.Element => {
 
   const handleScroll = (): void => {
     if (ref.current) {
-      // const { width, height, px, py, fx, fy } = ref.current.measure
-      ref.current.measure((width, height, px, py, fx, fy) => {
-        setSticky(fy <= 0)
-      })
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop
+
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight
+
+      const scrolled = winScroll / height
+      setSticky(scrolled > 0.1)
     }
   }
 
@@ -88,20 +92,21 @@ export default ({ Component, pageProps }: any): JSX.Element => {
                 setThemeName: setThemeName,
               }}
             >
-              <I18nInitializer>
-                <GrowlProvider>
-                  <TopBar />
-                  <GrowlMessage />
-                  <Header
-                    ref={ref}
-                    sticky={isSticky}
-                    initialSettingsData={pageProps?.initialSettingsData}
-                  />
-                  <Component {...pageProps} />
+              <Box sx={{ bg: 'white' }}>
+                <I18nInitializer>
+                  <GrowlProvider>
+                    <GrowlMessage />
+                    <Header
+                      ref={ref}
+                      sticky={isSticky}
+                      initialSettingsData={pageProps?.initialSettingsData}
+                    />
+                    <Component {...pageProps} />
 
-                  <Footer />
-                </GrowlProvider>
-              </I18nInitializer>
+                    <Footer />
+                  </GrowlProvider>
+                </I18nInitializer>
+              </Box>
             </ThemeProviderContext>
           </SWRConfig>
         </ThemeProvider>

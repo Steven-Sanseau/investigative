@@ -1,19 +1,22 @@
 import { useRouting } from 'expo-next-react-navigation'
 import React from 'react'
-import { Box } from 'src/components/primitives/Box'
-import { Text } from 'src/components/primitives/Text'
 import { fetcher } from 'src/utils/Fetcher'
 import useSWR from 'swr'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import {
   GetCategoriesQuery,
   GetCategoryBySlugQuery,
+  GetPostsByAuthorQuery,
+  GetPostsByCategoryIdQuery,
 } from 'src/generated/graphql'
 
-import { getCategoryBySlug, getCategories } from 'src/graphql/category'
+import { getCategories, getCategoryBySlug } from 'src/graphql/category'
+import { Category } from '../../containers/Category'
+import { getPostsByAuthorId } from '../../graphql/post'
+import { ActivityIndicator } from 'react-native'
 
 interface CategoryPageProps {
-  initialCategoriesData?: GetCategoriesQuery
+  initialPostsByCategoryData?: GetPostsByCategoryIdQuery
   initialCategoryData?: GetCategoryBySlugQuery
 }
 
@@ -21,7 +24,7 @@ type RouteParams = { slug: string }
 
 export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
   const data: GetCategoriesQuery = await fetcher(getCategories)
-  const paths = data.categories.edges.map(({ node: category }) => ({
+  const paths = data.categories.nodes.map((category) => ({
     params: {
       slug: category.slug,
     },
@@ -42,11 +45,16 @@ export const getStaticProps: GetStaticProps<any, RouteParams> = async ({
       slug: params.slug,
     },
   )
-  return { props: { initialCategoryData } }
+  const initialPostsByCategoryData: GetPostsByAuthorQuery = await fetcher(
+    getPostsByAuthorId,
+    { after: 'null', id: initialCategoryData?.category?.databaseId },
+  )
+  return { props: { initialCategoryData, initialPostsByCategoryData } }
 }
 
-const Page: React.FC<CategoryPageProps> = ({
+const PageCategory: React.FC<CategoryPageProps> = ({
   initialCategoryData,
+  initialPostsByCategoryData,
 }: CategoryPageProps) => {
   const { getParam } = useRouting()
   const slug: string = getParam('slug')
@@ -58,16 +66,15 @@ const Page: React.FC<CategoryPageProps> = ({
     { initialData: initialCategoryData },
   )
 
+  if (!data) {
+    return <ActivityIndicator />
+  }
+
   return (
     <>
-      <Text sx={{ fontSize: 6, fontFamily: 'heading', mx: 'auto' }}>
-        {data?.category?.name}
-      </Text>
-      <Box sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}>
-        {/* <RenderBlocks content={data?.category?.name} /> */}
-      </Box>
+      <Category data={data} initialPostsData={initialPostsByCategoryData} />
     </>
   )
 }
 
-export default Page
+export default PageCategory

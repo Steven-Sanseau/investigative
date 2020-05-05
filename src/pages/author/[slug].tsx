@@ -1,25 +1,30 @@
 import { useRouting } from 'expo-next-react-navigation'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
-import { RenderBlocks } from 'src/components/post/Blocks'
-import { Box } from 'src/components/primitives/Box'
 import { Text } from 'src/components/primitives/Text'
+import { Author } from 'src/containers/Author'
+import {
+  GetAuthorBySlugQuery,
+  GetAuthorsQuery,
+  GetPostsByAuthorQuery,
+} from 'src/generated/graphql'
+import { getPostsByAuthorId } from 'src/graphql/post'
+import { getAuthorBySlug, getAuthors } from 'src/graphql/user'
 import { fetcher } from 'src/utils/Fetcher'
 import useSWR from 'swr'
-import { GetStaticPaths, GetStaticProps } from 'next'
-
-import { GetAuthorsQuery, GetAuthorBySlugQuery } from 'src/generated/graphql'
-import { getAuthors, getAuthorBySlug } from 'src/graphql/user'
 
 interface PageAuthorProps {
   initialAuthorsData?: GetAuthorsQuery
   initialAuthorData?: GetAuthorBySlugQuery
+  initialPostsByAuthorData?: GetPostsByAuthorQuery
 }
 
 type RouteParams = { slug: string }
 
 export const getStaticPaths: GetStaticPaths<RouteParams> = async () => {
   const data: GetAuthorsQuery = await fetcher(getAuthors)
-  const paths = data.users.edges.map(({ node: user }) => ({
+
+  const paths = data.users.nodes.map((user) => ({
     params: {
       slug: user.slug,
     },
@@ -41,17 +46,23 @@ export const getStaticProps: GetStaticProps<any, RouteParams> = async ({
     },
   )
 
-  return { props: { initialAuthorData } }
+  const initialPostsByAuthorData: GetPostsByAuthorQuery = await fetcher(
+    getPostsByAuthorId,
+    { after: 'null', id: initialAuthorData?.user?.userId },
+  )
+
+  return { props: { initialAuthorData, initialPostsByAuthorData } }
 }
 
-const Author: React.FC<PageAuthorProps> = ({
+const AuthorPage: React.FC<PageAuthorProps> = ({
   initialAuthorData,
+  initialPostsByAuthorData,
 }: PageAuthorProps) => {
   const { getParam } = useRouting()
   const slug: string = getParam('slug')
 
   const authorSlugParams = React.useMemo(() => ({ slug }), [slug])
-  console.log('authorSlugParams', authorSlugParams)
+
   const { data }: { data?: GetAuthorBySlugQuery } = useSWR(
     [getAuthorBySlug, authorSlugParams],
     { initialData: initialAuthorData },
@@ -62,16 +73,8 @@ const Author: React.FC<PageAuthorProps> = ({
   }
 
   return (
-    <>
-      <Text sx={{ fontSize: 6, fontFamily: 'heading', mx: 'auto' }}>
-        {data?.user.name}
-      </Text>
-      <Box sx={{ width: { xs: '11/12', md: '7/12', xl: '1/2' }, mx: 'auto' }}>
-        <RenderBlocks content={data?.user?.description} />
-      </Box>
-      {/* <PostList></PostList> */}
-    </>
+    <Author initialPostsAuthorData={initialPostsByAuthorData} data={data} />
   )
 }
 
-export default Author
+export default AuthorPage

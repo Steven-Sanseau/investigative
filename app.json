@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Investigative",
-    "slug": "investigative",
+    "name": "com.investigative.tanzania",
+    "slug": "investigativetanzania",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.1",

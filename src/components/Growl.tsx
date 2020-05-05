@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { useGrowlValue, useGrowl } from 'src/contexts/Growl'
+import { useGrowl, useGrowlValue } from 'src/contexts/Growl'
 import { Box } from 'src/components/primitives/Box'
 import { T } from 'src/contexts/I18n'
 import { Text } from 'src/components/primitives/Text'

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import { Box, BoxProps } from 'src/components/primitives/Box'
 
-export const Flex = ({ sx, ...props }: BoxProps): any => {
+export const Flex: React.FC<BoxProps> = ({ sx, ...props }: BoxProps): any => {
   return <Box sx={{ ...(sx || null), display: 'flex' }} {...props} />
 }
 

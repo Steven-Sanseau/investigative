@@ -6,7 +6,10 @@ import { format } from 'date-fns'
 import { Layout } from 'src/components/Layout'
 import { UniversalLink } from 'src/components/UniversalLink'
 
-const TopLink = ({ link, ...props }) => (
+type TopLinkProps = {
+  link: string
+}
+const TopLink: React.FC<TopLinkProps> = ({ link, ...props }: TopLinkProps) => (
   <Box ml="1">
     <UniversalLink
       sx={{ color: 'white' }}

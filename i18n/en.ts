@@ -30,11 +30,35 @@ export default {
       refreshPosts: 'Updated',
     },
   },
-  home: {
-    posts: {
-      loadMore: 'More',
-      noMore: 'End',
+  posts: {
+    author: 'by {{name}}',
+    loadMore: 'More',
+    noMore: 'End',
+    noResult: 'No Post',
+  },
+  author: {
+    postList: {
+      writtenBy: 'Written by {{name}}:',
+    },
+  },
+  comment: {
+    input: {
+      email: 'Email address',
+      name: 'Name',
+      content: 'Comment',
+    },
+    form: {
+      notSend: 'Comment failed to post',
+      success: 'Your comment has been posted',
     },
   },
   loading: '...',
+  menu: {
+    button: 'Menu',
+    close: 'Close',
+    donate: 'Donate',
+    search: 'Search',
+    newsletter: 'Newsletter',
+    signin: 'Sign in',
+  },
 }

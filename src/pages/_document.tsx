@@ -1,9 +1,9 @@
 import { getInitialProps } from '@expo/next-adapter/document'
 import Document, {
+  DocumentContext,
   Head,
   Main,
   NextScript,
-  DocumentContext,
 } from 'next/document'
 import React from 'react'
 import { API_URL } from 'src/config/config'

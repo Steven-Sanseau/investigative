@@ -27,7 +27,7 @@ export const MenuList: React.FC<MenuListProps> = ({
           flexWrap: 'wrap',
         }}
       >
-        {data?.map(({ node: link }, index) => (
+        {data?.map((link, index) => (
           <UniversalLink
             key={index}
             routeName={type}
@@ -36,7 +36,7 @@ export const MenuList: React.FC<MenuListProps> = ({
             }}
             web={{
               path: `/${type}/[${selector}]`,
-              as: `/${type}/${link.uri}`,
+              as: `/${type}${link.uri}`,
             }}
             as={Text}
           >

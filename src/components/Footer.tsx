@@ -1,28 +1,32 @@
 import React, { ReactElement } from 'react'
 import { Text } from 'src/components/primitives/Text'
-import { Box } from 'src/components/primitives/Box'
+import { Box, BoxProps } from 'src/components/primitives/Box'
 import { Layout } from 'src/components/Layout'
 import { T, useI18n } from 'src/contexts/I18n'
+import { useTheme } from 'src/contexts/theme'
 
-interface WrappedFooterLinks {
-  sx?: any
-}
-const WrappedFooterLinks = ({
+const WrappedFooterLinks: React.FC<BoxProps> = ({
   sx,
   ...props
-}: WrappedFooterLinks): ReactElement => (
+}: BoxProps): ReactElement => (
   <Box sx={{ ...sx, display: 'grid', gridAutoFlow: 'column' }} {...props} />
 )
 
-const FooterWrapper: React.FC<any> = ({ ...props }) => <Box {...props} />
-
 export function Footer(): ReactElement {
   const { setLocale } = useI18n()
+  const { setThemeName, name: theme } = useTheme()
   const changeLangue = React.useCallback(() => {
     return setLocale('en')
-  }, [])
+  }, [setLocale])
+
   return (
-    <FooterWrapper bg="gray.1">
+    <Box
+      sx={{
+        bg: 'footerGray',
+        boxShadow: 'topxs',
+        p: 4,
+      }}
+    >
       <Layout>
         <WrappedFooterLinks
           sx={{
@@ -60,11 +64,16 @@ export function Footer(): ReactElement {
           }}
         >
           <Box>
+            <Text
+              onPress={() => setThemeName(theme === 'dark' ? 'light' : 'dark')}
+            >
+              Use {theme === 'dark' ? 'light' : 'dark'} Theme
+            </Text>
             <Text onPress={changeLangue}>Privacy Policy Terms of Use</Text>
             <T id="footer.terms" />
           </Box>
         </Box>
       </Layout>
-    </FooterWrapper>
+    </Box>
   )
 }

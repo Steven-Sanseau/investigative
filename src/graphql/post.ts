@@ -1,6 +1,8 @@
 export const getPostBySlug = /* GraphQL */ `
   query getPostBySlug($slug: ID!) {
     post: post(id: $slug, idType: SLUG) {
+      slug
+      databaseId
       title(format: RENDERED)
       excerpt(format: RENDERED)
       date
@@ -12,43 +14,47 @@ export const getPostBySlug = /* GraphQL */ `
           url
         }
       }
-
+      featuredImage {
+        altText
+        sourceUrl(size: _2048X2048)
+        caption(format: RAW)
+        description(format: RAW)
+      }
       content(format: RENDERED)
       commentCount
       commentStatus
     }
   }
 `
+
 export const getFeaturedPost = /* GraphQL */ `
   query getFeaturedPost {
     featuredPost: posts {
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
-          }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
-          }
-          image: featuredImage {
-            altText
-            sourceUrl(size: _2048X2048)
-            caption(format: RAW)
-            description(format: RAW)
-          }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: _2048X2048)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }
@@ -62,33 +68,157 @@ export const getPosts = /* GraphQL */ `
         hasNextPage
         endCursor
       }
-      edges {
-        node {
-          id
-          title(format: RENDERED)
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
           slug
-          author {
-            name
+        }
+        date
+        categories {
+          nodes {
             slug
+            name
           }
-          date
-          categories {
-            nodes {
-              slug
-              name
-            }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
+        }
+      }
+    }
+  }
+`
+
+export const getAllPosts = /* GraphQL */ `
+  query getAllPosts {
+    posts: posts(first: 10000) {
+      nodes {
+        title(format: RENDERED)
+        slug
+      }
+    }
+  }
+`
+
+export const getPostsByAuthorId = /* GraphQL */ `
+  query getPostsByAuthor($after: String, $id: [ID]) {
+    posts: posts(after: $after, first: 8, where: { authorIn: $id }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
+          slug
+        }
+        date
+        categories {
+          nodes {
+            slug
+            name
           }
-          commentCount
-          excerpt(format: RENDERED)
-          thumbnail: featuredImage {
-            sourceUrl(size: POST_THUMBNAIL)
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
+        }
+      }
+    }
+  }
+`
+
+export const getPostsByCategoryId = /* GraphQL */ `
+  query getPostsByCategoryId($after: String, $id: Int) {
+    posts: posts(after: $after, first: 8, where: { categoryId: $id }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
+          slug
+        }
+        date
+        categories {
+          nodes {
+            slug
+            name
           }
-          image: featuredImage {
-            altText
-            sourceUrl(size: LARGE)
-            caption(format: RAW)
-            description(format: RAW)
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
+        }
+      }
+    }
+  }
+`
+
+export const searchPosts = /* GraphQL */ `
+  query searchPosts($after: String, $search: String) {
+    posts: posts(where: { search: $search }, after: $after, first: 8) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+
+      nodes {
+        id
+        title(format: RENDERED)
+        slug
+        author {
+          name
+          slug
+        }
+        date
+        categories {
+          nodes {
+            slug
+            name
           }
+        }
+        commentCount
+        excerpt(format: RENDERED)
+        thumbnail: featuredImage {
+          sourceUrl(size: POST_THUMBNAIL)
+        }
+        image: featuredImage {
+          altText
+          sourceUrl(size: LARGE)
+          caption(format: RAW)
+          description(format: RAW)
         }
       }
     }

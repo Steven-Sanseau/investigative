@@ -1,4 +1,4 @@
-import React, { ReactElement, CSSProperties } from 'react'
+import React, { CSSProperties, ReactElement } from 'react'
 import { ValueOf } from 'type-fest'
 
 export interface ScaleTokens<T extends keyof CSSProperties> {
@@ -52,19 +52,15 @@ export type ThemedStyle = {
   [key in Extract<
     | keyof ThemeOrAny['aliases']
     | keyof ThemeOrAny['shorthands']
+    | keyof ThemeOrAny['scales']
     | keyof ThemeOrAny['resolvers'],
     string
-  >]?:
-    | keyof ThemeOrAny['scales'][ThemeOrAny['resolvers'][ResolveAlias<key>]]
-
-    // Allow non-themed CSS values
-    // TODO: Replace literal union hack, see https://github.com/microsoft/TypeScript/issues/29729
-    | (CSSProperties[ResolveAlias<key>] & {})
+  >]?: CSSProperties
 }
 
 export interface StaticTheme extends CommonTheme, Scales {
   resolvers: {
-    [key in keyof CSSProperties]: keyof this['scales']
+    [key in keyof CSSProperties]: keyof this['scales'] | CSSProperties
   }
 }
 
