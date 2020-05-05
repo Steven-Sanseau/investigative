@@ -28,6 +28,7 @@ const Author = (props): ReactElement => (
       fontFamily: 'heading',
       fontWeight: '600',
       fontSize: 1,
+      color: 'grayDark',
     }}
     {...props}
   />
@@ -174,23 +175,23 @@ export const PostList = ({
                       />
                     </Author>
                   </UniversalLink>
-                  {post?.date && (
-                    <Text
-                      sx={{
-                        ml: 2,
-                        fontFamily: 'heading',
-                        fontWeight: 400,
-                        fontSize: 0,
-                      }}
-                    >
-                      {formatRelative(parseISO(post.date), now)}
-                    </Text>
-                  )}
+
                   <Text
                     sx={{
                       ml: 2,
                       fontFamily: 'heading',
-                      fontWeight: 400,
+                      fontWeight: '400',
+                      fontSize: 0,
+                    }}
+                  >
+                    {formatRelative(parseISO(post.date), now)}
+                  </Text>
+
+                  <Text
+                    sx={{
+                      ml: 2,
+                      fontFamily: 'heading',
+                      fontWeight: '400',
                       fontSize: 0,
                     }}
                   >

@@ -7,7 +7,8 @@ import { searchPosts } from '../graphql/post'
 import { PostList } from '../components/posts/List'
 import { useRouting } from 'expo-next-react-navigation'
 import { useDebounce } from 'use-debounce'
-import { Platform } from 'react-native'
+import { Platform, ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native'
 
 const Search: React.FC = () => {
   const searchInputRef = React.useRef<any>(null)
@@ -37,15 +38,23 @@ const Search: React.FC = () => {
   React.useEffect(() => searchInputRef.current.focus(), [])
 
   return (
-    <Box>
-      <Input
-        ref={searchInputRef}
-        sx={{ height: 40, p: 1 }}
-        value={searchTerms}
-        onChangeText={handleSearch}
-      />
-      <PostList initialData={data} query={searchPosts} params={searchParams} />
-    </Box>
+    <SafeAreaView>
+      <ScrollView>
+        <Box>
+          <Input
+            ref={searchInputRef}
+            sx={{ height: 40, p: 1 }}
+            value={searchTerms}
+            onChangeText={handleSearch}
+          />
+          <PostList
+            initialData={data}
+            query={searchPosts}
+            params={searchParams}
+          />
+        </Box>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

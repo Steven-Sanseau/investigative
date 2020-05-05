@@ -13,6 +13,7 @@ import { Dialog, DialogBackdrop, useDialogState } from 'reakit/Dialog'
 import { HeaderMenu } from './HeaderMenu'
 import { T } from '../contexts/I18n'
 import { Breadcrumb } from 'src/components/Breadcrumb'
+import { Search } from 'react-feather'
 
 // const getUniversalUrl = (
 //   link: MenuItem,
@@ -153,6 +154,7 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
                         web={{ as: '/search', path: '/search' }}
                       >
                         <H3>
+                          <Search strokeWidth={3} size="16" />
                           <T id="menu.search" />
                         </H3>
                       </UniversalLink>

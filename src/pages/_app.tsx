@@ -15,6 +15,7 @@ import { GrowlMessage } from 'src/components/Growl'
 import { SWRConfig } from 'swr'
 import { fetcher } from 'src/utils/Fetcher'
 import { ThemeProvider } from 'src/utils/native-styled'
+import { Box } from 'src/components/primitives/Box'
 
 export default ({ Component, pageProps }: any): JSX.Element => {
   const themeColor = '#4630eb'
@@ -91,19 +92,21 @@ export default ({ Component, pageProps }: any): JSX.Element => {
                 setThemeName: setThemeName,
               }}
             >
-              <I18nInitializer>
-                <GrowlProvider>
-                  <GrowlMessage />
-                  <Header
-                    ref={ref}
-                    sticky={isSticky}
-                    initialSettingsData={pageProps?.initialSettingsData}
-                  />
-                  <Component {...pageProps} />
+              <Box sx={{ bg: 'white' }}>
+                <I18nInitializer>
+                  <GrowlProvider>
+                    <GrowlMessage />
+                    <Header
+                      ref={ref}
+                      sticky={isSticky}
+                      initialSettingsData={pageProps?.initialSettingsData}
+                    />
+                    <Component {...pageProps} />
 
-                  <Footer />
-                </GrowlProvider>
-              </I18nInitializer>
+                    <Footer />
+                  </GrowlProvider>
+                </I18nInitializer>
+              </Box>
             </ThemeProviderContext>
           </SWRConfig>
         </ThemeProvider>

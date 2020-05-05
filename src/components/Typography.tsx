@@ -108,8 +108,9 @@ export const P: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
       sx={{
         color: 'grayDark',
         fontFamily: 'serif',
-        fontSize: { xs: 2, sm: 3, md: 3, lg: 2, xl: 2 },
+        fontSize: { xs: 3, sm: 3, md: 3, lg: 2, xl: 2 },
         fontWeight: '500',
+        lineHeight: 23,
         ...sx,
       }}
       {...props}

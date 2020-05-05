@@ -19,6 +19,8 @@ export const coreTheme = {
     white: '#FFFFFF',
     primary: '#272932',
     grayDark: '#272932',
+    grayLight: '#E5E7EB',
+    footerGray: '#F4F5F7',
   },
   fonts: {
     serif: 'Source Serif Pro',
@@ -113,6 +115,7 @@ export const coreTheme = {
   },
   shadow: {
     xs: 'rgba(0, 0, 0, 0.15) 0px 1px 4px 0px',
+    topxs: '0px -1px 4px 0px rgba(0,0,0,0.10)',
     none: 'none',
   },
 }

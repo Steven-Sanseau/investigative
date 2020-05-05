@@ -31,7 +31,6 @@ export function FeaturedPost({
         width: 'full',
         height: '400hpx',
         justifyContent: 'flex-end',
-        bg: 'red',
       }}
     >
       <Image
@@ -72,10 +71,10 @@ export function FeaturedPost({
             {post.title}
           </Text>
         </UniversalLink>
-        <Text sx={{ fontFamily: 'serif', fontSize: 3 }}>
+        <Text sx={{ fontFamily: 'serif', fontSize: 3, color: 'white' }}>
           <RenderBlocks content={post.excerpt} />
         </Text>
-        <Text sx={{ fontFamily: 'serif', fontSize: 3 }}>
+        <Text sx={{ fontFamily: 'serif', fontSize: 3, color: 'white' }}>
           {post.author.name}
         </Text>
       </Box>

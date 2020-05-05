@@ -14,9 +14,9 @@ export const LoadMore = ({
 }: LoadMoreProps): ReactElement => (
   <Box
     sx={{
-      px: 10,
-      py: 5,
-      bg: 'gray',
+      px: 2,
+      py: 3,
+      bg: 'grayDark',
       mx: 'auto',
       cursor: 'pointer',
     }}
@@ -27,6 +27,7 @@ export const LoadMore = ({
         mx: 'auto',
         fontFamily: 'heading',
         textTransform: 'uppercase',
+        color: 'white',
       }}
       id={
         isLoadingMore

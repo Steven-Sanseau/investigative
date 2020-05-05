@@ -10,6 +10,7 @@ import { FeaturedImage } from 'src/components/post/FeaturedImage'
 import { Comments } from '../components/post/Comments'
 import { useRouting } from 'expo-next-react-navigation'
 import { CommentForm } from '../components/post/CommentForm'
+import { PostHat } from 'src/components/PostHat'
 
 interface PostProps {
   data: GetPostBySlugQuery
@@ -58,12 +59,14 @@ export const Post: React.FC<PostProps> = ({ data }: PostProps) => {
           </Box>
         </Box>
       </FeaturedImage>
+      <Text sx={{}}>{data.post.featuredImage?.caption}</Text>
       <Box
         sx={{
           width: { xs: '11/12', md: '7/12', xl: '1/2' },
           mx: 'auto',
         }}
       >
+        <PostHat data={data} />
         <RenderBlocks content={data.post.content} />
       </Box>
       <Box sx={{ position: 'absolute', bottom: 0 }}>
