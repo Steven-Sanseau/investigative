@@ -15,12 +15,12 @@ export const coreTheme = {
     xl: 1280,
   },
   colors: {
-    black: '#FFFFF',
-    white: '#FFFFFF',
+    black: '#fff',
+    white: '#fff',
     primary: '#272932',
     grayDark: '#272932',
-    grayLight: '#E5E7EB',
-    footerGray: '#F4F5F7',
+    grayLight: '#e5e7eb',
+    footerGray: '#f4f5f7',
   },
   fonts: {
     serif: 'Source Serif Pro',
