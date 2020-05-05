@@ -32,7 +32,7 @@
     "react-native-gesture-handler": "~1.6.1",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.7.0",
-    "react-native-web": "0.0.0-26873b469",
+    "react-native-web": "0.0.0-663e29747",
     "react-native-webview": "9.3.0",
     "react-navigation-collapsible": "^5.5.0",
     "reakit": "^1.0.0-rc.2",

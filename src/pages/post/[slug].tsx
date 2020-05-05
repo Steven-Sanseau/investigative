@@ -35,7 +35,7 @@ export const getStaticProps: GetStaticProps<any, RouteParams> = async ({
     slug: params.slug,
   })
 
-  return { props: { initialPostData } }
+  return { props: { initialPostData, unstable_revalidate: 1 } }
 }
 
 const PostPage: React.FC<PostProps> = ({ initialPostData }: PostProps) => {

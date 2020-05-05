@@ -49,7 +49,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
         <T id="comment.input.content" />
       </Text>
       <Input
-        data-name="content"
+        unstable_dataSet={{ name: 'content' }}
         multiline
         numberOfLines={4}
         onChangeText={(value) => handleValue('content', value)}
@@ -58,7 +58,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
         <T id="comment.input.name" />
       </Text>
       <Input
-        data-name="author"
+        unstable_dataSet={{ name: 'author' }}
         autoCompleteType="name"
         textContentType="name"
         onChangeText={(value) => handleValue('author', value)}
@@ -68,7 +68,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
       </Text>
       <Input
         keyboardType="email-address"
-        data-name="authorEmail"
+        unstable_dataSet={{ name: 'authorEmail' }}
         textContentType="emailAddress"
         autoCompleteType="email"
         onChangeText={(value) => handleValue('authorEmail', value)}

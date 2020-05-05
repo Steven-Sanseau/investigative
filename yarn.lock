@@ -11217,10 +11217,10 @@ react-native-view-shot@3.1.2:
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
   integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
 
-react-native-web@0.0.0-26873b469:
-  version "0.0.0-26873b469"
-  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.0.0-26873b469.tgz#90b9cfa0dea3868e23a2bd25665a6b637d93f513"
-  integrity sha512-iJTqj7gxBJNlDwCRM3j6O8uG6qb1AFTuAtvI3sqlkXNfwWVUBDdZ4dh6whOW4RkKTT+nCmkM9vkKgZTW7EFPmg==
+react-native-web@0.0.0-663e29747:
+  version "0.0.0-663e29747"
+  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.0.0-663e29747.tgz#a6da476f47747040ed0f0895a5300cca856fa44e"
+  integrity sha512-IR9bl1gUOvcJz4EAy/5QT2KQwSaVFp2fE2b4rKoL2bK+Yb9+ja1mnfSj6XZ0GGvwmlZFlzEGrTHrUm7221o1mA==
   dependencies:
     array-find-index "^1.0.2"
     create-react-class "^15.6.2"

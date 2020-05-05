@@ -35,5 +35,7 @@ export const UniversalLink: React.FC<PropsUniversalLink> = ({
 
   if (Platform.OS !== 'web' && routeName === '') outputRouteName = '/'
 
-  return <Link routeName={outputRouteName} {...props} />
+  return (
+    <Link accessibilityRole="link" routeName={outputRouteName} {...props} />
+  )
 }

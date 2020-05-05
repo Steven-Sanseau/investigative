@@ -6,6 +6,7 @@ export const H1: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
     <Text
       accessibilityRole="header"
       aria-level="1"
+      unstable_ariaSet={{ level: '1' }}
       sx={{
         color: 'grayDark',
         fontFamily: 'heading',
@@ -23,6 +24,7 @@ export const H2: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
     <Text
       accessibilityRole="header"
       aria-level="2"
+      unstable_ariaSet={{ level: '2' }}
       sx={{
         ...sx,
         color: 'grayDark',
@@ -41,6 +43,7 @@ export const H3: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
     <Text
       accessibilityRole="header"
       aria-level="3"
+      unstable_ariaSet={{ level: '3' }}
       sx={{
         color: 'grayDark',
         fontFamily: 'heading',
@@ -58,6 +61,7 @@ export const H4: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
     <Text
       accessibilityRole="header"
       aria-level="4"
+      unstable_ariaSet={{ level: '4' }}
       sx={{
         color: 'grayDark',
         fontFamily: 'heading',
@@ -74,6 +78,7 @@ export const H5: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
     <Text
       accessibilityRole="header"
       aria-level="5"
+      unstable_ariaSet={{ level: '5' }}
       sx={{
         color: 'grayDark',
         fontFamily: 'heading',
@@ -90,6 +95,7 @@ export const H6: React.FC<TextProps> = ({ sx, ...props }: TextProps) => {
     <Text
       accessibilityRole="header"
       aria-level="6"
+      unstable_ariaSet={{ level: '6' }}
       sx={{
         color: 'grayDark',
         fontFamily: 'heading',
