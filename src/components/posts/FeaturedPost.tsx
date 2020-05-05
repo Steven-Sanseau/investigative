@@ -34,7 +34,7 @@ export function FeaturedPost({
       }}
     >
       <Image
-        src={post.image.sourceUrl}
+        source={{ uri: post.image.sourceUrl }}
         alt={post.image.altText}
         sx={{
           position: 'absolute',

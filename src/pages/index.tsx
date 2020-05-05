@@ -5,6 +5,10 @@ import {
   GetPostsQuery,
   GetSettingsQuery,
 } from 'src/generated/graphql'
+import { fetcher } from 'src/utils/Fetcher'
+import { getPosts, getFeaturedPost } from 'src/graphql/post'
+import { getSettings } from 'src/graphql/settings'
+import { GetServerSideProps } from 'next'
 
 interface PropsIndex {
   initialPostsData?: GetPostsQuery
@@ -12,24 +16,22 @@ interface PropsIndex {
   initialFeaturedPostData?: GetFeaturedPostQuery
 }
 
-// export const getStaticProps: GetStaticProps<any, any> = async () => {
-//   // const initialSettingsData: GetSettingsQuery = await fetcher(getSettings)
-//   // const initialPostsData: GetPostsQuery = await fetcher(getPosts, {
-//   //   after: null,
-//   // })
-//   // const initialFeaturedPostData: GetFeaturedPostQuery = await fetcher(
-//   //   getFeaturedPost,
-//   // )
-//   // return {
-//   //   // eslint-disable-next-line
-//   //   unstable_revalidate: 1,
-//   //   props: {
-//   //     initialPostsData,
-//   //     initialSettingsData,
-//   //     initialFeaturedPostData,
-//   //   },
-//   // }
-// }
+export const getServerSideProps: GetServerSideProps<any, any> = async () => {
+  const initialSettingsData: GetSettingsQuery = await fetcher(getSettings)
+  const initialPostsData: GetPostsQuery = await fetcher(getPosts, {
+    after: null,
+  })
+  const initialFeaturedPostData: GetFeaturedPostQuery = await fetcher(
+    getFeaturedPost,
+  )
+  return {
+    props: {
+      initialPostsData,
+      initialSettingsData,
+      initialFeaturedPostData,
+    },
+  }
+}
 
 const Index: React.FC<PropsIndex> = ({
   initialFeaturedPostData,

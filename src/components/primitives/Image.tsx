@@ -1,19 +1,17 @@
 import React, { ReactElement } from 'react'
 import { ActivityIndicator, Image as RNImage } from 'react-native'
 import { useStyling } from 'src/utils/native-styled'
-import { ThemedStyle } from 'src/utils/native-styled/ThemeContext'
 
 export type Ref = React.RefObject<RNImage>
 
 export type ImageProps = React.ComponentProps<typeof RNImage> & {
-  src: string
   alt: string
   displayName?: string
-  sx?: ThemedStyle
+  sx?: any
   key?: string
 }
 export const Image: React.FC<ImageProps> = ({
-  src,
+  source,
   displayName,
   sx,
   ...props
@@ -29,7 +27,7 @@ export const Image: React.FC<ImageProps> = ({
     <>
       {!imageLoaded && <ActivityIndicator />}
       <RNImage
-        source={{ uri: src }}
+        source={source}
         style={styling(styles)}
         onLoad={handleLoad}
         {...props}

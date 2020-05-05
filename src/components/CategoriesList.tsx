@@ -5,7 +5,7 @@ import { getCategories } from '../graphql/category'
 import { Box } from './primitives/Box'
 import { Text } from './primitives/Text'
 import { UniversalLink } from './UniversalLink'
-import { H4, H3 } from './Typography'
+import { H3 } from './Typography'
 
 interface CategoriesListProps {
   initialCategoriesProps?: GetCategoriesQuery

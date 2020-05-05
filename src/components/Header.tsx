@@ -1,8 +1,7 @@
 import React from 'react'
-import { LI } from 'src/components/Elements'
 import { H3, H5 } from 'src/components/Typography'
 import { UniversalLink } from 'src/components/UniversalLink'
-import { Flex, Row } from 'src/components/Grid'
+import { Row } from 'src/components/Grid'
 import useSWR from 'swr'
 import { GetSettingsQuery } from 'src/generated/graphql'
 import { getSettings } from 'src/graphql/settings'
@@ -14,72 +13,6 @@ import { HeaderMenu } from './HeaderMenu'
 import { T } from '../contexts/I18n'
 import { Breadcrumb } from 'src/components/Breadcrumb'
 import { Search } from 'react-feather'
-
-// const getUniversalUrl = (
-//   link: MenuItem,
-// ): { routeName: string; slug: string } => {
-//   let routeName
-//   let slug
-//   switch (link.connectedObject.__typename) {
-//     case 'Post': {
-//       routeName = 'post'
-//       slug = link.connectedObject.slug
-//       break
-//     }
-//     case 'Page': {
-//       routeName = 'page'
-//       slug = link.connectedObject.slug
-//       break
-//     }
-//     case 'Category': {
-//       routeName = 'category'
-//       slug = link.connectedObject.slug
-//       break
-//     }
-//     case 'Tag': {
-//       routeName = 'tag'
-//       slug = link.connectedObject.slug
-//       break
-//     }
-//     default: {
-//       routeName = link.connectedObject.url
-//       break
-//     }
-//   }
-//
-//   return { routeName, slug }
-// }
-
-interface PropsMenuLink {
-  link: MenuItem
-}
-
-const MenuLink: React.FC<PropsMenuLink> = ({ link }: PropsMenuLink) => {
-  const { routeName, slug } = getUniversalUrl(link)
-
-  return (
-    <UniversalLink
-      routeName={routeName}
-      params={{ slug }}
-      web={{
-        path: `${routeName}/[slug]`,
-        as: `/${routeName}/${slug}`,
-      }}
-    >
-      <LI
-        sx={{
-          listStyle: 'none',
-          mx: { lg: 1, xl: 3 },
-          fontFamily: 'heading',
-          textTransform: 'capitalize',
-          fontSize: 2,
-        }}
-      >
-        <Text>{link.label}</Text>
-      </LI>
-    </UniversalLink>
-  )
-}
 
 interface HeaderProps {
   initialSettingsData?: GetSettingsQuery
@@ -186,7 +119,7 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
                       transitionTimingFunction: 'ease-in-out',
                     }}
                   >
-                    SITE
+                    {data?.settings.title}
                   </Text>
                 </UniversalLink>
               </Box>

@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Text as TextRN } from 'react-native'
 
 import { useStyling } from 'src/utils/native-styled'
-import { ThemedStyle } from 'src/utils/native-styled/ThemeContext'
 
 export type Ref = React.RefObject<Text>
 

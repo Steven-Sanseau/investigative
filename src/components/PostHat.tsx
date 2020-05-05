@@ -4,7 +4,7 @@ import { Box } from 'src/components/primitives/Box'
 import { H3, H5 } from 'src/components/Typography'
 import { GetPostBySlugQuery } from 'src/generated/graphql'
 import { HR } from 'src/components/Elements'
-import { T, useI18n } from 'src/contexts/I18n'
+import { T } from 'src/contexts/I18n'
 import { Flex, Row } from 'src/components/Grid'
 import { Text } from 'src/components/primitives/Text'
 import { Calendar, MessageSquare } from 'react-feather'
@@ -16,7 +16,6 @@ interface PostHatProps {
 
 export const PostHat: React.FC<PostHatProps> = ({ data }: PostHatProps) => {
   const now = new Date()
-  const { locale } = useI18n()
 
   return (
     <Flex>

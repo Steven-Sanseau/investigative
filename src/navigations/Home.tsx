@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { Box } from 'src/components/primitives/Box'
 import { Text } from 'src/components/primitives/Text'
 import Index from 'src/pages/index'
@@ -17,9 +17,11 @@ import { ActivityIndicator } from 'react-native'
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
-const TabLabel = (name) => ({ focused }) => (
+const TabLabel: React.ReactNode = (name) => ({ focused }) => (
   <Box sx={{ ml: { xs: 0, sm: 3 } }}>
-    <Text fontFamily="heading" color={focused ? 'primary' : 'grayDark'}>
+    <Text
+      sx={{ fontFamily: 'heading', color: focused ? 'primary' : 'grayDark' }}
+    >
       {name}
     </Text>
   </Box>
@@ -28,7 +30,7 @@ const TabLabel = (name) => ({ focused }) => (
 //   <TabBarIcon color={focused ? 'primary' : 'grayDark'} name={name} />
 // )
 
-export function MainStack() {
+export function MainStack(): ReactElement {
   return (
     <Stack.Navigator headerMode="float">
       <Stack.Screen component={Index} name="home" />
@@ -38,7 +40,7 @@ export function MainStack() {
 
 const MoreStackNavigator = createStackNavigator()
 
-export function MoreStack() {
+export function MoreStack(): ReactElement {
   return (
     <MoreStackNavigator.Navigator headerMode="float">
       <MoreStackNavigator.Screen component={HeaderMenu} name="more" />
@@ -47,7 +49,7 @@ export function MoreStack() {
   )
 }
 
-export function MainTabs() {
+export function MainTabs(): ReactElement {
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -72,12 +74,12 @@ export function MainTabs() {
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE'
 
-export default function Navigation() {
+export default function Navigation(): ReactElement {
   const [isReady, setIsReady] = React.useState(false)
   const [initialState, setInitialState] = React.useState()
 
   React.useEffect(() => {
-    const restoreState = async () => {
+    const restoreState = async (): Promise<void> => {
       try {
         const savedStateString = await Storage.getItem(PERSISTENCE_KEY)
         const state = JSON.parse(savedStateString)

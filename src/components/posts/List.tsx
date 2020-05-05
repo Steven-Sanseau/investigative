@@ -52,6 +52,7 @@ export const PostList = ({
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const paginationParams = React.useMemo(
         () => ({ after: offset, ...params }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [offset, params],
       )
 
@@ -118,7 +119,7 @@ export const PostList = ({
                     },
                     width: 'full',
                   }}
-                  src={post.image.sourceUrl}
+                  source={{ uri: post.image.sourceUrl }}
                 />
               </Box>
             )}

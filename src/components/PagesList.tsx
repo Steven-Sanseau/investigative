@@ -5,7 +5,7 @@ import { Text } from './primitives/Text'
 import { getPages } from '../graphql/page'
 import { Box } from './primitives/Box'
 import { UniversalLink } from './UniversalLink'
-import { H4, H3 } from './Typography'
+import { H3 } from './Typography'
 
 interface PageListProps {
   initialPagesData?: GetPagesQuery

@@ -9,8 +9,11 @@ import { Flex } from '../Grid'
 import { LoadMore } from '../posts/LoadMore'
 import { Button } from 'react-native'
 import { CommentForm } from './CommentForm'
-
-const Comment = ({ comment, postId }: { comment: any; postId: number }) => {
+interface CommentProps {
+  comment: any
+  postId: number
+}
+const Comment: React.FC<CommentProps> = ({ comment, postId }: CommentProps) => {
   const [reply, setReply] = React.useState<boolean>(false)
 
   return (
@@ -46,6 +49,7 @@ export const Comments: React.FC<CommentsProps> = ({
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const paginationParams = React.useMemo(
         () => ({ after: offset, postId }),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [offset, postId],
       )
 

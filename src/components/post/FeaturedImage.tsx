@@ -24,7 +24,7 @@ export const FeaturedImage: React.FC<FeaturedImageProps> = ({
     >
       {src && (
         <Image
-          src={src}
+          source={{ uri: src }}
           alt={alt}
           sx={{
             position: 'absolute',

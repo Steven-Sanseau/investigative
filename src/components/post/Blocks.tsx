@@ -27,7 +27,7 @@ interface ImageProps {
 const Img: React.FC<ImageProps> = ({ src, alt }: ImageProps): ReactElement => {
   return (
     <Image
-      src={src}
+      source={{ uri: src }}
       sx={{
         mx: { xs: 'auto', md: 0 },
         height: '300hpx',
@@ -43,7 +43,6 @@ interface IframeProps {
 }
 const Iframe: React.FC<IframeProps> = ({
   src,
-  ...props
 }: React.PropsWithChildren<IframeProps>) => {
   return (
     <Box sx={{ width: 'full', mx: { xs: 'auto', md: 0 } }}>

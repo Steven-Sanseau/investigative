@@ -14,7 +14,10 @@ interface CommentFormProps {
   parentId?: number
 }
 
-export const CommentForm = ({ postId, parentId }: CommentFormProps) => {
+export const CommentForm: React.FC<CommentFormProps> = ({
+  postId,
+  parentId,
+}: CommentFormProps) => {
   const [comment, setComment] = React.useState({
     clientMutationId: 'CreateComment',
     commentOn: postId,
