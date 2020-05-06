@@ -40,7 +40,7 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({
                 sx={{
                   color: category.color?.color
                     ? category.color?.color
-                    : 'black',
+                    : 'grayDark',
                   fontFamily: 'heading',
                   fontSize: { xs: 2, sm: 2, md: 3, lg: 5 },
                   fontWeight: '600',

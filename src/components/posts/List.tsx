@@ -64,7 +64,7 @@ export const PostList = ({
       )
 
       if (!data) {
-        return <ActivityIndicator />
+        return null
       }
 
       if (!data.posts) {
