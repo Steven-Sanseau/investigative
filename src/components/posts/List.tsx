@@ -75,7 +75,7 @@ export const PostList = ({
         )
       }
 
-      return data.posts?.nodes?.map((post, i) => (
+      return data.posts?.nodes?.map((post, index) => (
         <Box
           sx={{
             width: {
@@ -87,7 +87,7 @@ export const PostList = ({
             },
             mx: 'auto',
           }}
-          key={i}
+          key={index.toString()}
         >
           <Box sx={{ mt: 5 }} />
           <Flex

@@ -79,38 +79,38 @@ export default ({ Component, pageProps }: any): JSX.Element => {
         })}
       </Head>
       <Favicon />
-      <ErrorBoundary onError={myErrorHandler}>
-        <ThemeProvider theme={theme}>
-          <SWRConfig
+      {/* <ErrorBoundary onError={myErrorHandler}> */}
+      <ThemeProvider theme={theme}>
+        <SWRConfig
+          value={{
+            fetcher: (query, ...args) => fetcher(query, ...args),
+          }}
+        >
+          <ThemeProviderContext
             value={{
-              fetcher: (query, ...args) => fetcher(query, ...args),
+              name: themeName,
+              setThemeName: setThemeName,
             }}
           >
-            <ThemeProviderContext
-              value={{
-                name: themeName,
-                setThemeName: setThemeName,
-              }}
-            >
-              <Box sx={{ bg: 'white' }}>
-                <I18nInitializer>
-                  <GrowlProvider>
-                    <GrowlMessage />
-                    <Header
-                      ref={ref}
-                      sticky={isSticky}
-                      initialSettingsData={pageProps?.initialSettingsData}
-                    />
-                    <Component {...pageProps} />
+            <Box sx={{ bg: 'white' }}>
+              <I18nInitializer>
+                <GrowlProvider>
+                  <GrowlMessage />
+                  <Header
+                    ref={ref}
+                    sticky={isSticky}
+                    initialSettingsData={pageProps?.initialSettingsData}
+                  />
+                  <Component {...pageProps} />
 
-                    <Footer />
-                  </GrowlProvider>
-                </I18nInitializer>
-              </Box>
-            </ThemeProviderContext>
-          </SWRConfig>
-        </ThemeProvider>
-      </ErrorBoundary>
+                  <Footer />
+                </GrowlProvider>
+              </I18nInitializer>
+            </Box>
+          </ThemeProviderContext>
+        </SWRConfig>
+      </ThemeProvider>
+      {/* </ErrorBoundary> */}
     </>
   )
 }

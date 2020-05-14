@@ -1,21 +1,9 @@
 import { getInitialProps } from '@expo/next-adapter/document'
-import Document, {
-  DocumentContext,
-  Head,
-  Main,
-  NextScript,
-} from 'next/document'
+import Document, { Head, Main, NextScript } from 'next/document'
 import React from 'react'
 import { API_URL } from 'src/config/config'
 
 class CustomDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext): Promise<any> {
-    const result = await getInitialProps(ctx)
-    return {
-      ...result,
-    }
-  }
-
   render(): JSX.Element {
     return (
       <html lang="en">
@@ -33,5 +21,7 @@ class CustomDocument extends Document {
     )
   }
 }
+
+CustomDocument.getInitialProps = getInitialProps
 
 export default CustomDocument

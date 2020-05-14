@@ -49,7 +49,7 @@ module.exports = withPlugins([
         reactRefresh: true,
       },
       typescript: {
-        ignoreDevErrors: true,
+        // ignoreDevErrors: true,
         // !! WARN !!
         // Dangerously allow production builds to successfully complete even if
         // your project has type errors.
@@ -57,7 +57,7 @@ module.exports = withPlugins([
         // This option is rarely needed, and should be reserved for advanced
         // setups. You may be looking for `ignoreDevErrors` instead.
         // !! WARN !!
-        ignoreBuildErrors: true,
+        // ignoreBuildErrors: true,
       },
     },
   ],

@@ -29,7 +29,7 @@ export const MenuList: React.FC<MenuListProps> = ({
       >
         {data?.map((link, index) => (
           <UniversalLink
-            key={index}
+            key={index.toString()}
             routeName={type}
             params={{
               uri: link.uri,
