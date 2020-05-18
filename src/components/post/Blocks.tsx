@@ -138,5 +138,5 @@ export const RenderBlocks: React.FC<RenderBlocksProps> = ({
         .filter(Boolean),
     [content],
   )
-  return nodes ? nodes.map((Node) => Node) : null
+  return <>{nodes ? nodes.map((Node) => Node) : null}</>
 }

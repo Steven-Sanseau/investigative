@@ -4,7 +4,7 @@ import React from 'react'
 import { GetPageByUriQuery, GetPagesQuery } from 'src/generated/graphql'
 import { getPageByUri, getPages } from 'src/graphql/page'
 import { fetcher } from 'src/utils/Fetcher'
-import useSWR from 'swr'
+import useSWR, { responseInterface } from 'swr'
 import { Page } from 'src/containers/Page'
 
 interface PageProps {
@@ -49,9 +49,12 @@ const PageArticle: React.FC<PageProps> = ({
 
   const pageIdParams = React.useMemo(() => ({ uri }), [uri])
 
-  const { data: pagesList }: { pagesList?: GetPagesQuery } = useSWR(getPages, {
-    initialData: initialPagesData,
-  })
+  const { data: pagesList }: responseInterface<GetPagesQuery, any> = useSWR(
+    getPages,
+    {
+      initialData: initialPagesData,
+    },
+  )
   const { data }: { data?: GetPageByUriQuery } = useSWR(
     [getPageByUri, pageIdParams],
     { initialData: initialPageData },

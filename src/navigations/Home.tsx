@@ -17,7 +17,7 @@ import { ActivityIndicator } from 'react-native'
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
-const TabLabel: React.ReactNode = (name) => ({ focused }) => (
+const TabLabel = (name) => ({ focused }) => (
   <Box sx={{ ml: { xs: 0, sm: 3 } }}>
     <Text
       sx={{ fontFamily: 'heading', color: focused ? 'primary' : 'grayDark' }}

@@ -38,6 +38,7 @@ export const getStaticProps: GetStaticProps = async () => {
   )
   return {
     props: {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       unstable_revalidate: 1,
       initialPostsData,
       initialSettingsData,

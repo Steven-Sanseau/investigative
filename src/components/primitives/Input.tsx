@@ -7,6 +7,8 @@ export type InputProps = React.ComponentProps<typeof TextInput> & {
   sx?: any
   displayName?: string
   key?: string
+  unstable_dataSet?: any
+  ref?: any
 }
 
 export const Input: React.FC<InputProps> = React.forwardRef<any, InputProps>(

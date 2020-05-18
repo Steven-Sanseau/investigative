@@ -35,6 +35,7 @@ export const getStaticProps: GetStaticProps<any, RouteParams> = async ({
     slug: params.slug,
   })
 
+  // eslint-disable-next-line @typescript-eslint/camelcase
   return { props: { initialPostData, unstable_revalidate: 1 } }
 }
 
