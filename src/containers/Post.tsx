@@ -1,4 +1,4 @@
-import { ArticleJsonLd } from 'next-seo'
+// import { ArticleJsonLd } from 'next-seo'
 import React from 'react'
 import { RenderBlocks } from 'src/components/post/Blocks'
 import { Box } from 'src/components/primitives/Box'
@@ -21,8 +21,10 @@ export const Post: React.FC<PostProps> = ({ data }: PostProps) => {
   const showComment: boolean = getParam('comment')
   return (
     <>
-      {data.post && (
+      {/* {data.post && (
         <ArticleJsonLd
+
+
           title={data.post.title}
           datePublished={data.post.date}
           dateModified={data.post.modified}
@@ -31,7 +33,7 @@ export const Post: React.FC<PostProps> = ({ data }: PostProps) => {
           publisherLogo={data.post.author.avatar.url}
           description={data.post.excerpt}
         />
-      )}
+      )} */}
 
       <FeaturedImage
         src={data.post.featuredImage?.sourceUrl}

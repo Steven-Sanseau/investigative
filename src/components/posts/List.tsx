@@ -11,7 +11,6 @@ import { UniversalLink } from 'src/components/UniversalLink'
 import { GetPostsQuery } from 'src/generated/graphql'
 import useSWR, { useSWRPages } from 'swr'
 import { T } from '../../contexts/I18n'
-import { ActivityIndicator } from 'react-native'
 
 const Title = (props): ReactElement => (
   <H2

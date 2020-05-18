@@ -1,8 +1,5 @@
-import { StaticTheme } from 'src/utils/native-styled/ThemeContext'
-
-export const defaultTheme: StaticTheme = {
+export const defaultTheme = {
   breakpoints: { xs: 640, sm: 768, md: 1024, lg: 1280 },
-
   scales: {
     spaces: [1, 4, 8, 16, 32, 64, 128, 256, 512],
     sizes: {
@@ -120,12 +117,10 @@ export const defaultTheme: StaticTheme = {
   },
 
   shorthands: {
-    // TODO: Remove if widely supported by browsers
     inset: ['top', 'right', 'bottom', 'left'],
     insetX: ['left', 'right'],
     insetY: ['top', 'bottom'],
 
-    // TODO: Remove if widely supported by browsers
     size: ['width', 'height'],
 
     paddingX: ['paddingLeft', 'paddingRight'],
@@ -179,24 +174,12 @@ export const defaultTheme: StaticTheme = {
     maxHeight: 'sizes',
 
     padding: 'spaces',
-    // TODO: paddingInline: 'spacing',
-    // TODO: paddingInlineStart: 'spacing',
-    // TODO: paddingInlineEnd: 'spacing',
-    // TODO: paddingBlock: 'spacing',
-    // TODO: paddingBlockStart: 'spacing',
-    // TODO: paddingBlockEnd: 'spacing',
     paddingTop: 'spaces',
     paddingRight: 'spaces',
     paddingBottom: 'spaces',
     paddingLeft: 'spaces',
 
     margin: 'spaces',
-    // TODO: marginInline: 'spacing',
-    // TODO: marginInlineStart: 'spacing',
-    // TODO: marginInlineEnd: 'spacing',
-    // TODO: marginBlock: 'spacing',
-    // TODO: marginBlockStart: 'spacing',
-    // TODO: marginBlockEnd: 'spacing',
     marginTop: 'spaces',
     marginRight: 'spaces',
     marginBottom: 'spaces',
