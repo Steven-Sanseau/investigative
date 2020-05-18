@@ -76,16 +76,19 @@ export const useT = (): ((key: string, params?: object) => string) => {
   return i18n.t.bind(i18n)
 }
 
+interface TProps {
+  id: string
+  values?: object
+  count?: number
+  onPress?: (any) => void
+  sx?: any
+}
 export const T = React.memo(function T({
   id,
   values,
   count,
   ...props
-}: {
-  id: string
-  values?: object
-  count?: number
-}) {
+}: TProps) {
   const t = useT()
   return <Text {...props}>{t(id, { ...values, count })}</Text>
 })

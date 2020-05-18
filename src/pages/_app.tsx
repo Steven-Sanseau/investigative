@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import React from 'react'
 import Favicon from '../components/Favicon'
-import { Text } from 'src/components/primitives/Text'
 import { ThemeProvider as ThemeProviderContext } from 'src/contexts/theme'
-import ErrorBoundary from 'react-error-boundary'
+// import ErrorBoundary from 'react-error-boundary'
 import { createTheme } from 'src/themes/theme'
 import { useAsyncStorage } from 'src/utils/AsyncStorage'
 import { Footer } from 'src/components/Footer'
@@ -37,9 +36,9 @@ export default ({ Component, pageProps }: any): JSX.Element => {
   ]
   const siteTitle = `Investigative`
 
-  const myErrorHandler = (error: Error): JSX.Element => (
-    <Text>Error with APP: {error.message}</Text>
-  )
+  // const myErrorHandler = (error: Error): JSX.Element => (
+  //   <Text>Error with APP: {error.message}</Text>
+  // )
 
   const [themeName, setThemeName] = useAsyncStorage('theme', 'light')
   const theme = createTheme(themeName)
@@ -79,38 +78,38 @@ export default ({ Component, pageProps }: any): JSX.Element => {
         })}
       </Head>
       <Favicon />
-      <ErrorBoundary onError={myErrorHandler}>
-        <ThemeProvider theme={theme}>
-          <SWRConfig
+      {/* <ErrorBoundary onError={myErrorHandler}> */}
+      <ThemeProvider theme={theme}>
+        <SWRConfig
+          value={{
+            fetcher: (query, ...args) => fetcher(query, ...args),
+          }}
+        >
+          <ThemeProviderContext
             value={{
-              fetcher: (query, ...args) => fetcher(query, ...args),
+              name: themeName,
+              setThemeName: setThemeName,
             }}
           >
-            <ThemeProviderContext
-              value={{
-                name: themeName,
-                setThemeName: setThemeName,
-              }}
-            >
-              <Box sx={{ bg: 'white' }}>
-                <I18nInitializer>
-                  <GrowlProvider>
-                    <GrowlMessage />
-                    <Header
-                      ref={ref}
-                      sticky={isSticky}
-                      initialSettingsData={pageProps?.initialSettingsData}
-                    />
-                    <Component {...pageProps} />
+            <Box sx={{ bg: 'white' }}>
+              <I18nInitializer>
+                <GrowlProvider>
+                  <GrowlMessage />
+                  <Header
+                    ref={ref}
+                    sticky={isSticky}
+                    initialSettingsData={pageProps?.initialSettingsData}
+                  />
+                  <Component {...pageProps} />
 
-                    <Footer />
-                  </GrowlProvider>
-                </I18nInitializer>
-              </Box>
-            </ThemeProviderContext>
-          </SWRConfig>
-        </ThemeProvider>
-      </ErrorBoundary>
+                  <Footer />
+                </GrowlProvider>
+              </I18nInitializer>
+            </Box>
+          </ThemeProviderContext>
+        </SWRConfig>
+      </ThemeProvider>
+      {/* </ErrorBoundary> */}
     </>
   )
 }

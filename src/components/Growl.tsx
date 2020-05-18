@@ -14,7 +14,7 @@ export const GrowlMessage: React.FC = (): ReactElement => {
     <Box>
       <Box>
         <Text onPress={growl.hide}>close</Text>
-        <Text variant={growlValue.type}>
+        <Text>
           <T id={`growl.title.${growlValue.type}`} />
         </Text>
         <Text>{growlValue.message}</Text>

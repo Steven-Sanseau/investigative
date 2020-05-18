@@ -1,25 +1,25 @@
 import React from 'react'
 import { Dimensions } from 'react-native'
 
-export function useViewportWidth(): number {
-  const [width, setWidth] = React.useState<number>(0)
+export function useViewportWidth() {
+  const [width, setWidth] = React.useState(0)
   const layoutEffect =
     typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect
   layoutEffect(() => {
     setWidth(Dimensions.get('window').width)
 
-    function handleResize(): void {
+    function handleResize() {
       setWidth(Dimensions.get('window').width)
     }
 
     Dimensions.addEventListener('change', handleResize)
-    return (): void => Dimensions.removeEventListener('change', handleResize)
+    return () => Dimensions.removeEventListener('change', handleResize)
   }, [])
 
   return width
 }
 
-export function useBreakpoint(): string {
+export function useBreakpoint() {
   const width = useViewportWidth()
   const breakpoints = { xs: 640, sm: 768, md: 1024, lg: 1280 }
 
@@ -32,7 +32,7 @@ export function useBreakpoint(): string {
   }, [width, breakpoints])
 }
 
-export function useResponsiveProps(): (arg0: any) => string {
+export function useResponsiveProps() {
   const current = useBreakpoint()
 
   return function getProps(values) {

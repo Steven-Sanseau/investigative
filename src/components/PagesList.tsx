@@ -25,7 +25,7 @@ export const PagesList: React.FC<PageListProps> = ({
   return (
     <Box>
       {data.pages.nodes.map((page, index) => (
-        <Box key={index} sx={{ my: 2 }}>
+        <Box key={index.toString()} sx={{ my: 2 }}>
           <UniversalLink
             routeName="page"
             params={{ uri: page.uri }}

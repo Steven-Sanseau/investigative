@@ -24,8 +24,8 @@ const Comment: React.FC<CommentProps> = ({ comment, postId }: CommentProps) => {
         <RenderBlocks content={comment.content} />
         {comment.replies?.nodes && (
           <Box sx={{ ml: 20, color: 'red' }}>
-            {comment.replies.nodes.map((c, i) => (
-              <Comment key={i} postId={postId} comment={c} />
+            {comment.replies.nodes.map((c, index) => (
+              <Comment key={index.toString()} postId={postId} comment={c} />
             ))}
           </Box>
         )}
@@ -65,7 +65,7 @@ export const Comments: React.FC<CommentsProps> = ({
       return (
         <Box sx={{}}>
           {data?.comments?.nodes?.map((comment, index) => (
-            <Comment key={index} postId={postId} comment={comment} />
+            <Comment key={index.toString()} postId={postId} comment={comment} />
           ))}
         </Box>
       )

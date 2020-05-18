@@ -1,6 +1,6 @@
 const { withExpo } = require('@expo/next-adapter')
 const withImages = require('next-images')
-const withTM = require('next-transpile-modules')
+const withTM = require('next-transpile-modules')(['expo-next-react-navigation'])
 const withPlugins = require('next-compose-plugins')
 const withOffline = require('next-offline')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -35,12 +35,7 @@ const nextOfflineConfig = {
 }
 
 module.exports = withPlugins([
-  [
-    withTM,
-    {
-      transpileModules: ['expo-next-react-navigation'],
-    },
-  ],
+  [withTM],
   withImages,
   withBundleAnalyzer,
   ...(process.env.NODE_ENV === 'production'
@@ -54,7 +49,7 @@ module.exports = withPlugins([
         reactRefresh: true,
       },
       typescript: {
-        ignoreDevErrors: true,
+        // ignoreDevErrors: true,
         // !! WARN !!
         // Dangerously allow production builds to successfully complete even if
         // your project has type errors.
@@ -62,7 +57,7 @@ module.exports = withPlugins([
         // This option is rarely needed, and should be reserved for advanced
         // setups. You may be looking for `ignoreDevErrors` instead.
         // !! WARN !!
-        ignoreBuildErrors: true,
+        // ignoreBuildErrors: true,
       },
     },
   ],

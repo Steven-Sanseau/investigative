@@ -18,7 +18,7 @@ interface HeaderProps {
   initialSettingsData?: GetSettingsQuery
   sticky: boolean
 }
-export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
+export const Header = React.forwardRef<any, HeaderProps>(
   ({ initialSettingsData, sticky }: HeaderProps, ref) => {
     const dialog = useDialogState()
 

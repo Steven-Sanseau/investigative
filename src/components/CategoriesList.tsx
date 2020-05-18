@@ -27,7 +27,7 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({
       {data.categories.nodes
         .filter((category) => category.showMenu.showheader)
         .map((category, index) => (
-          <Box key={index} sx={{ my: 2 }}>
+          <Box key={index.toString()} sx={{ my: 2 }}>
             <UniversalLink
               routeName="category"
               params={{ slug: category.slug }}
@@ -40,7 +40,7 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({
                 sx={{
                   color: category.color?.color
                     ? category.color?.color
-                    : 'black',
+                    : 'grayDark',
                   fontFamily: 'heading',
                   fontSize: { xs: 2, sm: 2, md: 3, lg: 5 },
                   fontWeight: '600',

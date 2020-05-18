@@ -6,7 +6,7 @@ import Navigation from 'src/navigations/Home'
 import { ThemeProvider } from 'src/utils/native-styled'
 
 import * as Font from 'expo-font'
-import ErrorBoundary from 'react-error-boundary'
+// import ErrorBoundary from 'react-error-boundary'
 import { Platform, StatusBar } from 'react-native'
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -57,35 +57,35 @@ export default function Index(): JSX.Element {
   // }
 
   return (
-    <ErrorBoundary>
-      {appLoaded && (
-        <SWRConfig
-          value={{
-            refreshInterval: 3000,
-            fetcher,
-          }}
-        >
-          <SafeAreaProvider>
-            <AppearanceProvider>
-              {Platform.OS === 'ios' && (
-                <StatusBar animated barStyle={getStatusBarStyle(themeName)} />
-              )}
-              <ThemeProviderContext
-                value={{
-                  name: themeName,
-                  setThemeName: setThemeName,
-                }}
-              >
-                <ThemeProvider theme={theme}>
-                  <I18nInitializer>
-                    <GrowlProvider>{<Navigation />}</GrowlProvider>
-                  </I18nInitializer>
-                </ThemeProvider>
-              </ThemeProviderContext>
-            </AppearanceProvider>
-          </SafeAreaProvider>
-        </SWRConfig>
-      )}
-    </ErrorBoundary>
+    // <ErrorBoundary>
+    appLoaded && (
+      <SWRConfig
+        value={{
+          refreshInterval: 3000,
+          fetcher,
+        }}
+      >
+        <SafeAreaProvider>
+          <AppearanceProvider>
+            {Platform.OS === 'ios' && (
+              <StatusBar animated barStyle={getStatusBarStyle(themeName)} />
+            )}
+            <ThemeProviderContext
+              value={{
+                name: themeName,
+                setThemeName: setThemeName,
+              }}
+            >
+              <ThemeProvider theme={theme}>
+                <I18nInitializer>
+                  <GrowlProvider>{<Navigation />}</GrowlProvider>
+                </I18nInitializer>
+              </ThemeProvider>
+            </ThemeProviderContext>
+          </AppearanceProvider>
+        </SafeAreaProvider>
+      </SWRConfig>
+    )
+    // </ErrorBoundary>
   )
 }

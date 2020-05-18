@@ -1,6 +1,6 @@
 import { parseDOM } from 'htmlparser2'
 import React, { ReactChildren, ReactElement } from 'react'
-import ErrorBoundary from 'react-error-boundary'
+// import ErrorBoundary from 'react-error-boundary'
 import { HR, LI, Pre, UL } from 'src/components/Elements'
 import { Box } from 'src/components/primitives/Box'
 import { Image } from 'src/components/primitives/Image'
@@ -123,18 +123,20 @@ const transform = ({
 
   return null
 }
-
-export const RenderBlocks = ({ content }: { content: string }): JSX.Element => {
+interface RenderBlocksProps {
+  content: string
+}
+export const RenderBlocks: React.FC<RenderBlocksProps> = ({
+  content,
+}: RenderBlocksProps) => {
   const nodes = React.useMemo(
     () =>
       parseDOM(content)
-        .map((node, key) => transform({ node, wrapText: true, key }))
+        .map((node, key) =>
+          transform({ node, wrapText: true, key: key.toString() }),
+        )
         .filter(Boolean),
     [content],
   )
-  return (
-    <ErrorBoundary onError={console.log}>
-      {nodes?.map((Node) => Node)}
-    </ErrorBoundary>
-  )
+  return <>{nodes ? nodes.map((Node) => Node) : null}</>
 }

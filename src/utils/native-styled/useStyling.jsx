@@ -1,13 +1,13 @@
 import { useTheme } from './ThemeContext'
 import { useResponsiveProps } from './breakpoints'
-import { getScaleValue } from './scale'
-import { resolveAliases, resolveShorthands } from './resolver'
+import { getScaleValue } from './scale.js'
+import { resolveShorthands, resolveAliases } from './resolver'
 
-export const useStyling = (): ((styles: object) => object) => {
+export function useStyling() {
   const theme = useTheme()
   const responsive = useResponsiveProps()
 
-  return (styles: object) => {
+  return (styles) => {
     if (!styles) {
       return null
     }

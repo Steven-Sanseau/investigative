@@ -11,7 +11,6 @@ import { UniversalLink } from 'src/components/UniversalLink'
 import { GetPostsQuery } from 'src/generated/graphql'
 import useSWR, { useSWRPages } from 'swr'
 import { T } from '../../contexts/I18n'
-import { ActivityIndicator } from 'react-native'
 
 const Title = (props): ReactElement => (
   <H2
@@ -64,7 +63,7 @@ export const PostList = ({
       )
 
       if (!data) {
-        return <ActivityIndicator />
+        return null
       }
 
       if (!data.posts) {
@@ -75,7 +74,7 @@ export const PostList = ({
         )
       }
 
-      return data.posts?.nodes?.map((post, i) => (
+      return data.posts?.nodes?.map((post, index) => (
         <Box
           sx={{
             width: {
@@ -87,7 +86,7 @@ export const PostList = ({
             },
             mx: 'auto',
           }}
-          key={i}
+          key={index.toString()}
         >
           <Box sx={{ mt: 5 }} />
           <Flex

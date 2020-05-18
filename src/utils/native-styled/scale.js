@@ -1,17 +1,14 @@
-import { Dimensions, PixelRatio, Platform } from 'react-native'
+import { Platform, PixelRatio, Dimensions } from 'react-native'
 
 export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   'window',
 )
 
 // based on iPhone 8's scale
-const wscale: number = SCREEN_WIDTH / 375
-const hscale: number = SCREEN_HEIGHT / 667
+const wscale = SCREEN_WIDTH / 375
+const hscale = SCREEN_HEIGHT / 667
 
-export function normalize(
-  size: number,
-  based: 'width' | 'height' = 'width',
-): number {
+export function normalize(size, based = 'width') {
   const newSize = based === 'height' ? size * hscale : size * wscale
   if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(newSize))
@@ -20,17 +17,8 @@ export function normalize(
   }
 }
 
-interface ScaleValueProps {
-  value: string | number
-  scale: {
-    [key: string]: keyof string | number
-  }
-}
-export function getScaleValue({
-  value,
-  scale,
-}: ScaleValueProps): number | string {
-  const scaleValue = scale?.[value]
+export function getScaleValue({ value, scale }) {
+  const scaleValue = scale ? scale[value] : undefined
   if (scaleValue) {
     return scaleValue
   }

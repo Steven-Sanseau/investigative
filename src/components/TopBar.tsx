@@ -10,7 +10,7 @@ type TopLinkProps = {
   link: string
 }
 const TopLink: React.FC<TopLinkProps> = ({ link, ...props }: TopLinkProps) => (
-  <Box ml="1">
+  <Box sx={{ ml: '1' }}>
     <UniversalLink
       sx={{ color: 'white' }}
       routeName={link}
